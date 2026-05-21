@@ -6,11 +6,10 @@
   "bin": {
     "cocreation-skills": "./install.js"
   },
-  "files": ["install.js", "skills/", "template/", "README.md", "LICENSE.md"],
+  "files": ["install.js", "scripts/", "skills/", "template/", "README.md", "LICENSE.md"],
   "scripts": {
     "validate": "node scripts/validate-skills.js",
     "update-indices": "node scripts/update-indices.js",
-    "setup-hooks": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit",
     "prepack": "npm run update-indices && npm run validate"
   },
   "keywords": ["agent-skills", "ai-agents", "skills", "workflow", "planning"],

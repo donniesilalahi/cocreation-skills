@@ -20,23 +20,58 @@ A collection of reusable Agent Skills for planning, root cause analysis, impleme
 npx @donniesilalahi/cocreation-skills --project
 ```
 
+This also sets up a git pre-commit hook that auto-updates memory-bank indices whenever you add new records.
+
 ### Install selected skills only
 
 ```bash
 npx @donniesilalahi/cocreation-skills planning-todos documenting-implementations --project
 ```
 
-### Install globally
+### Install globally (reference only)
 
 ```bash
 npx @donniesilalahi/cocreation-skills --global
 ```
+
+Global install is for reading skill definitions. **Memory-bank records are always project-local** — use `--project` in each repository where you do active work.
 
 ### Update an existing installation
 
 ```bash
 npx @donniesilalahi/cocreation-skills --project --force
 ```
+
+### Skip git hook setup
+
+```bash
+npx @donniesilalahi/cocreation-skills --project --no-hook
+```
+
+## How It Works
+
+### Memory-bank indexing
+
+Each skill has a `memory-bank/` folder. When you add a new `.md` record file, the pre-commit hook auto-regenerates the index (e.g., `PLAN.md`, `ANALYSIS.md`) with a linked table of contents.
+
+You can also trigger indexing manually:
+
+```bash
+# Index a single skill
+node .agents/skills/planning-todos/index.js
+
+# Index all installed skills
+node .agents/skills/index-all.js
+```
+
+### Project-local memory
+
+When you install with `--project`, everything lives in `./.agents/skills/`:
+- `SKILL.md` — the skill definition
+- `memory-bank/` — your project's records and templates
+- `index.js` — the auto-indexer for this skill
+
+Each project has its own isolated memory bank. Nothing leaks between repositories.
 
 ## Development
 
@@ -45,7 +80,6 @@ npx @donniesilalahi/cocreation-skills --project --force
 ```bash
 git clone https://github.com/donniesilalahi/cocreation-skills.git
 cd cocreation-skills
-npm run setup-hooks
 ```
 
 ### Validate skills
@@ -59,8 +93,6 @@ npm run validate
 ```bash
 npm run update-indices
 ```
-
-Indices are auto-updated via a pre-commit hook when you add new memory-bank records.
 
 ### Dry-run publish
 
