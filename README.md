@@ -51,22 +51,26 @@ Inside that file, you write your plan in plain English. The AI helper reads it a
 
 ### Auto-update your note index
 
-When you add a new note file, you can update the index automatically:
+Each skill comes with its own `index.js`. When you add a new note file, run the indexer to regenerate the table of contents:
 
 ```bash
 # Update one skill
 node .agents/skills/planning-todos/index.js
 
 # Update all skills at once
-node .agents/skills/index-all.js
+for d in .agents/skills/*/; do
+  [ -f "$d/index.js" ] && node "$d/index.js"
+done
 ```
 
-To make this happen every time you save your work with git, add this to `.git/hooks/pre-commit`:
+To make this happen automatically every time you commit, add this to `.git/hooks/pre-commit`:
 
 ```bash
 #!/bin/sh
 cd "$(git rev-parse --show-toplevel)" || exit 1
-node .agents/skills/index-all.js
+for d in .agents/skills/*/; do
+  [ -f "$d/index.js" ] && node "$d/index.js"
+done
 git diff --name-only | grep -E '^\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
 git ls-files --others --exclude-standard | grep -E '^\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
 ```
