@@ -18,23 +18,43 @@ Think of each skill as a guide you give to your AI helper. It tells the AI how t
 
 ### The easy way (recommended)
 
-Use the standard skills tool. It works with any AI helper.
+Run one command in your project folder. It installs the skills **and** sets up automatic indexing for your notes.
+
+```bash
+npx @donniesilalahi/cocreation-skills --project
+```
+
+That is it. The skills are now in `.agents/skills/` and every time you commit your code, your note indexes stay up to date automatically.
+
+### Install only some skills
+
+```bash
+npx @donniesilalahi/cocreation-skills planning-todos analyzing-problems --project
+```
+
+### Update existing skills
+
+```bash
+npx @donniesilalahi/cocreation-skills --project --force
+```
+
+### Skip the git hook
+
+If you do not want the automatic git hook, add `--no-hook`:
+
+```bash
+npx @donniesilalahi/cocreation-skills --project --no-hook
+```
+
+### Install from the skills marketplace
+
+You can also install through the standard skills tool:
 
 ```bash
 npx skills add donniesilalahi/cocreation-skills
 ```
 
-This will show you a nice menu where you can pick which skills to install and which AI helpers should use them.
-
-### Install from npm
-
-If you prefer npm, you can also install this package:
-
-```bash
-npm install @donniesilalahi/cocreation-skills
-```
-
-Then copy the skills from `node_modules/@donniesilalahi/cocreation-skills/skills/` into your project's `.agents/skills/` folder.
+Note: this method installs the skills but does **not** set up the git hook automatically. You will need to set that up separately (see below).
 
 ## How to use the skills
 
@@ -49,9 +69,9 @@ For example, with the `planning-todos` skill, you might create a file like this:
 
 Inside that file, you write your plan in plain English. The AI helper reads it and helps you stay on track.
 
-### Auto-update your note index
+### Update your note index by hand
 
-Each skill comes with its own `index.js`. When you add a new note file, run the indexer to regenerate the table of contents:
+If you ever want to update the index without committing, run:
 
 ```bash
 # Update one skill
@@ -63,7 +83,9 @@ for d in .agents/skills/*/; do
 done
 ```
 
-To make this happen automatically every time you commit, run this one-liner from your project folder:
+### Set up the git hook manually
+
+If you installed via `npx skills add` or skipped the hook with `--no-hook`, you can set it up later with this one-liner:
 
 ```bash
 mkdir -p .git/hooks && cat > .git/hooks/pre-commit << 'HOOK'
@@ -77,14 +99,6 @@ git ls-files --others --exclude-standard | grep -E '^\.agents/skills/[^/]+/memor
 HOOK
 chmod +x .git/hooks/pre-commit
 ```
-
-Or, if you installed via npm, you can run:
-
-```bash
-node node_modules/@donniesilalahi/cocreation-skills/scripts/setup-hook.js
-```
-
-Both do the same thing — create a `.git/hooks/pre-commit` hook that auto-indexes your memory-bank files before every commit. You can run it again safely — it will not create duplicates.
 
 ## Each project has its own notes
 

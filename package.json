@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "description": "Skills for AI helpers to plan, debug, document, and learn from your work.",
   "type": "module",
+  "bin": {
+    "cocreation-skills": "./cli.js"
+  },
   "files": [
+    "cli.js",
     "scripts/",
     "skills/",
     "template/",
