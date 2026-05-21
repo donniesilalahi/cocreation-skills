@@ -1,138 +1,108 @@
-# Agent Workflow Skills
+# Co-creation Skills
 
-A collection of reusable Agent Skills for planning, root cause analysis, implementation records, and lessons learned. Install one, several, or all skills into any project.
+This is a set of tools that help AI helpers (like Claude, ChatGPT, or Kimi) work better with you on software projects.
 
-## Available Skills
+Think of each tool as a **skill** you give to your AI helper. Just like a person can learn skills, an AI helper can follow these skills to help you plan better, fix bugs faster, and remember what you learned.
 
-| Skill | Description |
-|-------|-------------|
-| `accessing-lessons-learned` | Retrieve and apply previously documented lessons from a project's memory bank before starting new work. |
-| `analyzing-problems` | Systematically diagnose root causes for bugs, errors, and unexpected behavior. |
-| `documenting-implementations` | Record what was built, why design decisions were made, and how the implementation works. |
-| `documenting-lesson-learned` | Capture insights, mistakes, and proven solutions from completed work so they can be reused later. |
-| `planning-todos` | Break down complex tasks into clear, actionable steps and track progress. |
+## What skills are included?
 
-## Quick Start
+| Skill | What it helps you do |
+|-------|---------------------|
+| **planning-todos** | Break big tasks into small steps and check them off as you go. |
+| **analyzing-problems** | Find the real reason why something is broken, not just guess. |
+| **documenting-implementations** | Write down what you built so you can remember it later. |
+| **documenting-lesson-learned** | Save mistakes and good ideas so you do not forget them. |
+| **accessing-lessons-learned** | Look up what you already learned before starting new work. |
 
-### Install all skills into your project
+## How do I use these skills?
+
+### Step 1: Add the skills to your project
+
+Run this command inside your project folder:
 
 ```bash
 npx @donniesilalahi/cocreation-skills --project
 ```
 
-This also sets up a git pre-commit hook that auto-updates memory-bank indices whenever you add new records.
+This creates a folder called `.agents/skills/` in your project. Each skill gets its own folder inside.
 
-### Install selected skills only
+### Step 2: Write notes while you work
 
-```bash
-npx @donniesilalahi/cocreation-skills planning-todos documenting-implementations --project
+Each skill has a **notes folder** (called `memory-bank/`). You write your notes there as simple text files.
+
+For example, with the `planning-todos` skill, you might create a file like this:
+
+```
+.agents/skills/planning-todos/memory-bank/
+  └── fix-login-bug.md
 ```
 
-### Install globally (reference only)
+Inside that file, you write your plan in plain English.
+
+### Step 3: The index updates by itself
+
+When you save your work with `git commit`, a small helper script automatically updates the **index file** (like `PLAN.md`) so it lists all your notes. You do not have to do this by hand.
+
+You can also run it yourself:
 
 ```bash
-npx @donniesilalahi/cocreation-skills --global
+# Update just one skill
+node .agents/skills/planning-todos/index.js
+
+# Update all skills at once
+node .agents/skills/index-all.js
 ```
 
-Global install is for reading skill definitions. **Memory-bank records are always project-local** — use `--project` in each repository where you do active work.
+### Pick only the skills you want
 
-### Update an existing installation
+If you do not want all five skills, you can pick just the ones you need:
+
+```bash
+npx @donniesilalahi/cocreation-skills planning-todos analyzing-problems --project
+```
+
+### Update your skills
+
+If the skills get better over time, you can update them:
 
 ```bash
 npx @donniesilalahi/cocreation-skills --project --force
 ```
 
-### Skip git hook setup
+## What is a skill, really?
+
+A skill is just a folder with two things inside:
+
+1. **SKILL.md** — a short guide that tells the AI helper what this skill is for and how to use it.
+2. **memory-bank/** — a folder where you and the AI helper write notes together.
+
+That is it. No complicated setup. No special software. Just text files.
+
+## Can I use these skills on every project?
+
+Yes. But each project gets its **own** notes. Your notes from Project A stay in Project A. Your notes from Project B stay in Project B. They never mix together.
+
+If you want, you can also install the skills on your whole computer (not just one project) so you can read them anywhere:
 
 ```bash
-npx @donniesilalahi/cocreation-skills --project --no-hook
+npx @donniesilalahi/cocreation-skills --global
 ```
 
-## How It Works
+But remember: your notes still live inside each project. The global install is just for reading the skill guides.
 
-### Memory-bank indexing
+## How can I help make this better?
 
-Each skill has a `memory-bank/` folder. When you add a new `.md` record file, the pre-commit hook auto-regenerates the index (e.g., `PLAN.md`, `ANALYSIS.md`) with a linked table of contents.
+Anyone can help! Here is how:
 
-You can also trigger indexing manually:
+1. Click **Fork** on GitHub to make your own copy.
+2. Make your changes.
+3. Run `npm run validate` to make sure everything is okay.
+4. Open a **Pull Request** so we can add your changes.
 
-```bash
-# Index a single skill
-node .agents/skills/planning-todos/index.js
+If you want to add a new skill, look at `template/SKILL.md` to see how skills are written. Then make a new folder in `skills/` and follow the same pattern.
 
-# Index all installed skills
-node .agents/skills/index-all.js
-```
-
-### Project-local memory
-
-When you install with `--project`, everything lives in `./.agents/skills/`:
-- `SKILL.md` — the skill definition
-- `memory-bank/` — your project's records and templates
-- `index.js` — the auto-indexer for this skill
-
-Each project has its own isolated memory bank. Nothing leaks between repositories.
-
-## Development
-
-### Setup
-
-```bash
-git clone https://github.com/donniesilalahi/cocreation-skills.git
-cd cocreation-skills
-```
-
-### Validate skills
-
-```bash
-npm run validate
-```
-
-### Update memory-bank indices
-
-```bash
-npm run update-indices
-```
-
-### Dry-run publish
-
-```bash
-npm pack --dry-run
-```
-
-### Publish
-
-```bash
-npm publish --access public
-```
-
-## Contributing
-
-Contributions are welcome! This project is open to anyone who wants to improve agent workflows, add new skills, or fix bugs.
-
-### How to contribute
-
-1. **Fork** the repository
-2. **Create a branch** for your change
-3. **Make your changes** — follow the existing skill structure
-4. **Run validation** — `npm run validate` must pass
-5. **Open a pull request** with a clear description
-
-### Skill standards
-
-Every skill must:
-- Live in its own directory under `skills/`
-- Contain a `SKILL.md` with valid YAML frontmatter
-- Have a `name` matching the directory name (kebab-case, 1–64 chars)
-- Have a `description` (≤1024 chars)
-- Keep `SKILL.md` under 500 lines
-
-See `template/SKILL.md` for a starting point.
-
-### Code of Conduct
-
-Be respectful, constructive, and inclusive. All contributions are valued.
+Be kind. Be helpful. Everyone is welcome.
 
 ## License
 
-[MIT](LICENSE.md)
+You can use this for anything you want. You can change it. You can share it. You can even sell it. No restrictions. See [LICENSE.md](LICENSE.md) for the full text.
