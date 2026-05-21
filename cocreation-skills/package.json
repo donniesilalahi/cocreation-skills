@@ -1,12 +1,12 @@
 {
-  "name": "@donniesilalahi/agent-workflow-skills",
+  "name": "@donniesilalahi/cocreation-skills",
   "version": "0.1.0",
   "description": "Reusable Agent Skills for planning, root cause analysis, implementation records, and lessons learned.",
   "type": "module",
   "bin": {
-    "agent-workflow-skills": "./install.js"
+    "cocreation-skills": "./install.js"
   },
-  "files": ["install.js", "skills/", "template/", "README.md", "LICENSE"],
+  "files": ["install.js", "skills/", "template/", "README.md", "LICENSE.md"],
   "scripts": {
     "validate": "node scripts/validate-skills.js",
     "update-indices": "node scripts/update-indices.js",

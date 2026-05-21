@@ -18,7 +18,7 @@ const wantedSkills = args.filter((arg) => !arg.startsWith('-'))
 
 if (help) {
   console.log(`Usage:
-  npx @donniesilalahi/agent-workflow-skills [skill-name...] [options]
+  npx @donniesilalahi/cocreation-skills [skill-name...] [options]
 
 Options:
   --project, -p   Install to ./.agents/skills in the current project. Default.
@@ -28,9 +28,9 @@ Options:
   --help, -h      Show this help.
 
 Examples:
-  npx @donniesilalahi/agent-workflow-skills --project
-  npx @donniesilalahi/agent-workflow-skills planning-todos analyzing-problems --project
-  npx @donniesilalahi/agent-workflow-skills --global --force`)
+  npx @donniesilalahi/cocreation-skills --project
+  npx @donniesilalahi/cocreation-skills planning-todos analyzing-problems --project
+  npx @donniesilalahi/cocreation-skills --global --force`)
   process.exit(0)
 }
 
