@@ -1,14 +1,9 @@
 {
   "name": "@donniesilalahi/cocreation-skills",
   "version": "0.1.0",
-  "description": "Reusable Agent Skills for planning, root cause analysis, implementation records, and lessons learned.",
+  "description": "Skills for AI helpers to plan, debug, document, and learn from your work.",
   "type": "module",
-  "bin": {
-    "cocreation-skills": "cli.js"
-  },
   "files": [
-    "cli.js",
-    "agents.js",
     "scripts/",
     "skills/",
     "template/",
@@ -30,9 +25,5 @@
   "license": "MIT",
   "engines": {
     "node": ">=18"
-  },
-  "dependencies": {
-    "@clack/prompts": "^1.4.0",
-    "picocolors": "^1.1.1"
   }
 }

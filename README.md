@@ -1,8 +1,8 @@
 # Co-creation Skills
 
-This is a set of tools that help AI helpers (like Claude, ChatGPT, or Kimi) work better with you on software projects.
+A set of skills that help AI helpers (like Claude, Cursor, or Kimi) work better with you on software projects.
 
-Think of each tool as a **skill** you give to your AI helper. Just like a person can learn skills, an AI helper can follow these skills to help you plan better, fix bugs faster, and remember what you learned.
+Think of each skill as a guide you give to your AI helper. It tells the AI how to help you plan tasks, find bugs, write notes about what you built, and remember lessons so you do not repeat mistakes.
 
 ## What skills are included?
 
@@ -14,21 +14,31 @@ Think of each tool as a **skill** you give to your AI helper. Just like a person
 | **documenting-lesson-learned** | Save mistakes and good ideas so you do not forget them. |
 | **accessing-lessons-learned** | Look up what you already learned before starting new work. |
 
-## How do I use these skills?
+## How to install
 
-### Step 1: Add the skills to your project
+### The easy way (recommended)
 
-Run this command inside your project folder:
+Use the standard skills tool. It works with any AI helper.
 
 ```bash
-npx @donniesilalahi/cocreation-skills --project
+npx skills add donniesilalahi/cocreation-skills
 ```
 
-This creates a folder called `.agents/skills/` in your project. Each skill gets its own folder inside.
+This will show you a nice menu where you can pick which skills to install and which AI helpers should use them.
 
-### Step 2: Write notes while you work
+### Install from npm
 
-Each skill has a **notes folder** (called `memory-bank/`). You write your notes there as simple text files.
+If you prefer npm, you can also install this package:
+
+```bash
+npm install @donniesilalahi/cocreation-skills
+```
+
+Then copy the skills from `node_modules/@donniesilalahi/cocreation-skills/skills/` into your project's `.agents/skills/` folder.
+
+## How to use the skills
+
+Each skill has a **notes folder** (called `memory-bank/`). You and your AI helper write notes there as simple text files.
 
 For example, with the `planning-todos` skill, you might create a file like this:
 
@@ -37,62 +47,37 @@ For example, with the `planning-todos` skill, you might create a file like this:
   └── fix-login-bug.md
 ```
 
-Inside that file, you write your plan in plain English.
+Inside that file, you write your plan in plain English. The AI helper reads it and helps you stay on track.
 
-### Step 3: The index updates by itself
+### Auto-update your note index
 
-When you save your work with `git commit`, a small helper script automatically updates the **index file** (like `PLAN.md`) so it lists all your notes. You do not have to do this by hand.
-
-You can also run it yourself:
+When you add a new note file, you can update the index automatically:
 
 ```bash
-# Update just one skill
+# Update one skill
 node .agents/skills/planning-todos/index.js
 
 # Update all skills at once
 node .agents/skills/index-all.js
 ```
 
-### Pick only the skills you want
-
-If you do not want all five skills, you can pick just the ones you need:
+To make this happen every time you save your work with git, add this to `.git/hooks/pre-commit`:
 
 ```bash
-npx @donniesilalahi/cocreation-skills planning-todos analyzing-problems --project
+#!/bin/sh
+cd "$(git rev-parse --show-toplevel)" || exit 1
+node .agents/skills/index-all.js
+git diff --name-only | grep -E '^\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
+git ls-files --others --exclude-standard | grep -E '^\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
 ```
 
-### Update your skills
+## Each project has its own notes
 
-If the skills get better over time, you can update them:
-
-```bash
-npx @donniesilalahi/cocreation-skills --project --force
-```
-
-## What is a skill, really?
-
-A skill is just a folder with two things inside:
-
-1. **SKILL.md** — a short guide that tells the AI helper what this skill is for and how to use it.
-2. **memory-bank/** — a folder where you and the AI helper write notes together.
-
-That is it. No complicated setup. No special software. Just text files.
-
-## Can I use these skills on every project?
-
-Yes. But each project gets its **own** notes. Your notes from Project A stay in Project A. Your notes from Project B stay in Project B. They never mix together.
-
-If you want, you can also install the skills on your whole computer (not just one project) so you can read them anywhere:
-
-```bash
-npx @donniesilalahi/cocreation-skills --global
-```
-
-But remember: your notes still live inside each project. The global install is just for reading the skill guides.
+Your notes from Project A stay in Project A. Your notes from Project B stay in Project B. They never mix together.
 
 ## How can I help make this better?
 
-Anyone can help! Here is how:
+Anyone can help. Here is how:
 
 1. Click **Fork** on GitHub to make your own copy.
 2. Make your changes.
