@@ -63,9 +63,10 @@ for d in .agents/skills/*/; do
 done
 ```
 
-To make this happen automatically every time you commit, add this to `.git/hooks/pre-commit`:
+To make this happen automatically every time you commit, run this one-liner from your project folder:
 
 ```bash
+mkdir -p .git/hooks && cat > .git/hooks/pre-commit << 'HOOK'
 #!/bin/sh
 cd "$(git rev-parse --show-toplevel)" || exit 1
 for d in .agents/skills/*/; do
@@ -73,7 +74,17 @@ for d in .agents/skills/*/; do
 done
 git diff --name-only | grep -E '^\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
 git ls-files --others --exclude-standard | grep -E '^\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
+HOOK
+chmod +x .git/hooks/pre-commit
 ```
+
+Or, if you installed via npm, you can run:
+
+```bash
+node node_modules/@donniesilalahi/cocreation-skills/scripts/setup-hook.js
+```
+
+Both do the same thing — create a `.git/hooks/pre-commit` hook that auto-indexes your memory-bank files before every commit. You can run it again safely — it will not create duplicates.
 
 ## Each project has its own notes
 
