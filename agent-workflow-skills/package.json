@@ -1,0 +1,21 @@
+{
+  "name": "@donniesilalahi/agent-workflow-skills",
+  "version": "0.1.0",
+  "description": "Reusable Agent Skills for planning, root cause analysis, implementation records, and lessons learned.",
+  "type": "module",
+  "bin": {
+    "agent-workflow-skills": "./install.js"
+  },
+  "files": ["install.js", "skills/", "template/", "README.md", "LICENSE"],
+  "scripts": {
+    "validate": "node scripts/validate-skills.js",
+    "update-indices": "node scripts/update-indices.js",
+    "setup-hooks": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit",
+    "prepack": "npm run update-indices && npm run validate"
+  },
+  "keywords": ["agent-skills", "ai-agents", "skills", "workflow", "planning"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

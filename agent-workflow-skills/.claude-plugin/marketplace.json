@@ -1,0 +1,26 @@
+{
+  "name": "agent-workflow-skills",
+  "owner": {
+    "name": "Donnie Silalahi",
+    "email": "donniesilalahi@gmail.com"
+  },
+  "metadata": {
+    "description": "Reusable Agent Skills for planning, root cause analysis, implementation records, and lessons learned.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "all-skills",
+      "description": "Install all Agent Workflow Skills.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/accessing-lessons-learned",
+        "./skills/analyzing-problems",
+        "./skills/documenting-implementations",
+        "./skills/documenting-lesson-learned",
+        "./skills/planning-todos"
+      ]
+    }
+  ]
+}
