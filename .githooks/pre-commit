@@ -1,0 +1,18 @@
+#!/bin/sh
+# Auto-update memory-bank indices before each commit
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT" || exit 1
+
+# Run the index updater
+node scripts/update-indices.js
+
+# Stage any updated index files so they're included in the commit
+git diff --name-only | grep -E '^skills/[^/]+/memory-bank/(PLAN|ANALYSIS|LEARNING|IMPLEMENTATION)\.md$' | while read -r file; do
+  git add "$file"
+done
+
+# Also stage untracked index files
+git ls-files --others --exclude-standard | grep -E '^skills/[^/]+/memory-bank/(PLAN|ANALYSIS|LEARNING|IMPLEMENTATION)\.md$' | while read -r file; do
+  git add "$file"
+done
