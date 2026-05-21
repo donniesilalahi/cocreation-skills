@@ -4,15 +4,28 @@
   "description": "Reusable Agent Skills for planning, root cause analysis, implementation records, and lessons learned.",
   "type": "module",
   "bin": {
-    "cocreation-skills": "./install.js"
+    "cocreation-skills": "./cli.js"
   },
-  "files": ["install.js", "scripts/", "skills/", "template/", "README.md", "LICENSE.md"],
+  "files": [
+    "cli.js",
+    "scripts/",
+    "skills/",
+    "template/",
+    "README.md",
+    "LICENSE.md"
+  ],
   "scripts": {
     "validate": "node scripts/validate-skills.js",
     "update-indices": "node scripts/update-indices.js",
     "prepack": "npm run update-indices && npm run validate"
   },
-  "keywords": ["agent-skills", "ai-agents", "skills", "workflow", "planning"],
+  "keywords": [
+    "agent-skills",
+    "ai-agents",
+    "skills",
+    "workflow",
+    "planning"
+  ],
   "license": "MIT",
   "engines": {
     "node": ">=18"
