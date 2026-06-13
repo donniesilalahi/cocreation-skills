@@ -4,7 +4,11 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { execSync } from 'node:child_process'
 
-const skillsDir = path.dirname(fileURLToPath(import.meta.url))
+const skillsDir = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+  'skills',
+)
 
 for (const entry of fs.readdirSync(skillsDir, { withFileTypes: true })) {
   if (!entry.isDirectory()) continue

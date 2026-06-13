@@ -1,8 +1,11 @@
-# QA Report — {Screen Name}
+---
+title: Screen name
+date: YYYY-MM-DD
+artboard: Artboard reference
+status: needs-fix
+---
 
-**Artboard**: {Artboard reference}  
-**Date**: YYYY-MM-DD  
-**Status**: {pass / needs-fix / blocked}
+# QA Report — {Screen Name}
 
 ## Summary
 
@@ -37,3 +40,5 @@
 ## Notes
 
 {Any follow-ups, blocked items, or design questions}
+
+<!-- status: pass | needs-fix | blocked -->

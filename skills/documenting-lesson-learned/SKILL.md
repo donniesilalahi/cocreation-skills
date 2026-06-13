@@ -26,12 +26,19 @@ Convert experience into reusable knowledge. Every hard-won insight should be rec
 
 ## Memory Bank
 
-Document lessons in:
+Save each lesson as its own file in the memory bank, named after the insight:
 ```
-.agents/skills/documenting-lesson-learned/memory-bank/LEARNING.md
+.agents/skills/documenting-lesson-learned/memory-bank/react-stale-closure.md
 ```
 
-Use the `_template.md` for consistent formatting.
+Copy `_template.md` as a starting point and keep its frontmatter (`title`, `date`, `tags`) filled in—those fields become the columns in the index. Do **not** write into `LEARNING.md`—that file is the auto-generated index.
+
+After adding or updating a record, refresh the index:
+```bash
+node .agents/skills/documenting-lesson-learned/index.js
+```
+
+This regenerates `LEARNING.md` with a link to every lesson in the folder.
 
 ## Template
 

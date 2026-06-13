@@ -1,11 +1,13 @@
-# Lesson Learned Template
+---
+title: Short, searchable title
+date: YYYY-MM-DD
+tags: tag-one, tag-two
+---
 
-## Lesson: [Short, searchable title]
+# Lesson: [Short, searchable title]
 
-- **Date learned**: YYYY-MM-DD
 - **Context**: [What were you working on?]
 - **Problem**: [What went wrong?]
 - **Root cause**: [Why did it happen?]
 - **Solution**: [What fixed it or what pattern works?]
 - **Prevention**: [How to avoid this in the future?]
-- **Tags**: [relevant, tags]

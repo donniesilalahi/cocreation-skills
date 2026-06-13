@@ -1,6 +1,8 @@
 ---
 name: my-skill
 description: A short description of what this skill does and when to use it. Keep it under 1024 characters.
+metadata:
+  internal: true
 ---
 
 # My Skill

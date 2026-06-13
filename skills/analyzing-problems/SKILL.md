@@ -27,12 +27,19 @@ Apply a structured, repeatable process to identify the true root cause of issues
 
 ## Memory Bank
 
-Document analysis in:
+Save each analysis as its own file in the memory bank, named after the problem:
 ```
-.agents/skills/analyzing-problems/memory-bank/ANALYSIS.md
+.agents/skills/analyzing-problems/memory-bank/login-timeout.md
 ```
 
-Use the `_template.md` for consistent formatting.
+Copy `_template.md` as a starting point and keep its frontmatter (`title`, `date`, `status`) filled in—those fields become the columns in the index. Do **not** write into `ANALYSIS.md`—that file is the auto-generated index.
+
+After adding or updating a record, refresh the index:
+```bash
+node .agents/skills/analyzing-problems/index.js
+```
+
+This regenerates `ANALYSIS.md` with a link to every analysis in the folder.
 
 ## Analysis Template
 

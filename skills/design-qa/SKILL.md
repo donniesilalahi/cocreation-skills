@@ -87,16 +87,27 @@ For every screen, verify:
 
 **Directory**: `.agents/skills/design-qa/memory-bank/`  
 **File naming**: `YYYY-MM-DD-HHmm_{screen-slug}_qa.md` (e.g., `2026-06-11-0900_home-screen_qa.md`)  
-**Index**: `memory-bank/_index_qa.md`
+**Index**: `memory-bank/QA.md` (auto-generated)
+
+Copy `_template.md` for each report and keep its frontmatter (`title`, `date`, `artboard`, `status`) filled in—those fields become the columns in `QA.md`. After writing or updating a report, refresh the index:
+
+```bash
+node .agents/skills/design-qa/index.js
+```
+
+Do **not** write into `QA.md` directly—it is regenerated from the reports.
 
 ## QA Report Template
 
 ```markdown
-# QA Report — {Screen Name}
+---
+title: Screen name
+date: YYYY-MM-DD
+artboard: Artboard reference
+status: needs-fix
+---
 
-**Artboard**: {Artboard reference}  
-**Date**: YYYY-MM-DD  
-**Status**: {pass / needs-fix / blocked}
+# QA Report — {Screen Name}
 
 ## Summary
 
