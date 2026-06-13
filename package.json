@@ -26,6 +26,14 @@
     "workflow",
     "planning"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donniesilalahi/cocreation-skills.git"
+  },
+  "bugs": {
+    "url": "https://github.com/donniesilalahi/cocreation-skills/issues"
+  },
+  "homepage": "https://github.com/donniesilalahi/cocreation-skills#readme",
   "license": "MIT",
   "engines": {
     "node": ">=18"
