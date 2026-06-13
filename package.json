@@ -1,6 +1,6 @@
 {
   "name": "@donniesilalahi/cocreation-skills",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Skills for AI helpers to plan, debug, document, and learn from your work.",
   "type": "module",
   "bin": {
