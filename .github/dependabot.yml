@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # Keep GitHub Actions up to date so runner/runtime deprecations are caught early.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"

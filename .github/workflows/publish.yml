@@ -4,17 +4,28 @@ on:
   push:
     branches: [main]
 
+# Don't let two pushes to main publish concurrently.
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+# Least privilege. id-token is required for npm provenance attestation.
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Validate skills
@@ -34,6 +45,6 @@ jobs:
 
       - name: Publish to npm
         if: steps.check.outputs.exists == 'false'
-        run: npm publish --access public
+        run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
