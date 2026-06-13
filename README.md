@@ -13,6 +13,7 @@ Think of each skill as a guide you give to your AI helper. It tells the AI how t
 | **documenting-implementations** | Write down what you built so you can remember it later. |
 | **documenting-lesson-learned** | Save mistakes and good ideas so you do not forget them. |
 | **accessing-lessons-learned** | Look up what you already learned before starting new work. |
+| **design-qa** | Compare live UI or screenshots against design artboards and produce a pixel-perfect fix list. |
 
 ## How to install
 
