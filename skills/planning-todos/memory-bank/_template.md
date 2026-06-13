@@ -1,8 +1,11 @@
-# Plan Template
+---
+title: Task name
+date: YYYY-MM-DD
+status: todo
+---
 
-## Plan: [Task Name]
+# Plan: [Task Name]
 
-- **Date created**: YYYY-MM-DD
 - **Goal**: [What are we trying to achieve?]
 - **Constraints**: [Time, tech, or business limits]
 - **Todos**:
@@ -14,3 +17,5 @@
 - **Blockers**: [Anything preventing progress]
 - **Notes**: [Observations as work progresses]
 - **Retrospective**: [What went well / what to improve]
+
+<!-- status: todo | in-progress | done | blocked -->

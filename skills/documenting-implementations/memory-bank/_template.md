@@ -1,8 +1,11 @@
-# Implementation Record Template
+---
+title: Feature/Refactor name
+date: YYYY-MM-DD
+scope: Short scope summary
+---
 
-## Implementation: [Feature/Refactor Name]
+# Implementation: [Feature/Refactor Name]
 
-- **Date**: YYYY-MM-DD
 - **Author**: [Name or handle]
 - **Purpose**: [What problem does this solve?]
 - **Scope**: [What was changed?]

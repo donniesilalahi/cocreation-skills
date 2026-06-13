@@ -1,8 +1,11 @@
-# Problem Analysis Template
+---
+title: Short problem description
+date: YYYY-MM-DD
+status: investigating
+---
 
-## Problem: [Short description]
+# Problem: [Short description]
 
-- **Date**: YYYY-MM-DD
 - **Symptoms**: [What is happening?]
 - **Expected**: [What should happen?]
 - **Reproduction**: [Steps to trigger]
@@ -16,3 +19,5 @@
 - **Root cause**: [Confirmed cause]
 - **Fix**: [Solution or next step]
 - **Prevention**: [How to avoid recurrence]
+
+<!-- status: investigating | root-cause-found | fixed -->

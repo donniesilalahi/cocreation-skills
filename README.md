@@ -19,43 +19,35 @@ Think of each skill as a guide you give to your AI helper. It tells the AI how t
 
 ### The easy way (recommended)
 
-Run one command in your project folder. It installs the skills **and** sets up automatic indexing for your notes.
+Use the standard `skills` tool. It gives you an interactive picker — choose which skills to install, which AI agents to set them up for, project vs. global scope, and symlink vs. copy.
 
 ```bash
+npx skills@latest add donniesilalahi/cocreation-skills
+```
+
+The skills land in `.agents/skills/`. This is the same installer most public skill repos use, so it works with Claude Code, Cursor, Codex, Gemini CLI, and many others out of the box.
+
+Note: this method installs the skills but does **not** set up the git hook for automatic note indexing. If you want that, either use the alternative installer below, or set the hook up manually (see [Set up the git hook manually](#set-up-the-git-hook-manually)).
+
+### Alternative: install with the auto git-hook
+
+If you want the skills **and** automatic note indexing on every commit, use the bundled installer instead:
+
+```bash
+# All skills
 npx @donniesilalahi/cocreation-skills --project
-```
 
-That is it. The skills are now in `.agents/skills/` and every time you commit your code, your note indexes stay up to date automatically.
-
-### Install only some skills
-
-```bash
+# Only some skills
 npx @donniesilalahi/cocreation-skills planning-todos analyzing-problems --project
-```
 
-### Update existing skills
-
-```bash
+# Update / overwrite existing skills
 npx @donniesilalahi/cocreation-skills --project --force
-```
 
-### Skip the git hook
-
-If you do not want the automatic git hook, add `--no-hook`:
-
-```bash
+# Skip the git hook
 npx @donniesilalahi/cocreation-skills --project --no-hook
 ```
 
-### Install from the skills marketplace
-
-You can also install through the standard skills tool:
-
-```bash
-npx skills add donniesilalahi/cocreation-skills
-```
-
-Note: this method installs the skills but does **not** set up the git hook automatically. You will need to set that up separately (see below).
+This installs to `.agents/skills/` and sets up a git pre-commit hook so your note indexes stay up to date automatically.
 
 ## How to use the skills
 

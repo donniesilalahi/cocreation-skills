@@ -26,12 +26,19 @@ Create a durable record of implementation details so future developers (includin
 
 ## Memory Bank
 
-Document implementations in:
+Save each implementation as its own file in the memory bank, named after the feature:
 ```
-.agents/skills/documenting-implementations/memory-bank/IMPLEMENTATION.md
+.agents/skills/documenting-implementations/memory-bank/auth-refactor.md
 ```
 
-Use the `_template.md` for consistent formatting.
+Copy `_template.md` as a starting point and keep its frontmatter (`title`, `date`, `scope`) filled in—those fields become the columns in the index. Do **not** write into `IMPLEMENTATION.md`—that file is the auto-generated index.
+
+After adding or updating a record, refresh the index:
+```bash
+node .agents/skills/documenting-implementations/index.js
+```
+
+This regenerates `IMPLEMENTATION.md` with a link to every implementation in the folder.
 
 ## Template
 

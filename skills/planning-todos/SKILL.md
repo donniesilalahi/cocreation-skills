@@ -27,12 +27,19 @@ Transform vague goals into a structured plan with concrete, verifiable steps. Tr
 
 ## Memory Bank
 
-Document plans in:
+Save each plan as its own file in the memory bank, named after the task:
 ```
-.agents/skills/planning-todos/memory-bank/PLAN.md
+.agents/skills/planning-todos/memory-bank/fix-login-bug.md
 ```
 
-Use the `_template.md` for consistent formatting.
+Copy `_template.md` as a starting point and keep its frontmatter (`title`, `date`, `status`) filled in—those fields become the columns in the index. Do **not** write into `PLAN.md`—that file is the auto-generated index.
+
+After adding or updating a record, refresh the index:
+```bash
+node .agents/skills/planning-todos/index.js
+```
+
+This regenerates `PLAN.md` with a link to every plan in the folder.
 
 ## Todo Format
 
