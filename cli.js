@@ -13,6 +13,7 @@ const installGlobal = args.includes('--global') || args.includes('-g')
 const installProject =
   args.includes('--project') || args.includes('-p') || !installGlobal
 const force = args.includes('--force') || args.includes('-f')
+const update = args.includes('--update') || args.includes('-u')
 const listOnly = args.includes('--list')
 const help = args.includes('--help') || args.includes('-h')
 const noHook = args.includes('--no-hook')
@@ -26,6 +27,7 @@ Options:
   --project, -p   Install to ./.agents/skills in the current project. Default.
   --global, -g    Install to ~/.agents/skills.
   --force, -f     Overwrite existing installed skill directories.
+  --update, -u    Refresh SKILL.md only; preserve memory-bank/ (safe for updates).
   --no-hook       Skip setting up the git pre-commit hook (project only).
   --list          List available skills without installing.
   --help, -h      Show this help.
@@ -70,6 +72,12 @@ for (const skill of selectedSkills) {
   const target = path.join(targetBase, skill)
 
   if (fs.existsSync(target)) {
+    if (update) {
+      // Refresh SKILL.md only; leave memory-bank/ intact
+      updateSkillFiles(source, target)
+      console.log(`Updated ${skill} (memory-bank preserved)`)
+      continue
+    }
     if (!force) {
       console.log(`Skipped existing skill: ${skill}`)
       continue
@@ -122,6 +130,21 @@ git ls-files --others --exclude-standard | grep -E '^\\.agents/skills/[^/]+/memo
       fs.chmodSync(preCommitHook, 0o755)
     } else {
       console.log('Git hook already has auto-index')
+    }
+  }
+}
+
+// Update non-memory-bank files only (safe for existing installs with audit history)
+function updateSkillFiles(source, target) {
+  fs.mkdirSync(target, { recursive: true })
+  for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
+    if (entry.name === 'memory-bank') continue
+    const sourcePath = path.join(source, entry.name)
+    const targetPath = path.join(target, entry.name)
+    if (entry.isDirectory()) {
+      updateSkillFiles(sourcePath, targetPath)
+    } else if (entry.isFile()) {
+      fs.copyFileSync(sourcePath, targetPath)
     }
   }
 }
