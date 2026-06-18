@@ -19,40 +19,37 @@ Think of each skill as a guide you give to your AI helper. It tells the AI how t
 
 ## How to install
 
-### The easy way (recommended)
-
-Use the standard `skills` tool. It gives you an interactive picker — choose which skills to install, which AI agents to set them up for, project vs. global scope, and symlink vs. copy.
-
 ```bash
 npx skills@latest add donniesilalahi/cocreation-skills
 ```
 
-The skills land in `.agents/skills/`. This is the same installer most public skill repos use, so it works with Claude Code, Cursor, Codex, Gemini CLI, and many others out of the box.
+Interactive picker — choose which skills to install, which AI agents to target, project vs. global scope, and symlink vs. copy. Works with Claude Code, Cursor, Codex, Gemini CLI, and most others out of the box.
 
-Note: this method installs the skills but does **not** set up the git hook for automatic note indexing. If you want that, either use the alternative installer below, or set the hook up manually (see [Set up the git hook manually](#set-up-the-git-hook-manually)).
+### Also want automatic note indexing on every commit?
 
-### Alternative: install with the auto git-hook
-
-If you want the skills **and** automatic note indexing on every commit, use the bundled installer instead:
+The interactive picker installs skills but skips the git hook. To get the hook too, run the bundled installer after:
 
 ```bash
-# All skills
+# Add the git hook to an already-installed project
+npx @donniesilalahi/cocreation-skills --project --no-hook  # installs/updates skills
+# or just set the hook up manually — see below
+```
+
+Or skip the picker entirely and use the bundled installer directly:
+
+```bash
+# All skills + git hook
 npx @donniesilalahi/cocreation-skills --project
 
-# Only some skills
+# Only specific skills
 npx @donniesilalahi/cocreation-skills planning-todos analyzing-problems --project
 
-# Update SKILL.md only, preserve memory-bank/ (audit history safe)
+# Update SKILL.md only — preserves memory-bank/ (your notes stay intact)
 npx @donniesilalahi/cocreation-skills --project --update
 
 # Overwrite everything including memory-bank/
 npx @donniesilalahi/cocreation-skills --project --force
-
-# Skip the git hook
-npx @donniesilalahi/cocreation-skills --project --no-hook
 ```
-
-This installs to `.agents/skills/` and sets up a git pre-commit hook so your note indexes stay up to date automatically.
 
 ## How to use the skills
 
