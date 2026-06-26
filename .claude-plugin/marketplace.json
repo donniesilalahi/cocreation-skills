@@ -5,24 +5,29 @@
     "email": "donniesilalahi@gmail.com"
   },
   "metadata": {
-    "description": "Reusable Agent Skills for planning, root cause analysis, implementation records, and lessons learned.",
-    "version": "0.1.0"
+    "description": "An ecosystem of co-* loop skills for human-AI product co-creation, orchestrated by /cocreator.",
+    "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "all-skills",
-      "description": "Install all Agent Workflow Skills.",
+      "description": "The full co-creation loop ecosystem: /cocreator master + every co-* loop skill.",
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/accessing-lessons-learned",
-        "./skills/analyzing-problems",
-        "./skills/consistency-audit",
-        "./skills/design-qa",
-        "./skills/marketing-capture",
-        "./skills/documenting-implementations",
-        "./skills/documenting-lesson-learned",
-        "./skills/planning-todos"
+        "./skills/cocreator",
+        "./skills/coshape",
+        "./skills/coresearch",
+        "./skills/coplan",
+        "./skills/codesign",
+        "./skills/cobuild",
+        "./skills/coverify",
+        "./skills/codebug",
+        "./skills/cochangelog",
+        "./skills/comarket",
+        "./skills/colearn",
+        "./skills/coaudit",
+        "./skills/coharden"
       ]
     }
   ]

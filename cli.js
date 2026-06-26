@@ -34,7 +34,7 @@ Options:
 
 Examples:
   npx @donniesilalahi/cocreation-skills --project
-  npx @donniesilalahi/cocreation-skills planning-todos analyzing-problems --project
+  npx @donniesilalahi/cocreation-skills coplan codebug --project
   npx @donniesilalahi/cocreation-skills --global --force`)
   process.exit(0)
 }

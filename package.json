@@ -1,7 +1,7 @@
 {
   "name": "@donniesilalahi/cocreation-skills",
-  "version": "0.1.7",
-  "description": "Skills for AI helpers to plan, debug, document, and learn from your work.",
+  "version": "0.2.0",
+  "description": "An ecosystem of co-* loop skills for human-AI product co-creation — shape, research, plan, design, build, verify, debug, document, market, and learn — orchestrated by /cocreator.",
   "type": "module",
   "bin": {
     "cocreation-skills": "./cli.js"

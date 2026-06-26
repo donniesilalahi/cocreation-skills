@@ -1,21 +1,41 @@
 # Co-creation Skills
 
-A set of skills that help AI helpers (like Claude, Cursor, or Kimi) work better with you on software projects.
+An ecosystem of **loops** that help AI helpers (like Claude, Cursor, or Kimi) co-create products
+with you — from strategy and research through plan, design, build, test, ship, and marketing.
 
-Think of each skill as a guide you give to your AI helper. It tells the AI how to help you plan tasks, find bugs, write notes about what you built, and remember lessons so you do not repeat mistakes.
+Each skill is one closed loop: it does its step, checks its own work, then decides what happens
+next (advance, repeat, ask you, or jump to a specialized loop). One master skill — **`/cocreator`**
+— knows them all, recommends which to run, and delegates each to the right doer.
 
-## What skills are included?
+The thinking behind this lives in [`docs/cocreator/PLAYBOOK.md`](docs/cocreator/PLAYBOOK.md): AI
+changes velocity, not principles — so human judgment concentrates at the two ends (shaping a thing
+right, and checking it shipped right) while the slow manual middle collapses.
 
-| Skill | What it helps you do |
-|-------|---------------------|
-| **planning-todos** | Break big tasks into small steps and check them off as you go. |
-| **analyzing-problems** | Find the real reason why something is broken, not just guess. |
-| **documenting-implementations** | Write down what you built so you can remember it later. |
-| **documenting-lesson-learned** | Save mistakes and good ideas so you do not forget them. |
-| **accessing-lessons-learned** | Look up what you already learned before starting new work. |
-| **design-qa** | Compare live UI or screenshots against design artboards and produce a pixel-perfect fix list. |
-| **marketing-capture** | Set up or run reproducible App Store screenshot capture for SwiftUI apps — iOS Simulator and macOS — with seed data, scope/appearance/locale filtering, timestamped output, and a always-current `latest/` folder. |
-| **consistency-audit** | Find UI elements that should look identical but have drifted across screens, diagnose the root cause (loose token, missing component, ignored token), and apply surgical fixes. |
+## The loops
+
+| Skill (the action) | Doer agent | What it does |
+|-------|-------|---------------------|
+| **`/cocreator`** | — | Master loop. Recommends which loops to run and delegates each to its doer. |
+| **coshape** | coshaper | Frame the problem, set the appetite, write the pitch. |
+| **coresearch** | coresearcher | Discovery and evidence; red-team the load-bearing assumptions. |
+| **coplan** | coplanner | Break big tasks into small, tracked, verifiable steps. |
+| **codesign** | codesigner | Design the solution (UI/UX) and hand it to build. |
+| **cobuild** | cobuilder | Build it against the plan. (core loop — "make") |
+| **coverify** | coverifier | Test and QA: behavior and visuals vs. the spec. (core loop — "check") |
+| **codebug** | codebugger | Find the real root cause when something breaks. |
+| **cochangelog** | cochangelogger | Record what shipped as a simple changelog list. |
+| **comarket** | comarketer | Set up / run reproducible App Store screenshot capture for SwiftUI apps. |
+| **colearn** | colearner | Capture and recall lessons; turn repeat mistakes into guardrails. (core loop — "learn") |
+| **coaudit** | coauditor | Specialized loop: find UI that drifted out of consistency and fix it. |
+| **coharden** | cohardener | Specialized loop: harden the edge cases. |
+
+Every loop also runs **standalone** — `cochangelog` needs no prior plan. When two are paired, they
+cross-reference each other (a plan and its changelog each link the other).
+
+> **Renamed in 0.2.0.** The old skill names map to: `planning-todos → coplan`,
+> `analyzing-problems → codebug`, `design-qa → coverify`, `consistency-audit → coaudit`,
+> `marketing-capture → comarket`, `documenting-implementations → cochangelog`, and
+> `documenting-lesson-learned` + `accessing-lessons-learned` → `colearn` (merged).
 
 ## How to install
 
@@ -42,7 +62,7 @@ Or skip the picker entirely and use the bundled installer directly:
 npx @donniesilalahi/cocreation-skills --project
 
 # Only specific skills
-npx @donniesilalahi/cocreation-skills planning-todos analyzing-problems --project
+npx @donniesilalahi/cocreation-skills coplan codebug --project
 
 # Update SKILL.md only — preserves memory-bank/ (your notes stay intact)
 npx @donniesilalahi/cocreation-skills --project --update
@@ -55,12 +75,15 @@ npx @donniesilalahi/cocreation-skills --project --force
 
 Each skill has a **notes folder** (called `memory-bank/`). You and your AI helper write notes there as simple text files.
 
-For example, with the `planning-todos` skill, you might create a file like this:
+For example, with the `coplan` skill, you might create a file like this:
 
 ```
-.agents/skills/planning-todos/memory-bank/
-  └── fix-login-bug.md
+.agents/skills/coplan/memory-bank/
+  └── 2026-06-26-fix-login-bug.md
 ```
+
+Notes are named `YYYY-MM-DD-short-title.md` — the date and title tell you at a glance when it was
+written and what it worked on.
 
 Inside that file, you write your plan in plain English. The AI helper reads it and helps you stay on track.
 
@@ -70,7 +93,7 @@ If you ever want to update the index without committing, run:
 
 ```bash
 # Update one skill
-node .agents/skills/planning-todos/index.js
+node .agents/skills/coplan/index.js
 
 # Update all skills at once
 for d in .agents/skills/*/; do
