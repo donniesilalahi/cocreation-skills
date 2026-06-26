@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *SKILL.md) cd \"$(git rev-parse --show-toplevel)\" && node scripts/validate-skills.js >/dev/null ;; esac",
+            "statusMessage": "Validating skills..."
+          }
+        ]
+      }
+    ]
+  }
+}

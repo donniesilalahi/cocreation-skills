@@ -17,6 +17,8 @@
       "skills": [
         "./skills/accessing-lessons-learned",
         "./skills/analyzing-problems",
+        "./skills/consistency-audit",
+        "./skills/design-qa",
         "./skills/marketing-capture",
         "./skills/documenting-implementations",
         "./skills/documenting-lesson-learned",
