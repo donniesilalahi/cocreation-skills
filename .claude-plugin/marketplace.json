@@ -27,6 +27,7 @@
         "./skills/comarket",
         "./skills/colearn",
         "./skills/coaudit",
+        "./skills/coconsolidate",
         "./skills/coharden"
       ]
     }

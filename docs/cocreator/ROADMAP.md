@@ -22,7 +22,7 @@ orchestrates concise `co-*` loop-skills, each a closed mini-loop that self-evalu
    (strategy)  (discovery)   (plan)     (design)      ║ cobuild ⇄ coverify║      (record)      (GTM)
                                                       ║      ⇅ codebug    ║
                                                       ╚═══════════════════╝
-   Specialized loops, called on demand from any stage: coaudit (consistency) · coharden (edge cases)
+   Specialized loops, called on demand from any stage: coaudit (visual consistency) · coconsolidate (code DRY) · coharden (edge cases)
 ```
 
 **Core loop = make → check → learn.** Not "write code" (build collapses); the engine is
@@ -58,10 +58,11 @@ Convention: **skill = action word**, **agent = the doer**, so the link is obviou
 | `cochangelog` | `cochangelogger` | `documenting-implementations` | Record what shipped (changelog list) | Haiku | Optional |
 | `comarket` | `comarketer` | `marketing-capture` | Marketing assets / GTM capture | Haiku | Optional |
 | `colearn` | `colearner` | `documenting-lesson-learned` + `accessing-lessons-learned` (merged) | Capture + recall lessons; guardrails; graduation | Sonnet | **Mandatory** |
-| `coaudit` | `coauditor` | `consistency-audit` | Specialized loop: consistency drift | Haiku | Optional |
+| `coaudit` | `coauditor` | `consistency-audit` | Specialized loop: visual consistency drift | Haiku | Optional |
+| `coconsolidate` | `coconsolidator` | NEW | Specialized loop: code/logic DRY consolidation | Sonnet | Optional |
 | `coharden` | `cohardener` | NEW | Specialized loop: edge-case hardening | Sonnet | Optional |
 
-13 skills (1 master + 12 loops). Model tiers: **Opus** = judgment-heavy (shape/research/diagnose);
+14 skills (1 master + 13 loops). Model tiers: **Opus** = judgment-heavy (shape/research/diagnose);
 **Sonnet** = structured build & review; **Haiku** = mechanical capture/format.
 
 `/cocreator` ships as a plain skill; it self-delegates through the **Agent tool** with `model:`

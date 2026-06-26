@@ -30,7 +30,8 @@ Pull risk forward. Default to cancel, not extend. Close every loop with a self-e
 | `cochangelog` | cochangelogger | record | **haiku** | changelog list of what shipped |
 | `comarket` | comarketer | market/GTM | **haiku** | marketing assets / screenshot capture |
 | `colearn` | colearner | learn | **sonnet** | recall before work; capture lessons; graduate guardrails *(mandatory, core)* |
-| `coaudit` | coauditor | specialized | **haiku** | consistency drift across screens |
+| `coaudit` | coauditor | specialized | **haiku** | visual consistency drift across screens |
+| `coconsolidate` | coconsolidator | specialized | **sonnet** | code/logic DRY: fold duplication into one customizable master |
 | `coharden` | cohardener | specialized | **sonnet** | edge-case hardening after the happy path works |
 
 Model tiers: **opus** = judgment-heavy (shape/research/diagnose, where mistakes amplify);
@@ -45,7 +46,7 @@ needs one or a few loops (pragmatic by default). Use the macro order as a guide,
 ```
 coshape → coresearch → coplan → codesign → ╔ cobuild ⇄ coverify (↘codebug) ╗ → cochangelog → comarket
                                             ╚════════ colearn (learn) ══════╝
-specialized, on demand: coaudit (drift) · coharden (edge cases)
+specialized, on demand: coaudit (visual drift) · coconsolidate (code DRY) · coharden (edge cases)
 ```
 
 - **Mandatory in a full cycle:** `coplan`, the core `cobuild`+`coverify`, `colearn`.
@@ -83,8 +84,8 @@ Collect each loop's self-eval and route:
 - **PASS** → cross-loop forward to the next stage.
 - **FAIL** → re-loop the same skill. Bounded retries; after N, **cancel not extend** — escalate.
 - **BLOCKED / needs judgment** → escalate to the human (this is where review budget is spent).
-- **DRIFT / defect** → cross-loop to a specialized loop: `coaudit` (inconsistency),
-  `coharden` (edge cases), `codebug` (defect).
+- **DRIFT / defect** → cross-loop to a specialized loop: `coaudit` (visual inconsistency),
+  `coconsolidate` (duplication / DRY), `coharden` (edge cases), `codebug` (defect).
 
 ### 5. Wire cross-references
 When you run paired loops in sequence, link their records both ways:

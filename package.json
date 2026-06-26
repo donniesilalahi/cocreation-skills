@@ -1,6 +1,6 @@
 {
   "name": "@donniesilalahi/cocreation-skills",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "An ecosystem of co-* loop skills for human-AI product co-creation — shape, research, plan, design, build, verify, debug, document, market, and learn — orchestrated by /cocreator.",
   "type": "module",
   "bin": {
