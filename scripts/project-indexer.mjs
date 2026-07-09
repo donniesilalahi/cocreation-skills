@@ -46,6 +46,15 @@ function indexSkill(skillName, memoryBankPath) {
 
   const indexPath = path.join(memoryBankPath, indexFile)
   const indexContent = fs.readFileSync(indexPath, 'utf8')
+
+  // Safety: only ever rewrite index files this system created — identified by
+  // our auto-generated marker. This directory may be shared with unrelated
+  // skill packs; never modify a foreign index file that lacks the marker.
+  if (!indexContent.includes(MARKER)) {
+    console.log(`skip ${skillName}: not a cocreation index (no marker)`)
+    return
+  }
+
   const indexMeta = parseFrontmatter(indexContent)
 
   const columns = (indexMeta.columns || 'Title=title*')

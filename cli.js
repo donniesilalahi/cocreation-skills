@@ -2,6 +2,7 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import readline from 'node:readline'
 import { fileURLToPath } from 'node:url'
 
 const packageRoot = path.dirname(fileURLToPath(import.meta.url))
@@ -18,6 +19,7 @@ const listOnly = args.includes('--list')
 const help = args.includes('--help') || args.includes('-h')
 const noHook = args.includes('--no-hook')
 const migrate = args.includes('--migrate')
+const assumeYes = args.includes('--yes') || args.includes('-y')
 const wantedSkills = args.filter((arg) => !arg.startsWith('-'))
 
 if (help) {
@@ -32,7 +34,10 @@ Options:
   --no-hook       Skip setting up the git pre-commit hook (project only).
   --migrate       Migrate an existing npx install to the plugin: strip skill
                    bodies under ./.agents/skills, keep memory-bank/ records,
-                   and install the project-level indexer + hook.
+                   and install the project-level indexer + hook. ONLY touches
+                   cocreation's own skills — other skill packs sharing that
+                   directory are left untouched. Prompts before deleting.
+  --yes, -y       Skip the --migrate confirmation prompt (for automation).
   --list          List available skills without installing.
   --help, -h      Show this help.
 
@@ -45,7 +50,7 @@ Examples:
 }
 
 if (migrate) {
-  runMigration()
+  await runMigration()
   process.exit(0)
 }
 
@@ -205,44 +210,102 @@ ${hookEndMarker}
   console.log('Git hook already has auto-index')
 }
 
-// --migrate: convert an existing npx install (skill bodies copied into
-// .agents/skills/<name>/) to a plugin-friendly layout — memory-bank/
-// records are preserved in place, everything else is stripped so the
-// plugin-loaded skill doesn't double-load alongside the loose copy.
-function runMigration() {
+// Ask a yes/no question on the terminal; resolves true only on y/yes.
+function confirm(question) {
+  return new Promise((resolve) => {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    })
+    rl.question(question, (answer) => {
+      rl.close()
+      resolve(/^y(es)?$/i.test(answer.trim()))
+    })
+  })
+}
+
+// --migrate: convert an existing npx install (cocreation skill bodies copied
+// into .agents/skills/<name>/) to a plugin-friendly layout — memory-bank/
+// records are preserved in place, the loose body is stripped so the plugin's
+// namespaced skill doesn't double-load alongside the loose copy.
+//
+// CRITICAL: .agents/skills/ is a SHARED directory — other skill packs live
+// there too. This only ever touches cocreation's OWN skills (the set shipped
+// in this package's skills/ dir). Every other directory is left untouched.
+async function runMigration() {
   const base = path.join(process.cwd(), '.agents', 'skills')
 
   if (!fs.existsSync(base)) {
-    console.log('No .agents/skills to migrate')
+    console.log('No .agents/skills to migrate.')
     return
+  }
+
+  // The authoritative set of cocreation skills = what this package ships.
+  const ownSkills = fs
+    .readdirSync(skillsSource, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+
+  // Only those cocreation skills actually present in this project.
+  const present = ownSkills.filter((name) => {
+    const dir = path.join(base, name)
+    return fs.existsSync(dir) && fs.statSync(dir).isDirectory()
+  })
+
+  if (present.length === 0) {
+    console.log(
+      'No cocreation skills found under .agents/skills — nothing to migrate. Other skills left untouched.',
+    )
+    return
+  }
+
+  const hasMemoryBank = (name) =>
+    fs.existsSync(path.join(base, name, 'memory-bank'))
+  const toMigrate = present.filter(hasMemoryBank)
+  const toRemove = present.filter((name) => !hasMemoryBank(name))
+
+  console.log(`Migrating ${present.length} cocreation skill(s) in ${base}:`)
+  if (toMigrate.length)
+    console.log(`  strip body, KEEP memory-bank: ${toMigrate.join(', ')}`)
+  if (toRemove.length)
+    console.log(`  remove (no memory-bank):      ${toRemove.join(', ')}`)
+  console.log(
+    '  Every other skill in this directory is left completely untouched.',
+  )
+
+  if (!assumeYes) {
+    if (!process.stdin.isTTY) {
+      console.log(
+        'Non-interactive shell — re-run with --yes to proceed. Nothing changed.',
+      )
+      return
+    }
+    const ok = await confirm('Proceed? (y/N) ')
+    if (!ok) {
+      console.log('Aborted. Nothing changed.')
+      return
+    }
   }
 
   let migratedCount = 0
   let removedCount = 0
 
-  for (const entry of fs.readdirSync(base, { withFileTypes: true })) {
-    if (entry.name === 'index.mjs' && entry.isFile()) continue
-    if (!entry.isDirectory()) continue
-
-    const name = entry.name
+  for (const name of toMigrate) {
     const skillDir = path.join(base, name)
-    const memoryBankPath = path.join(skillDir, 'memory-bank')
-
-    if (fs.existsSync(memoryBankPath)) {
-      for (const child of fs.readdirSync(skillDir, { withFileTypes: true })) {
-        if (child.name === 'memory-bank') continue
-        fs.rmSync(path.join(skillDir, child.name), {
-          recursive: true,
-          force: true,
-        })
-      }
-      console.log(`migrated ${name} (memory-bank preserved)`)
-      migratedCount++
-    } else {
-      fs.rmSync(skillDir, { recursive: true, force: true })
-      console.log(`removed ${name} (no memory-bank)`)
-      removedCount++
+    for (const child of fs.readdirSync(skillDir, { withFileTypes: true })) {
+      if (child.name === 'memory-bank') continue
+      fs.rmSync(path.join(skillDir, child.name), {
+        recursive: true,
+        force: true,
+      })
     }
+    console.log(`migrated ${name} (memory-bank preserved)`)
+    migratedCount++
+  }
+  for (const name of toRemove) {
+    fs.rmSync(path.join(base, name), { recursive: true, force: true })
+    console.log(`removed ${name} (no memory-bank)`)
+    removedCount++
   }
 
   const indexerSource = path.join(scriptsSource, 'project-indexer.mjs')
@@ -253,6 +316,6 @@ function runMigration() {
   ensurePreCommitHook()
 
   console.log(
-    `Done. ${migratedCount} skill(s) migrated (memory-bank preserved), ${removedCount} skill(s) removed (no memory-bank). Project indexer + hook installed.`,
+    `Done. ${migratedCount} skill(s) migrated (memory-bank preserved), ${removedCount} skill(s) removed. Other skills untouched.`,
   )
 }
