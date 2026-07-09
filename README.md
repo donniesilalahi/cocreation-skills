@@ -77,10 +77,18 @@ All three tools read the same `skills/<name>/SKILL.md` files — the plugin mani
 a thin, generated wrapper that makes the whole set installable as one unit. This is a parallel path
 to the `npx` installer above, not a replacement.
 
-**Claude Code** — add the marketplace by its GitHub repo, then install:
+**Claude Code** — two separate commands, run one at a time (don't paste both together):
+
+Step 1 — add the marketplace. When the "Add Marketplace" prompt asks for a source, enter **only**
+this (nothing else on the line):
 
 ```
 /plugin marketplace add donniesilalahi/cocreation-skills
+```
+
+Step 2 — then, as a separate command, install the plugin:
+
+```
 /plugin install cocreation@cocreation-skills
 ```
 
