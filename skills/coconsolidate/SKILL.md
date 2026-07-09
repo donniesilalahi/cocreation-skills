@@ -96,7 +96,7 @@ Put the master in the right shared home (existing util/package/design-system mod
 **File naming**: `YYYY-MM-DD-{unit-slug}.md` (date + the unit consolidated).
 **Index**: `CONSOLIDATIONS.md` — auto-generated; never edit by hand. Copy `_template.md`, fill its
 frontmatter (`title`, `date`, `kind`, `tier`, `status`), then refresh:
-`node .agents/skills/coconsolidate/index.js` (or `npm run update-indices`).
+`node .agents/skills/coconsolidate/index.mjs` (or `npm run update-indices`).
 
 ### Report Template
 

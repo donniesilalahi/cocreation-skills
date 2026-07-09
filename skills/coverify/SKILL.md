@@ -94,7 +94,7 @@ For every screen, verify:
 Copy `_template.md` for each report and keep its frontmatter (`title`, `date`, `artboard`, `status`) filled in—those fields become the columns in `QA.md`. After writing or updating a report, refresh the index:
 
 ```bash
-node .agents/skills/coverify/index.js
+node .agents/skills/coverify/index.mjs
 ```
 
 Do **not** write into `QA.md` directly—it is regenerated from the reports.

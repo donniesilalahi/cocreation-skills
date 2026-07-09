@@ -139,8 +139,8 @@ function escapeRegExp(str) {
 }
 
 // Installs/refreshes the git pre-commit hook that keeps memory-bank indices
-// up to date. Prefers the project-level indexer (.agents/skills/index.js)
-// when present, falling back to each skill's own index.js otherwise. Used
+// up to date. Prefers the project-level indexer (.agents/skills/index.mjs)
+// when present, falling back to each skill's own index.mjs otherwise. Used
 // by both the normal install flow and --migrate. If a hook already carries
 // the marker but an older body, the marked block is replaced in place.
 function ensurePreCommitHook() {
@@ -156,11 +156,11 @@ function ensurePreCommitHook() {
   const hookEndMarker = '# === end cocreation-skills ==='
   const hookBlock = `${hookMarker}
 cd "$(git rev-parse --show-toplevel)" || exit 1
-if [ -f .agents/skills/index.js ]; then
-  node .agents/skills/index.js
+if [ -f .agents/skills/index.mjs ]; then
+  node .agents/skills/index.mjs
 else
   for d in .agents/skills/*/; do
-    [ -f "$d/index.js" ] && node "$d/index.js"
+    [ -f "$d/index.mjs" ] && node "$d/index.mjs"
   done
 fi
 git diff --name-only | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
@@ -221,7 +221,7 @@ function runMigration() {
   let removedCount = 0
 
   for (const entry of fs.readdirSync(base, { withFileTypes: true })) {
-    if (entry.name === 'index.js' && entry.isFile()) continue
+    if (entry.name === 'index.mjs' && entry.isFile()) continue
     if (!entry.isDirectory()) continue
 
     const name = entry.name
@@ -245,8 +245,8 @@ function runMigration() {
     }
   }
 
-  const indexerSource = path.join(scriptsSource, 'project-indexer.js')
-  const indexerTarget = path.join(base, 'index.js')
+  const indexerSource = path.join(scriptsSource, 'project-indexer.mjs')
+  const indexerTarget = path.join(base, 'index.mjs')
   fs.copyFileSync(indexerSource, indexerTarget)
   console.log(`installed project indexer at ${indexerTarget}`)
 

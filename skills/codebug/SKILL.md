@@ -38,7 +38,7 @@ Copy `_template.md` as a starting point and keep its frontmatter (`title`, `date
 
 After adding or updating a record, refresh the index:
 ```bash
-node .agents/skills/codebug/index.js
+node .agents/skills/codebug/index.mjs
 ```
 
 This regenerates `ANALYSIS.md` with a link to every analysis in the folder.

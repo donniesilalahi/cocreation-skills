@@ -38,7 +38,7 @@ Save each plan as `YYYY-MM-DD-kebab-title.md`:
 ```
 Copy `_template.md`, keep its frontmatter (`title`, `date`, `status`, optional `changelog`) filled.
 `PLAN.md` is the auto-generated index — never edit it by hand. After changes:
-`node .agents/skills/coplan/index.js`.
+`node .agents/skills/coplan/index.mjs`.
 
 ## Pairing with a changelog (cross-reference)
 

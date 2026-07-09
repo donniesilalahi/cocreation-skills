@@ -33,7 +33,7 @@ New skills: copy `template/SKILL.md` into `skills/<name>/`, follow the same sect
 
 ## Memory bank pattern
 
-Skills with recall/tracking have `skills/<name>/memory-bank/`: one UPPERCASE index file (e.g. `PLAN.md`) whose frontmatter has a `columns:` spec, individual record `.md` files, a `_template.md`, and an `index.js` that regenerates the table from the records (skips `_*` files). Run the skill's `index.js`, or `npm run update-indices` for all.
+Skills with recall/tracking have `skills/<name>/memory-bank/`: one UPPERCASE index file (e.g. `PLAN.md`) whose frontmatter has a `columns:` spec, individual record `.md` files, a `_template.md`, and an `index.mjs` that regenerates the table from the records (skips `_*` files). Run the skill's `index.mjs`, or `npm run update-indices` for all.
 
 Record files are named `YYYY-MM-DD-kebab-title.md` (date + what it worked on), with frontmatter `title`, `date`, `status`, and optional cross-refs (`plan:`, `changelog:`) linking paired records. `colearn` lesson records also carry `tier: lesson|skill|subagent` + a hit-count for the graduation path (recurring lessons get promoted to skills, then sub-agents).
 

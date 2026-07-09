@@ -4,9 +4,9 @@ import path from 'node:path'
 
 // Regenerates EVERY skill's memory-bank index as a Markdown table, for a
 // plugin-installed project (where skill bodies no longer live under
-// .agents/skills/<name>/, so each skill's own index.js is gone).
+// .agents/skills/<name>/, so each skill's own index.mjs is gone).
 //
-// This duplicates the per-skill indexing logic in skills/coplan/index.js
+// This duplicates the per-skill indexing logic in skills/coplan/index.mjs
 // verbatim (see that file for the column-spec / record-file rules) but
 // loops over every skill under .agents/skills/ instead of indexing a
 // single skill relative to its own directory.

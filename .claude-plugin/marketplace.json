@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "An ecosystem of co-* loop skills for human-AI product co-creation — shape, research, plan, design, build, verify, debug, document, market, and learn — orchestrated by /cocreator.",
-    "version": "0.4.0"
+    "version": "0.4.1"
   },
   "plugins": [
     {

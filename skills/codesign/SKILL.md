@@ -39,7 +39,7 @@ Save each design as `YYYY-MM-DD-kebab-title.md`:
 ```
 Copy `_template.md`, keep its frontmatter (`title`, `date`, `status`) filled.
 `DESIGN.md` is the auto-generated index — never edit it by hand. After changes:
-`node .agents/skills/codesign/index.js`.
+`node .agents/skills/codesign/index.mjs`.
 
 ## Self-eval gate (close the loop)
 

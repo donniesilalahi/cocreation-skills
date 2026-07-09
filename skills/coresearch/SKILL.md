@@ -38,7 +38,7 @@ Save each question as `YYYY-MM-DD-kebab-title.md`:
 ```
 Copy `_template.md`, keep its frontmatter (`title`, `date`, `verdict`, `status`) filled.
 `RESEARCH.md` is the auto-generated index — never edit it by hand. After changes:
-`node .agents/skills/coresearch/index.js`.
+`node .agents/skills/coresearch/index.mjs`.
 
 ## Self-eval gate (close the loop)
 

@@ -124,11 +124,11 @@ If you ever want to update the index without committing, run:
 
 ```bash
 # Update one skill
-node .agents/skills/coplan/index.js
+node .agents/skills/coplan/index.mjs
 
 # Update all skills at once
 for d in .agents/skills/*/; do
-  [ -f "$d/index.js" ] && node "$d/index.js"
+  [ -f "$d/index.mjs" ] && node "$d/index.mjs"
 done
 ```
 
@@ -141,7 +141,7 @@ mkdir -p .git/hooks && cat > .git/hooks/pre-commit << 'HOOK'
 #!/bin/sh
 cd "$(git rev-parse --show-toplevel)" || exit 1
 for d in .agents/skills/*/; do
-  [ -f "$d/index.js" ] && node "$d/index.js"
+  [ -f "$d/index.mjs" ] && node "$d/index.mjs"
 done
 git diff --name-only | grep -E '^\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
 git ls-files --others --exclude-standard | grep -E '^\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
