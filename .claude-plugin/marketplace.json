@@ -5,31 +5,15 @@
     "email": "donniesilalahi@gmail.com"
   },
   "metadata": {
-    "description": "An ecosystem of co-* loop skills for human-AI product co-creation, orchestrated by /cocreator.",
-    "version": "0.2.0"
+    "description": "An ecosystem of co-* loop skills for human-AI product co-creation — shape, research, plan, design, build, verify, debug, document, market, and learn — orchestrated by /cocreator.",
+    "version": "0.4.0"
   },
   "plugins": [
     {
-      "name": "all-skills",
-      "description": "The full co-creation loop ecosystem: /cocreator master + every co-* loop skill.",
+      "name": "cocreation",
       "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/cocreator",
-        "./skills/coshape",
-        "./skills/coresearch",
-        "./skills/coplan",
-        "./skills/codesign",
-        "./skills/cobuild",
-        "./skills/coverify",
-        "./skills/codebug",
-        "./skills/cochangelog",
-        "./skills/comarket",
-        "./skills/colearn",
-        "./skills/coaudit",
-        "./skills/coconsolidate",
-        "./skills/coharden"
-      ]
+      "description": "An ecosystem of co-* loop skills for human-AI product co-creation — shape, research, plan, design, build, verify, debug, document, market, and learn — orchestrated by /cocreator.",
+      "strict": false
     }
   ]
 }

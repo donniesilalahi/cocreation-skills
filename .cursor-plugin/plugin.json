@@ -1,0 +1,27 @@
+{
+  "name": "cocreation",
+  "displayName": "Cocreation Skills",
+  "version": "0.4.0",
+  "description": "An ecosystem of co-* loop skills for human-AI product co-creation — shape, research, plan, design, build, verify, debug, document, market, and learn — orchestrated by /cocreator.",
+  "author": {
+    "name": "Donnie Silalahi",
+    "email": "donniesilalahi@gmail.com"
+  },
+  "homepage": "https://github.com/donniesilalahi/cocreation-skills",
+  "repository": "https://github.com/donniesilalahi/cocreation-skills",
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "ai-agents",
+    "skills",
+    "workflow",
+    "planning"
+  ],
+  "category": "productivity",
+  "tags": [
+    "skills",
+    "workflow",
+    "co-creation"
+  ],
+  "skills": "./skills/"
+}

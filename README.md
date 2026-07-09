@@ -71,6 +71,37 @@ npx @donniesilalahi/cocreation-skills --project --update
 npx @donniesilalahi/cocreation-skills --project --force
 ```
 
+## Install as a plugin
+
+All three tools read the same `skills/<name>/SKILL.md` files — the plugin manifests below are just
+a thin, generated wrapper that makes the whole set installable as one unit. This is a parallel path
+to the `npx` installer above, not a replacement.
+
+**Claude Code**, from a local checkout or this repo's GitHub URL:
+
+```
+/plugin marketplace add /path/to/cocreation-skills
+/plugin install cocreation@cocreation-skills
+```
+
+Verify with `claude plugin details cocreation@cocreation-skills` — it should list all 14 skills.
+Once installed, invoke skills namespaced: `/cocreation:coplan`, `/cocreation:cocreator`, etc.
+
+**Codex**:
+
+```
+codex plugin marketplace add /path/to/cocreation-skills
+```
+
+Then browse and install from `/plugins`. Codex also reads `.claude-plugin/marketplace.json`
+directly, so either manifest works.
+
+**Cursor**: add this repo as a plugin, or skip the manifest entirely — Cursor also scans
+`.agents/skills/` (and `.cursor/skills/`) directly, so the skills load without any plugin install.
+
+No manifest here is published to a public catalog — install is always from a local path or this
+repo's own git URL.
+
 ## How to use the skills
 
 Each skill has a **notes folder** (called `memory-bank/`). You and your AI helper write notes there as simple text files.

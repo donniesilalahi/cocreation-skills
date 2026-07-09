@@ -1,0 +1,20 @@
+{
+  "name": "cocreation-skills",
+  "interface": {
+    "displayName": "Cocreation Skills"
+  },
+  "plugins": [
+    {
+      "name": "cocreation",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
