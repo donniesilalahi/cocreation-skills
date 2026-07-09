@@ -40,7 +40,7 @@ Save each pitch as `YYYY-MM-DD-kebab-title.md`:
 ```
 Copy `_template.md`, keep its frontmatter (`title`, `date`, `appetite`, `status`) filled.
 `SHAPE.md` is the auto-generated index — never edit it by hand. After changes:
-`node .agents/skills/coshape/index.js`.
+`node .agents/skills/coshape/index.mjs`.
 
 ## Self-eval gate (close the loop)
 

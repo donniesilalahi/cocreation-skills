@@ -25,7 +25,7 @@ can reconstruct the history without re-reading every diff. One line per change.
 2. Group under a dated heading (the record filename carries the date too).
 3. Link the files/PRs only where it helps; don't restate the whole diff.
 4. **If this work had a `coplan` plan, cross-reference it** (see below).
-5. Refresh the index: `node .agents/skills/cochangelog/index.js`.
+5. Refresh the index: `node .agents/skills/cochangelog/index.mjs`.
 
 ## Pairing with a plan (cross-reference)
 

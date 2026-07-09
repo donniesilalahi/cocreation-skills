@@ -38,7 +38,7 @@ Save each build as `YYYY-MM-DD-kebab-title.md`:
 Copy `_template.md`, keep its frontmatter (`title`, `date`, `status`, optional `plan`) filled —
 `plan:` cross-references the `coplan` record it builds against.
 `BUILD.md` is the auto-generated index — never edit it by hand. After changes:
-`node .agents/skills/cobuild/index.js`.
+`node .agents/skills/cobuild/index.mjs`.
 
 ## Self-eval gate (close the loop)
 

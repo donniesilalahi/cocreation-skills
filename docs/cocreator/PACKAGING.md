@@ -116,7 +116,7 @@ data. They have different owners and different update behavior.
 
 | Thing | Owner | Where it lives | On update |
 |-------|-------|----------------|-----------|
-| Skill body (`SKILL.md`, `index.js`, scripts) | the plugin | plugin cache (`~/.claude/plugins/…`) | replaced wholesale — **never hand-edit in place** |
+| Skill body (`SKILL.md`, `index.mjs`, scripts) | the plugin | plugin cache (`~/.claude/plugins/…`) | replaced wholesale — **never hand-edit in place** |
 | memory-bank records (`YYYY-MM-DD-*.md`) | the consumer project | project `.agents/skills/<name>/memory-bank/`, git-committed | untouched — different location, survives |
 
 **Why it matters:** the plugin cache is refetched/overwritten on `/plugin marketplace update`, so any
@@ -149,10 +149,10 @@ Shipped as `cli.js --migrate`: strips skill bodies under `.agents/skills/`, pres
 
 ### Project-level indexer (plugin-only installs)
 
-`skills/<name>/index.js` resolves memory-bank relative to its own dir — fine for `npx` (skill copies
+`skills/<name>/index.mjs` resolves memory-bank relative to its own dir — fine for `npx` (skill copies
 live in the project) but useless plugin-installed (that dir is the cache). So `--migrate` and fresh
-plugin installs drop a small `.agents/skills/index.js` (or reuse the `cli.js` pre-commit hook, which
-already iterates `.agents/skills/*/index.js`) that indexes the project's records independent of where
+plugin installs drop a small `.agents/skills/index.mjs` (or reuse the `cli.js` pre-commit hook, which
+already iterates `.agents/skills/*/index.mjs`) that indexes the project's records independent of where
 the skill bodies live. Records in the project → indexed in the project → survive every plugin update.
 
 ## Non-goals

@@ -35,7 +35,7 @@ lessons graduate from advisory note → applied skill → enforcing sub-agent).
 1. Name the insight in one searchable line.
 2. Save a record (template below) as `YYYY-MM-DD-kebab-title.md`.
 3. If a record for this lesson already exists, **update it** and bump `hits` — don't duplicate.
-4. Refresh the index: `node .agents/skills/colearn/index.js`.
+4. Refresh the index: `node .agents/skills/colearn/index.mjs`.
 
 ### Graduate (lesson → skill → sub-agent)
 Promotion is triggered by **recurrence**, tracked in each record's `hits` field:

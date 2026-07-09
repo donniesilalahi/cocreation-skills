@@ -14,7 +14,7 @@ for (const entry of fs.readdirSync(skillsDir, { withFileTypes: true })) {
   if (!entry.isDirectory()) continue
 
   const skillPath = path.join(skillsDir, entry.name)
-  const indexScript = path.join(skillPath, 'index.js')
+  const indexScript = path.join(skillPath, 'index.mjs')
 
   if (!fs.existsSync(indexScript)) continue
 

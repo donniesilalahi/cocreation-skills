@@ -40,7 +40,7 @@ Save each hardening pass as `YYYY-MM-DD-kebab-title.md`:
 ```
 Copy `_template.md`, keep its frontmatter (`title`, `date`, `status`) filled.
 `HARDENING.md` is the auto-generated index — never edit it by hand. After changes:
-`node .agents/skills/coharden/index.js`.
+`node .agents/skills/coharden/index.mjs`.
 
 ## Self-eval gate (close the loop)
 

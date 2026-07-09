@@ -19,7 +19,7 @@ const hookBody = `#!/bin/sh
 ${hookMarker}
 cd "$(git rev-parse --show-toplevel)" || exit 1
 for d in .agents/skills/*/; do
-  [ -f "$d/index.js" ] && node "$d/index.js"
+  [ -f "$d/index.mjs" ] && node "$d/index.mjs"
 done
 git diff --name-only | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
 git ls-files --others --exclude-standard | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done

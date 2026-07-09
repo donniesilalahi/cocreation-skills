@@ -119,7 +119,7 @@ Known element-classes, their grep signatures, and the canonical spec to enforce.
 **File naming**: `YYYY-MM-DD-HHmm_{element-class-slug}_audit.md`
 **Index**: `AUDIT.md` — auto-generated; never edit by hand. Copy `_template.md`, keep its
 frontmatter (`title`, `date`, `cause`, `tier`, `status`) filled, then refresh:
-`node .agents/skills/coaudit/index.js`.
+`node .agents/skills/coaudit/index.mjs`.
 
 ### Report Template
 
