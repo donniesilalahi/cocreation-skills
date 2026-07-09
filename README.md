@@ -77,20 +77,23 @@ All three tools read the same `skills/<name>/SKILL.md` files — the plugin mani
 a thin, generated wrapper that makes the whole set installable as one unit. This is a parallel path
 to the `npx` installer above, not a replacement.
 
-**Claude Code**, from a local checkout or this repo's GitHub URL:
+**Claude Code** — add the marketplace by its GitHub repo, then install:
 
 ```
-/plugin marketplace add /path/to/cocreation-skills
+/plugin marketplace add donniesilalahi/cocreation-skills
 /plugin install cocreation@cocreation-skills
 ```
 
 Verify with `claude plugin details cocreation@cocreation-skills` — it should list all 14 skills.
 Once installed, invoke skills namespaced: `/cocreation:coplan`, `/cocreation:cocreator`, etc.
 
+> Working from a local clone instead? Point the marketplace at your checkout's **real absolute
+> path** (not the literal example) — e.g. `/plugin marketplace add ~/Dev/Projects/cocreation-skills`.
+
 **Codex**:
 
 ```
-codex plugin marketplace add /path/to/cocreation-skills
+codex plugin marketplace add donniesilalahi/cocreation-skills
 ```
 
 Then browse and install from `/plugins`. Codex also reads `.claude-plugin/marketplace.json`
