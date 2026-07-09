@@ -109,7 +109,7 @@ confirm a field, the generator emits only confirmed fields and the parity manife
 (these tools also load the skills directly via `.agents/skills/`, so the manifest is a convenience,
 not a load requirement). Both reference the same `skills/` tree; no skill content is duplicated.
 
-## Migration + update semantics (the memory-bank ownership rule)
+## Update semantics (the memory-bank ownership rule)
 
 The load-bearing distinction: a skill's **body** is code; its **memory-bank records** are per-project
 data. They have different owners and different update behavior.
@@ -125,35 +125,11 @@ writable state *inside* it is lost. The self-learning loop must therefore write 
 (`.agents/skills/coplan/memory-bank/…`). The seed `_template.md` + empty index files (`PLAN.md`, …)
 still ship with the plugin as scaffolding; real records accumulate in the project.
 
-### Update propagation — pull-based, per user, no push
-
-- **Plugin:** a user gets a change only when they run `/plugin marketplace update cocreation-skills`
-  (or on its version/SHA auto-check). With `version` set in `plugin.json`, they get it when they
-  refetch *and* the version changed — so the existing release rule (bump `package.json`) drives it
-  through the generator. Commit-SHA mode (no `version`) makes every commit an available update.
-  Not in a public catalog → "users" = whoever added the author's git repo as a marketplace.
-- **npx:** users manually re-run `npx … --update` (refreshes SKILL.md, preserves memory-bank).
-
-### Migrating an existing `npx` install to the plugin
-
-Both channels load independently, so having both = double-loaded skills (`/coplan` AND
-`/cocreation:coplan`) → ambiguous invocation, wasted context. Migration keeps records, drops bodies:
-
-1. Install the plugin (`/plugin marketplace add … && /plugin install cocreation@cocreation-skills`).
-2. **Keep** every project `.agents/skills/<name>/memory-bank/` (accumulated state).
-3. **Delete** the loose skill bodies to stop the double-load.
-4. Optionally remove the old `cli.js` pre-commit hook block.
-
-Shipped as `cli.js --migrate`: strips skill bodies under `.agents/skills/`, preserves each
-`memory-bank/`, and leaves a project-level indexer so the loop keeps closing.
-
-### Project-level indexer (plugin-only installs)
-
-`skills/<name>/index.mjs` resolves memory-bank relative to its own dir — fine for `npx` (skill copies
-live in the project) but useless plugin-installed (that dir is the cache). So `--migrate` and fresh
-plugin installs drop a small `.agents/skills/index.mjs` (or reuse the `cli.js` pre-commit hook, which
-already iterates `.agents/skills/*/index.mjs`) that indexes the project's records independent of where
-the skill bodies live. Records in the project → indexed in the project → survive every plugin update.
+Update propagation is pull-based, per user, no push: a plugin user gets a change only when they run
+`/plugin marketplace update cocreation-skills` (or on its version/SHA auto-check). With `version` set
+in `plugin.json`, they get it when they refetch *and* the version changed — so the existing release
+rule (bump `package.json`) drives it through the generator. `npx` users manually re-run
+`npx … --update` (refreshes SKILL.md, preserves memory-bank).
 
 ## Non-goals
 

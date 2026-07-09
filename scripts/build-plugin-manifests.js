@@ -49,6 +49,73 @@ for (const entry of fs.readdirSync(skillsRoot, { withFileTypes: true })) {
   skillNames.push(frontmatter.name || entry.name)
 }
 
+// The doer roster — skill (loop) -> doer (sub-agent) -> model tier. cocreator
+// is the orchestrator, not a doer, so it has no entry here. Order is stable
+// (matches skills/cocreator/SKILL.md's roster table) so regeneration is
+// deterministic.
+const ROSTER = [
+  ['coshape', 'coshaper', 'opus'],
+  ['coresearch', 'coresearcher', 'opus'],
+  ['coplan', 'coplanner', 'sonnet'],
+  ['codesign', 'codesigner', 'sonnet'],
+  ['cobuild', 'cobuilder', 'sonnet'],
+  ['coverify', 'coverifier', 'sonnet'],
+  ['codebug', 'codebugger', 'opus'],
+  ['cochangelog', 'cochangelogger', 'haiku'],
+  ['comarket', 'comarketer', 'haiku'],
+  ['colearn', 'colearner', 'sonnet'],
+  ['coaudit', 'coauditor', 'haiku'],
+  ['coconsolidate', 'coconsolidator', 'sonnet'],
+  ['coharden', 'cohardener', 'sonnet'],
+]
+
+// Short hand-summary purpose clauses (<=15 words), one per roster skill —
+// pulled from each skill's SKILL.md description frontmatter.
+const PURPOSES = {
+  coshape:
+    'frame the problem, set a fixed appetite, and write a tight pitch',
+  coresearch:
+    'gather evidence and red-team the riskiest load-bearing assumption first',
+  coplan: 'break a non-trivial task into clear, tracked, verifiable steps',
+  codesign:
+    'design the solution — UI/UX, interfaces, data shape — into a buildable spec',
+  cobuild: 'implement against the plan in small, reviewable increments',
+  coverify: 'systematic visual QA against design artboards or specs',
+  codebug:
+    'systematically diagnose root causes for bugs and unexpected behavior',
+  cochangelog: 'record what shipped as a simple, dated changelog list',
+  comarket: 'automate reproducible App Store / marketing screenshot capture',
+  colearn: 'capture, recall, and graduate lessons into guardrails',
+  coaudit: 'find UI elements that should match but have visually drifted',
+  coconsolidate:
+    'find duplicated code/logic and fold it into one customizable master',
+  coharden:
+    'enumerate and close edge cases and failure modes after the happy path works',
+}
+
+// agents/<doer>.md — one doer sub-agent per roster entry. Deterministic
+// (stable roster order, fixed template) so re-running is idempotent.
+const agentsDir = path.join(repoRoot, 'agents')
+fs.mkdirSync(agentsDir, { recursive: true })
+for (const [skill, doer, model] of ROSTER) {
+  const purpose = PURPOSES[skill]
+  const content = `---
+name: ${doer}
+description: Doer sub-agent for the ${skill} loop — ${purpose}. Spawn from cocreator to run the ${skill} loop. Runs on ${model}.
+model: ${model}
+---
+
+You are **${doer}**, the doer sub-agent for the \`${skill}\` loop.
+
+1. Read \`\${CLAUDE_PLUGIN_ROOT}/skills/${skill}/SKILL.md\` — that is your full operating guide.
+2. Run the \`${skill}\` loop on the task you are given.
+3. Write your memory-bank record under the consumer project's \`.agents/skills/${skill}/memory-bank/\` (create it if missing) — never inside the plugin.
+4. Return ONLY your self-eval verdict + artifact pointers (record path, files touched) — not your full working transcript.
+`
+  fs.writeFileSync(path.join(agentsDir, `${doer}.md`), content)
+  console.log(`wrote agents/${doer}.md`)
+}
+
 function writeJson(relPath, obj) {
   const fullPath = path.join(repoRoot, relPath)
   fs.mkdirSync(path.dirname(fullPath), { recursive: true })
@@ -57,6 +124,12 @@ function writeJson(relPath, obj) {
 }
 
 // .claude-plugin/plugin.json
+// NOTE: no "agents" field here — Claude Code's plugin.json schema rejects it
+// (validated: `claude plugin validate .` errors "agents: Invalid input").
+// Like skills/, components at the plugin root auto-discover: an agents/ dir
+// is picked up with no manifest entry needed (confirmed against other
+// installed plugins' cache, e.g. code-simplifier, posthog — neither
+// declares "agents" in plugin.json despite shipping an agents/ dir).
 writeJson('.claude-plugin/plugin.json', {
   name: PLUGIN_NAME,
   version: pkg.version,
@@ -94,6 +167,7 @@ writeJson('.codex-plugin/plugin.json', {
   license: pkg.license,
   keywords: pkg.keywords,
   skills: './skills/',
+  agents: './agents/',
   interface: {
     displayName: 'Cocreation Skills',
     shortDescription:
@@ -130,6 +204,7 @@ writeJson('.cursor-plugin/plugin.json', {
   category: 'productivity',
   tags: ['skills', 'workflow', 'co-creation'],
   skills: './skills/',
+  agents: './agents/',
 })
 
 // .cursor-plugin/marketplace.json
@@ -157,4 +232,6 @@ if (skillNames.length !== actualSkillCount || actualSkillCount === 0) {
   process.exit(1)
 }
 
-console.log(`Generated 6 manifests for ${actualSkillCount} skills.`)
+console.log(
+  `Generated 6 manifests for ${actualSkillCount} skills and ${ROSTER.length} agents.`,
+)

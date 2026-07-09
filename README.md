@@ -113,34 +113,6 @@ directly, so either manifest works.
 No manifest here is published to a public catalog — install is always from a local path or this
 repo's own git URL.
 
-### Migrating a previous `npx` install to the plugin
-
-If a repo already had these skills installed the old way (`npx @donniesilalahi/cocreation-skills`,
-which copies loose skills into `.agents/skills/<name>/`) **and** you now install the plugin, both
-copies load — you'll see duplicate skills (`/coplan` from the loose copy *and* `/cocreation:coplan`
-from the plugin). Clean it up by running this **inside that repo**:
-
-```
-npx @donniesilalahi/cocreation-skills --migrate
-```
-
-It **removes the loose skill bodies** (stopping the double-load) while **preserving every
-`memory-bank/`** (your accumulated records), and installs a project-level `.agents/skills/index.mjs`
-plus a refreshed git pre-commit hook so indexing keeps working.
-
-**It only ever touches cocreation's own skills.** `.agents/skills/` is a shared directory — other
-skill packs can live there too — and `--migrate` leaves every non-cocreation skill completely
-untouched. It also prints exactly what it will delete and **asks for confirmation** before removing
-anything (pass `--yes` to skip the prompt in automation). Verify after:
-
-```
-ls .agents/skills/    # your other skill packs remain; cocreation dirs are now memory-bank-only
-```
-
-After that, only the plugin's namespaced `/cocreation:*` skills load. (If you don't need the
-memory-bank records in that repo, you can instead just delete the individual cocreation skill dirs —
-but `--migrate` is the safe path that keeps them.)
-
 ## How to use the skills
 
 Each skill has a **notes folder** (called `memory-bank/`). You and your AI helper write notes there as simple text files.

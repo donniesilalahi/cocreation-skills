@@ -58,19 +58,22 @@ specialized, on demand: coaudit (visual drift) · coconsolidate (code DRY) · co
 Before new work, run `colearn` (recall mode) to pull relevant lessons/guardrails. Apply and cite them.
 
 ### 3. Delegate with model assignment
-Self-delegate each loop to its doer via the **Agent tool**, passing the model override from the
-roster. Sketch:
+Self-delegate each loop to its doer. Two modes depending on how the ecosystem is installed:
 
-Each doer's prompt must tell it to **read its skill file first** (a fresh `general-purpose` agent
-won't auto-load it), then run the loop and return its verdict:
+**Plugin installed (preferred):** spawn the doer sub-agent directly — it carries its own model tier
+and reads its own skill, so no path or model wrangling:
 
 ```
-Agent(subagent_type: "general-purpose", model: "opus",
-      prompt: "Read .agents/skills/coshape/SKILL.md, then run the coshape loop on … Return the self-eval verdict + record path.")
+Agent(subagent_type: "cocreation:coshaper",  prompt: "Run the coshape loop on … Return the self-eval verdict + record path.")
+Agent(subagent_type: "cocreation:cobuilder", prompt: "Run the cobuild loop on … ")
+```
+
+**Loose (non-plugin) install:** spawn a `general-purpose` agent with the roster's model and point it
+at the skill file (a fresh agent won't auto-load it):
+
+```
 Agent(subagent_type: "general-purpose", model: "sonnet",
-      prompt: "Read .agents/skills/coplan/SKILL.md, then run the coplan loop on … ")
-Agent(subagent_type: "general-purpose", model: "haiku",
-      prompt: "Read .agents/skills/cochangelog/SKILL.md, then run the cochangelog loop on … ")
+      prompt: "Read .agents/skills/cobuild/SKILL.md, then run the cobuild loop on … ")
 ```
 
 Each doer loads its own `co-*` SKILL.md, does its step, writes its memory-bank record, and returns

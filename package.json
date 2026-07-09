@@ -1,6 +1,6 @@
 {
   "name": "@donniesilalahi/cocreation-skills",
-  "version": "0.4.5",
+  "version": "0.5.0",
   "description": "An ecosystem of co-* loop skills for human-AI product co-creation — shape, research, plan, design, build, verify, debug, document, market, and learn — orchestrated by /cocreator.",
   "author": {
     "name": "Donnie Silalahi",
@@ -19,6 +19,7 @@
     ".codex-plugin/",
     ".cursor-plugin/",
     ".agents/plugins/",
+    "agents/",
     "AGENTS.md",
     "docs/",
     "template/",
