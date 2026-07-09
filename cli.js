@@ -17,6 +17,7 @@ const update = args.includes('--update') || args.includes('-u')
 const listOnly = args.includes('--list')
 const help = args.includes('--help') || args.includes('-h')
 const noHook = args.includes('--no-hook')
+const migrate = args.includes('--migrate')
 const wantedSkills = args.filter((arg) => !arg.startsWith('-'))
 
 if (help) {
@@ -29,13 +30,22 @@ Options:
   --force, -f     Overwrite existing installed skill directories.
   --update, -u    Refresh SKILL.md only; preserve memory-bank/ (safe for updates).
   --no-hook       Skip setting up the git pre-commit hook (project only).
+  --migrate       Migrate an existing npx install to the plugin: strip skill
+                   bodies under ./.agents/skills, keep memory-bank/ records,
+                   and install the project-level indexer + hook.
   --list          List available skills without installing.
   --help, -h      Show this help.
 
 Examples:
   npx @donniesilalahi/cocreation-skills --project
   npx @donniesilalahi/cocreation-skills coplan codebug --project
-  npx @donniesilalahi/cocreation-skills --global --force`)
+  npx @donniesilalahi/cocreation-skills --global --force
+  npx @donniesilalahi/cocreation-skills --migrate`)
+  process.exit(0)
+}
+
+if (migrate) {
+  runMigration()
   process.exit(0)
 }
 
@@ -93,45 +103,7 @@ console.log(`Done. Skills installed to ${targetBase}`)
 
 // Auto-setup git hook for project installs
 if (installProject && !noHook) {
-  const gitDir = path.join(process.cwd(), '.git')
-  const hooksDir = path.join(gitDir, 'hooks')
-  const preCommitHook = path.join(hooksDir, 'pre-commit')
-
-  if (fs.existsSync(gitDir)) {
-    fs.mkdirSync(hooksDir, { recursive: true })
-
-    const hookMarker = '# === cocreation-skills auto-index ==='
-    const hookBody = `#!/bin/sh
-${hookMarker}
-cd "$(git rev-parse --show-toplevel)" || exit 1
-for d in .agents/skills/*/; do
-  [ -f "$d/index.js" ] && node "$d/index.js"
-done
-git diff --name-only | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
-git ls-files --others --exclude-standard | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
-# === end cocreation-skills ===
-`
-
-    let existing = ''
-    if (fs.existsSync(preCommitHook)) {
-      existing = fs.readFileSync(preCommitHook, 'utf8')
-    }
-
-    if (!existing.includes(hookMarker)) {
-      let newContent
-      if (existing.trim()) {
-        newContent = existing.trimEnd() + '\n\n' + hookBody
-        console.log('Updated .git/hooks/pre-commit with auto-index')
-      } else {
-        newContent = hookBody
-        console.log('Created .git/hooks/pre-commit with auto-index')
-      }
-      fs.writeFileSync(preCommitHook, newContent)
-      fs.chmodSync(preCommitHook, 0o755)
-    } else {
-      console.log('Git hook already has auto-index')
-    }
-  }
+  ensurePreCommitHook()
 }
 
 // Update non-memory-bank files only (safe for existing installs with audit history)
@@ -160,4 +132,127 @@ function copyDirectory(source, target) {
       fs.copyFileSync(sourcePath, targetPath)
     }
   }
+}
+
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+// Installs/refreshes the git pre-commit hook that keeps memory-bank indices
+// up to date. Prefers the project-level indexer (.agents/skills/index.js)
+// when present, falling back to each skill's own index.js otherwise. Used
+// by both the normal install flow and --migrate. If a hook already carries
+// the marker but an older body, the marked block is replaced in place.
+function ensurePreCommitHook() {
+  const gitDir = path.join(process.cwd(), '.git')
+  const hooksDir = path.join(gitDir, 'hooks')
+  const preCommitHook = path.join(hooksDir, 'pre-commit')
+
+  if (!fs.existsSync(gitDir)) return
+
+  fs.mkdirSync(hooksDir, { recursive: true })
+
+  const hookMarker = '# === cocreation-skills auto-index ==='
+  const hookEndMarker = '# === end cocreation-skills ==='
+  const hookBlock = `${hookMarker}
+cd "$(git rev-parse --show-toplevel)" || exit 1
+if [ -f .agents/skills/index.js ]; then
+  node .agents/skills/index.js
+else
+  for d in .agents/skills/*/; do
+    [ -f "$d/index.js" ] && node "$d/index.js"
+  done
+fi
+git diff --name-only | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
+git ls-files --others --exclude-standard | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
+${hookEndMarker}
+`
+  const hookBody = `#!/bin/sh\n${hookBlock}`
+
+  let existing = ''
+  if (fs.existsSync(preCommitHook)) {
+    existing = fs.readFileSync(preCommitHook, 'utf8')
+  }
+
+  if (!existing.includes(hookMarker)) {
+    let newContent
+    if (existing.trim()) {
+      newContent = existing.trimEnd() + '\n\n' + hookBody
+      console.log('Updated .git/hooks/pre-commit with auto-index')
+    } else {
+      newContent = hookBody
+      console.log('Created .git/hooks/pre-commit with auto-index')
+    }
+    fs.writeFileSync(preCommitHook, newContent)
+    fs.chmodSync(preCommitHook, 0o755)
+    return
+  }
+
+  // Marker already present: replace the marked block in case it carries an
+  // older body (e.g. pre-migration, no project-indexer preference).
+  const blockRegex = new RegExp(
+    `${escapeRegExp(hookMarker)}[\\s\\S]*?${escapeRegExp(hookEndMarker)}\\n?`,
+  )
+  if (blockRegex.test(existing)) {
+    const replaced = existing.replace(blockRegex, hookBlock)
+    if (replaced !== existing) {
+      fs.writeFileSync(preCommitHook, replaced)
+      fs.chmodSync(preCommitHook, 0o755)
+      console.log('Refreshed .git/hooks/pre-commit auto-index block')
+      return
+    }
+  }
+  console.log('Git hook already has auto-index')
+}
+
+// --migrate: convert an existing npx install (skill bodies copied into
+// .agents/skills/<name>/) to a plugin-friendly layout — memory-bank/
+// records are preserved in place, everything else is stripped so the
+// plugin-loaded skill doesn't double-load alongside the loose copy.
+function runMigration() {
+  const base = path.join(process.cwd(), '.agents', 'skills')
+
+  if (!fs.existsSync(base)) {
+    console.log('No .agents/skills to migrate')
+    return
+  }
+
+  let migratedCount = 0
+  let removedCount = 0
+
+  for (const entry of fs.readdirSync(base, { withFileTypes: true })) {
+    if (entry.name === 'index.js' && entry.isFile()) continue
+    if (!entry.isDirectory()) continue
+
+    const name = entry.name
+    const skillDir = path.join(base, name)
+    const memoryBankPath = path.join(skillDir, 'memory-bank')
+
+    if (fs.existsSync(memoryBankPath)) {
+      for (const child of fs.readdirSync(skillDir, { withFileTypes: true })) {
+        if (child.name === 'memory-bank') continue
+        fs.rmSync(path.join(skillDir, child.name), {
+          recursive: true,
+          force: true,
+        })
+      }
+      console.log(`migrated ${name} (memory-bank preserved)`)
+      migratedCount++
+    } else {
+      fs.rmSync(skillDir, { recursive: true, force: true })
+      console.log(`removed ${name} (no memory-bank)`)
+      removedCount++
+    }
+  }
+
+  const indexerSource = path.join(scriptsSource, 'project-indexer.js')
+  const indexerTarget = path.join(base, 'index.js')
+  fs.copyFileSync(indexerSource, indexerTarget)
+  console.log(`installed project indexer at ${indexerTarget}`)
+
+  ensurePreCommitHook()
+
+  console.log(
+    `Done. ${migratedCount} skill(s) migrated (memory-bank preserved), ${removedCount} skill(s) removed (no memory-bank). Project indexer + hook installed.`,
+  )
 }

@@ -1,0 +1,17 @@
+{
+  "name": "cocreation-skills",
+  "owner": {
+    "name": "Donnie Silalahi",
+    "email": "donniesilalahi@gmail.com"
+  },
+  "metadata": {
+    "description": "An ecosystem of co-* loop skills for human-AI product co-creation — shape, research, plan, design, build, verify, debug, document, market, and learn — orchestrated by /cocreator."
+  },
+  "plugins": [
+    {
+      "name": "cocreation",
+      "source": ".",
+      "description": "An ecosystem of co-* loop skills for human-AI product co-creation — shape, research, plan, design, build, verify, debug, document, market, and learn — orchestrated by /cocreator."
+    }
+  ]
+}
