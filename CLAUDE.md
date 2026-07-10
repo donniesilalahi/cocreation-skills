@@ -27,7 +27,7 @@ any skill on conflict), `ROADMAP.md` (the loop architecture + skill↔agent rost
 - `name` must equal the directory name, be kebab-case (`^[a-z0-9]+(-[a-z0-9]+)*$`), ≤ 64 chars.
 - `description` required, ≤ 1024 chars (cover both *what* it does and *when* to use it).
 - `compatibility` ≤ 500 chars.
-- Whole SKILL.md ≤ 500 lines — move longer detail into a `references/` subdir (see `comarket/references/`).
+- Whole SKILL.md ≤ 500 lines — move longer detail into a `references/` subdir.
 
 New skills: copy `template/SKILL.md` into `skills/<name>/`, follow the same section layout. Or use `/new-skill`.
 

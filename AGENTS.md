@@ -19,7 +19,6 @@ per-tool rewrite needed.
 - **codebug** — systematically diagnose root causes for bugs and unexpected behavior.
 - **coharden** — close edge cases and failure modes after the happy path works.
 - **cochangelog** — record what shipped as a simple, dated changelog.
-- **comarket** — reproducible App Store / marketing screenshot capture for SwiftUI apps.
 - **colearn** — capture, recall, and graduate lessons into guardrails.
 - **coaudit** — find and fix UI elements that should match but have visually drifted.
 - **coconsolidate** — find duplicated code/logic and unify it into one customizable master.

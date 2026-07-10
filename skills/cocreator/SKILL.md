@@ -28,7 +28,6 @@ Pull risk forward. Default to cancel, not extend. Close every loop with a self-e
 | `coverify` | coverifier | verify (check) | **sonnet** | test behavior + visuals vs spec *(mandatory, core)* |
 | `codebug` | codebugger | diagnose | **opus** | find root cause when verify fails |
 | `cochangelog` | cochangelogger | record | **haiku** | changelog list of what shipped |
-| `comarket` | comarketer | market/GTM | **haiku** | marketing assets / screenshot capture |
 | `colearn` | colearner | learn | **sonnet** | recall before work; capture lessons; graduate guardrails *(mandatory, core)* |
 | `coaudit` | coauditor | specialized | **haiku** | visual consistency drift across screens |
 | `coconsolidate` | coconsolidator | specialized | **sonnet** | code/logic DRY: fold duplication into one customizable master |
@@ -44,7 +43,7 @@ Given a request, name which loops to run and in what order. Don't force the full
 needs one or a few loops (pragmatic by default). Use the macro order as a guide, not a mandate:
 
 ```
-coshape → coresearch → coplan → codesign → ╔ cobuild ⇄ coverify (↘codebug) ╗ → cochangelog → comarket
+coshape → coresearch → coplan → codesign → ╔ cobuild ⇄ coverify (↘codebug) ╗ → cochangelog
                                             ╚════════ colearn (learn) ══════╝
 specialized, on demand: coaudit (visual drift) · coconsolidate (code DRY) · coharden (edge cases)
 ```

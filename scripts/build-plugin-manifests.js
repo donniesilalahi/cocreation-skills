@@ -62,7 +62,6 @@ const ROSTER = [
   ['coverify', 'coverifier', 'sonnet'],
   ['codebug', 'codebugger', 'opus'],
   ['cochangelog', 'cochangelogger', 'haiku'],
-  ['comarket', 'comarketer', 'haiku'],
   ['colearn', 'colearner', 'sonnet'],
   ['coaudit', 'coauditor', 'haiku'],
   ['coconsolidate', 'coconsolidator', 'sonnet'],
@@ -84,7 +83,6 @@ const PURPOSES = {
   codebug:
     'systematically diagnose root causes for bugs and unexpected behavior',
   cochangelog: 'record what shipped as a simple, dated changelog list',
-  comarket: 'automate reproducible App Store / marketing screenshot capture',
   colearn: 'capture, recall, and graduate lessons into guardrails',
   coaudit: 'find UI elements that should match but have visually drifted',
   coconsolidate:

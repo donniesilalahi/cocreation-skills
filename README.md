@@ -24,7 +24,6 @@ right, and checking it shipped right) while the slow manual middle collapses.
 | **coverify** | coverifier | Test and QA: behavior and visuals vs. the spec. (core loop — "check") |
 | **codebug** | codebugger | Find the real root cause when something breaks. |
 | **cochangelog** | cochangelogger | Record what shipped as a simple changelog list. |
-| **comarket** | comarketer | Set up / run reproducible App Store screenshot capture for SwiftUI apps. |
 | **colearn** | colearner | Capture and recall lessons; turn repeat mistakes into guardrails. (core loop — "learn") |
 | **coaudit** | coauditor | Specialized loop: find UI that drifted out of consistency and fix it. |
 | **coharden** | cohardener | Specialized loop: harden the edge cases. |
@@ -34,7 +33,7 @@ cross-reference each other (a plan and its changelog each link the other).
 
 > **Renamed in 0.2.0.** The old skill names map to: `planning-todos → coplan`,
 > `analyzing-problems → codebug`, `design-qa → coverify`, `consistency-audit → coaudit`,
-> `marketing-capture → comarket`, `documenting-implementations → cochangelog`, and
+> `documenting-implementations → cochangelog`, and
 > `documenting-lesson-learned` + `accessing-lessons-learned` → `colearn` (merged).
 
 ## How to install

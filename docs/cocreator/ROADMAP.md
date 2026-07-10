@@ -18,8 +18,8 @@ orchestrates concise `co-*` loop-skills, each a closed mini-loop that self-evalu
 ```
         ┌──────────────────── colearn (lessons feed back upstream) ───────────────────┐
         │                                                                              │
-   coshape ──▶ coresearch ──▶ coplan ──▶ codesign ──▶ ╔═══ CORE LOOP ═══╗ ──▶ cochangelog ──▶ comarket
-   (strategy)  (discovery)   (plan)     (design)      ║ cobuild ⇄ coverify║      (record)      (GTM)
+   coshape ──▶ coresearch ──▶ coplan ──▶ codesign ──▶ ╔═══ CORE LOOP ═══╗ ──▶ cochangelog
+   (strategy)  (discovery)   (plan)     (design)      ║ cobuild ⇄ coverify║      (record)
                                                       ║      ⇅ codebug    ║
                                                       ╚═══════════════════╝
    Specialized loops, called on demand from any stage: coaudit (visual consistency) · coconsolidate (code DRY) · coharden (edge cases)
@@ -56,7 +56,6 @@ Convention: **skill = action word**, **agent = the doer**, so the link is obviou
 | `coverify` | `coverifier` | `design-qa` | Test & QA: behavior + visual vs spec (core, "check") | Sonnet | **Mandatory** |
 | `codebug` | `codebugger` | `analyzing-problems` | Diagnose root cause on failure | Opus | Optional |
 | `cochangelog` | `cochangelogger` | `documenting-implementations` | Record what shipped (changelog list) | Haiku | Optional |
-| `comarket` | `comarketer` | `marketing-capture` | Marketing assets / GTM capture | Haiku | Optional |
 | `colearn` | `colearner` | `documenting-lesson-learned` + `accessing-lessons-learned` (merged) | Capture + recall lessons; guardrails; graduation | Sonnet | **Mandatory** |
 | `coaudit` | `coauditor` | `consistency-audit` | Specialized loop: visual consistency drift | Haiku | Optional |
 | `coconsolidate` | `coconsolidator` | NEW | Specialized loop: code/logic DRY consolidation | Sonnet | Optional |
