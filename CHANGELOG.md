@@ -5,6 +5,21 @@ All notable changes to `@donniesilalahi/cocreation-skills`. Format follows
 (pre-1.0, so minor bumps may include renames). Versions before 0.6.0 predate this file — see the
 git history.
 
+## [0.10.1] — 2026-07-16 — Rename migration for existing installs
+
+### Added
+- **Installer detects renamed skills and prints a migration hint.** After the `0.8.0` rename
+  (`coshape → coframe`, `codesign → cospecify`), npx installs left the old dirs behind (the installer
+  never prunes — `.agents/skills/` is shared, so blanket deletion there is unsafe). The installer now
+  spots a stale old dir and tells you how to migrate — **detect-and-instruct, it never deletes**.
+- **README "Updating an existing install"** section covering both channels: plugin installs re-sync
+  cleanly (renamed skills replace the old automatically); npx installs get the migration steps
+  (move `memory-bank/` records to the new skill, delete the old dir, rebuild the index).
+
+### Notes
+- Plugin (Claude Code / Cursor / Codex) installs are unaffected — updating the plugin re-syncs the
+  whole set from the repo, so the rename needs no manual cleanup.
+
 ## [0.10.0] — 2026-07-16 — Human ↔ agent handoff
 
 The ecosystem now has a structured way for humans and agents to divide the work without the agent
@@ -75,7 +90,8 @@ Answers "which loop's output is authoritative, and how does anyone know the curr
   distinctness ≠ correctness, reset-don't-idempotent capture harness) and **codebug** (re-verify
   against the full spec, not the last symptom).
 
-[0.10.0]: https://github.com/donniesilalahi/cocreation-skills/releases/tag/v0.10.0
+[0.10.1]: https://github.com/donniesilalahi/cocreation-skills/releases/tag/v0.10.1
+[0.10.0]: https://github.com/donniesilalahi/cocreation-skills/compare/v0.10.0...v0.10.1
 [0.9.0]: https://github.com/donniesilalahi/cocreation-skills/compare/v0.9.0...v0.10.0
 [0.8.0]: https://github.com/donniesilalahi/cocreation-skills/compare/v0.8.0...v0.9.0
 [0.7.0]: https://github.com/donniesilalahi/cocreation-skills/compare/v0.7.0...v0.8.0

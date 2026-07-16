@@ -18,6 +18,15 @@ const help = args.includes('--help') || args.includes('-h')
 const noHook = args.includes('--no-hook')
 const wantedSkills = args.filter((arg) => !arg.startsWith('-'))
 
+// Skills we've renamed. If a consumer still has the OLD dir installed, surface a
+// migration hint — npm-copy installs are never auto-pruned, because
+// .agents/skills/ is SHARED (it can hold the user's skills from other sources)
+// and blanket deletion there is unsafe. We detect and instruct; we NEVER delete.
+const RENAMES = {
+  coshape: 'coframe',
+  codesign: 'cospecify',
+}
+
 if (help) {
   console.log(`Usage:
   npx @donniesilalahi/cocreation-skills [skill-name...] [options]
@@ -90,9 +99,39 @@ for (const skill of selectedSkills) {
 
 console.log(`Done. Skills installed to ${targetBase}`)
 
+warnRenamedSkills(targetBase, availableSkills)
+
 // Auto-setup git hook for project installs
 if (installProject && !noHook) {
   ensurePreCommitHook()
+}
+
+// Detect-and-instruct migration for renamed skills. Reads only; never deletes.
+// A stale skill = an OLD name that is gone from this package but still sits in
+// the consumer's install dir. We tell the user how to migrate; the removal is
+// theirs to run (shared-dir safety).
+function warnRenamedSkills(base, available) {
+  const stale = Object.entries(RENAMES).filter(
+    ([oldName]) =>
+      !available.includes(oldName) && fs.existsSync(path.join(base, oldName)),
+  )
+  if (stale.length === 0) return
+  console.log(
+    '\n⚠  Renamed skills — your installed copies are now stale. Not auto-removed:',
+  )
+  console.log(
+    '   .agents/skills/ is shared, so deleting there is your call. Renamed:',
+  )
+  for (const [oldName, newName] of stale) {
+    console.log(`     ${oldName} → ${newName}`)
+  }
+  console.log(
+    '   To migrate each: move <old>/memory-bank/*.md into <new>/memory-bank/,',
+  )
+  console.log(
+    '   delete the <old> dir, then run <new>/index.mjs. See the README',
+  )
+  console.log('   "Updating an existing install" section.')
 }
 
 // Update non-memory-bank files only (safe for existing installs with audit history)

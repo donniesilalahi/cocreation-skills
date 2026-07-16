@@ -78,6 +78,31 @@ npx @donniesilalahi/cocreation-skills --project --update
 npx @donniesilalahi/cocreation-skills --project --force
 ```
 
+## Updating an existing install
+
+- **Plugin install** (Claude Code / Cursor / Codex): update the plugin/marketplace in your tool
+  (e.g. Claude Code `/plugin` → update). The whole set re-syncs from the repo, so **renamed skills
+  replace the old ones automatically** — nothing to clean up.
+- **npx install** (skills copied into `.agents/skills/`): re-run
+  `npx @donniesilalahi/cocreation-skills@latest --project --update` (refreshes `SKILL.md`, keeps your
+  `memory-bank/` notes). The installer **adds** new skills but never deletes — `.agents/skills/` is
+  shared with your other skills, so removal is always your call.
+
+### Migrating renamed skills (npx installs only)
+
+`0.8.0` renamed `coshape → coframe` and `codesign → cospecify`. On an npx install the old dirs stay
+put (stale) and your notes live under the old name — the installer prints a reminder when it sees
+them. To migrate each pair:
+
+```bash
+# example: coshape → coframe (repeat for codesign → cospecify)
+mv .agents/skills/coshape/memory-bank/*.md .agents/skills/coframe/memory-bank/ 2>/dev/null
+rm -rf .agents/skills/coshape
+node .agents/skills/coframe/index.mjs   # rebuild the index so your records show up
+```
+
+Plugin installs don't need this — the rename is handled by the re-sync.
+
 ## Install as a plugin
 
 All three tools read the same `skills/<name>/SKILL.md` files — the plugin manifests below are just
