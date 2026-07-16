@@ -33,7 +33,7 @@ manual execution — collapses. This is the whole playbook in one picture.
 
 ---
 
-## Six principles
+## Seven principles
 
 ### 1. One big loop, many small loops
 Product work is not a pipeline you traverse once. It's a loop that closes and repeats: shape →
@@ -66,6 +66,19 @@ contain it. Fixed appetite, variable scope: cut scope to fit the box, don't grow
 "Did we build what we specified?" should not be a manual, end-of-cycle chore. Check intent
 against what actually shipped, continuously, with cited evidence on both sides. The faster the
 build, the more this matters.
+
+### 7. One source of truth, owned by dimension
+When many loops each produce an artifact, "what is authoritative?" must have an answer. There is no
+single winner — each loop owns **one dimension** of truth and conforms to the ones above it: intent
+owns *why* (`coframe`), the **spec owns *what* + acceptance** (`cospecify`, the primary thing
+executors build and check against), the plan owns the *work*, design/code are *derived*, and
+diagnostic loops (`coverify`/`codebug`/`coaudit`/`coharden`) own only a **conformance signal** —
+they emit findings that *reference* the spec and **never become the source of truth**. A single
+ranked chain-of-command (this playbook > intent > spec > plan > design/code > findings) fires only
+to break a direct conflict; an unbreakable one escalates to the human. The source of truth changes
+only through a reviewed channel, never silently. A `.agents/workspace/STATE.md` pointer names the
+current authoritative artifact and the last loop run, so anyone — human or agent — knows the state
+at a glance. Full design: `SSOT.md`.
 
 ---
 

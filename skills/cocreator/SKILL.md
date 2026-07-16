@@ -40,6 +40,12 @@ Model tiers: **opus** = judgment-heavy (shape/research/diagnose, where mistakes 
 
 ## How to use
 
+### 0. Read STATE first
+Before anything, read `.agents/workspace/STATE.md` — it names the **current authoritative artifact
+(the SSOT)**, the last loop run and its verdict, what's in-flight, and open decisions/blocks. Create
+it from `references/STATE.template.md` if missing. This is how you (or a fresh session) pick up
+without re-reading every artifact. See `docs/cocreator/SSOT.md`.
+
 ### 1. Recommend
 Given a request, name which loops to run and in what order. Don't force the full chain — most work
 needs one or a few loops (pragmatic by default). Use the macro order as a guide, not a mandate:
@@ -108,11 +114,33 @@ When you run paired loops in sequence, link their records both ways:
 Every `coverify`/`codebug` failure should hand a lesson to `colearn`. A lesson that keeps firing
 graduates: lesson → skill → sub-agent (see `colearn`). This is how the ecosystem self-learns.
 
+### 7. Update STATE on exit
+After a loop returns, **append its row to the `STATE.md` progress ledger** (date · loop · agent ·
+verdict · record · commit) and, if the authoritative artifact changed, **update the head's SSOT
+pointer**. Treat this like a commit — part of the work, not a chore. The ledger is append-only;
+never rewrite a past row (supersede it).
+
+## Source of truth (the precedence ladder)
+
+There is **no single SSOT** — each loop owns one dimension and conforms upward. The **spec
+(`cospecify`)** is the primary thing executors build and check against; the pitch (`coframe`) is its
+rationale layer; the plan (`coplan`) sequences the work; design/code are derived. **Diagnostic loops
+(`coverify`/`codebug`/`coaudit`/`coharden`) own only a conformance *signal* — their findings
+*reference* the spec and never become it.** The SSOT changes only through a reviewed channel (re-run
+`cospecify`), never silently by a debug/audit loop.
+
+When two artifacts contradict on the *same* claim, break the tie by the ranked chain-of-command —
+**PLAYBOOK > intent (coframe) > spec (cospecify) > plan (coplan) > design/draw > code > findings** —
+and **escalate an unbreakable conflict to the human** (don't auto-resolve). Full design + the
+findings-handling mechanisms: `docs/cocreator/SSOT.md`. This generalizes the conflict ladder `coport`
+already ships.
+
 ## Co-working workspace
 
 One workspace at `.agents/workspace/`. **`raw/` is the human's** — read it as source of truth,
 never write there. **Everything else is the AI's** (the rest of the workspace + every
-`skills/<name>/memory-bank/`). Create `workspace/raw/` on first use.
+`skills/<name>/memory-bank/`). Create `workspace/raw/` on first use. **`STATE.md` lives here** (AI-owned) —
+the project-state pointer every loop reads first and updates on exit (§0, §7; template in `references/`).
 
 ## Native tooling
 

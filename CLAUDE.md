@@ -13,7 +13,8 @@ Not a workspaces monorepo: each skill under `skills/<name>/` is fully self-conta
 
 **Design docs live in `docs/cocreator/`:** `PLAYBOOK.md` (principles — the foundation; it wins over
 any skill on conflict), `ROADMAP.md` (the loop architecture + skill↔agent roster + model tiers),
-`RESEARCH.md` (sources). Read `ROADMAP.md` before adding or renaming a loop.
+`SSOT.md` (the source-of-truth model: per-dimension ownership ladder + `STATE.md` pointer + the
+status-in-a-field rule), `RESEARCH.md` (sources). Read `ROADMAP.md` before adding or renaming a loop.
 
 ## Commands
 
@@ -35,11 +36,13 @@ New skills: copy `template/SKILL.md` into `skills/<name>/`, follow the same sect
 
 Skills with recall/tracking have `skills/<name>/memory-bank/`: one UPPERCASE index file (e.g. `PLAN.md`) whose frontmatter has a `columns:` spec, individual record `.md` files, a `_template.md`, and an `index.mjs` that regenerates the table from the records (skips `_*` files). Run the skill's `index.mjs`, or `npm run update-indices` for all.
 
+**Status is a frontmatter `status:` field — never a folder or filename.** The per-status view is generated from the field; record path + filename are stable identifiers that cross-refs (`plan:`/`changelog:`/`handoffRef`) and git history depend on, so moving a file to encode status would break them. "Moved on" = a `superseded-by:` link (never delete/rename); the only sanctioned physical move is coarse terminal `archive/` in a rename-only commit. See `docs/cocreator/SSOT.md`.
+
 Record files are named `YYYY-MM-DD-kebab-title.md` (date + what it worked on), with frontmatter `title`, `date`, `status`, and optional cross-refs (`plan:`, `changelog:`) linking paired records. `colearn` lesson records also carry `tier: lesson|skill|subagent` + a hit-count for the graduation path (recurring lessons get promoted to skills, then sub-agents).
 
 ## Co-working workspace (human ↔ AI ownership)
 
-One workspace at the consumer project's `.agents/workspace/`. Inside it, **`raw/` is human-owned** — the AI reads it as the source of truth and never writes there (briefs, references, source data). **Everything else is the AI's** — the rest of `workspace/` (AI working area / output) and every `skills/<name>/memory-bank/`. Loop records may point at a `raw/` input and the output they produced, keeping the co-working trail explicit. The AI creates `.agents/workspace/raw/` on first use; the installer ships only `skills/`, so there's nothing to scaffold in this source repo.
+One workspace at the consumer project's `.agents/workspace/`. Inside it, **`raw/` is human-owned** — the AI reads it as the source of truth and never writes there (briefs, references, source data). **Everything else is the AI's** — the rest of `workspace/` (AI working area / output) and every `skills/<name>/memory-bank/`. Loop records may point at a `raw/` input and the output they produced, keeping the co-working trail explicit. `.agents/workspace/STATE.md` (AI-owned) is the project-state pointer — the current SSOT artifact + last loop run + verdict — read first by every loop and updated on exit (template: `skills/cocreator/references/STATE.template.md`; design: `docs/cocreator/SSOT.md`). The AI creates `.agents/workspace/raw/` on first use; the installer ships only `skills/`, so there's nothing to scaffold in this source repo.
 
 ## Release flow
 
