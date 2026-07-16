@@ -180,6 +180,24 @@ This lets you extract precise design values (e.g., exact padding, border radii, 
 
 `/verify` (run the app and observe behavior vs spec) · `/code-review` (catch correctness bugs in the diff) · `/simplify` (flag cleanups). Use these alongside the visual passes above.
 
+## Verification traps (always-on guardrails)
+
+Graduated from real failures — a verifier that ignores these passes broken work.
+
+- **The false-PASS is invisible — hunt it deliberately.** Adversarial checks (refuters, code review)
+  only scrutinize *claimed discrepancies*, so a verifier's wrong **PASS** is never challenged and then
+  becomes "evidence" in the record that the screen is fine. A verdict like *"4-stop gradient —
+  passing"* once stood over a **flat** frame. For every PASS, re-derive the expected value from the
+  spec and confirm the capture actually shows it — don't accept "looks right."
+- **Distinctness proves difference, not correctness.** A hash/capture matrix showing every state is
+  *distinct* only proves the states differ — a broken layout hashes distinct too. Pair every
+  distinctness check with a **content assertion** (an expected token/element/string is present), or
+  it passes garbage for being unique.
+- **The capture/seed harness must RESET, not be idempotent.** Date-relative fixtures + a persistent
+  store + an `if !alreadySeeded { seed() }` guard = after the seed date rolls (e.g. past midnight)
+  seeding is silently skipped forever and you verify against stale/empty state. **Wipe and reseed on
+  every launch**; never gate seeding behind an "already seeded" flag.
+
 ## Self-eval gate (close the loop)
 
 - **All passes green, behavior + pixels match spec** → PASS forward: ship, or hand back to `cochangelog` to record what shipped.

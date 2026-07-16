@@ -66,6 +66,7 @@ const ROSTER = [
   ['coaudit', 'coauditor', 'haiku'],
   ['coconsolidate', 'coconsolidator', 'sonnet'],
   ['coharden', 'cohardener', 'sonnet'],
+  ['coport', 'coporter', 'sonnet'],
 ]
 
 // Short hand-summary purpose clauses (<=15 words), one per roster skill —
@@ -89,6 +90,8 @@ const PURPOSES = {
     'find duplicated code/logic and fold it into one customizable master',
   coharden:
     'enumerate and close edge cases and failure modes after the happy path works',
+  coport:
+    'faithfully port a design source into native UI with zero drift',
 }
 
 // agents/<doer>.md — one doer sub-agent per roster entry. Deterministic

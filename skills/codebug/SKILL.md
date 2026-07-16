@@ -61,6 +61,15 @@ This regenerates `ANALYSIS.md` with a link to every analysis in the folder.
 - **Fix**: [Solution or next step]
 ```
 
+## Guardrail — re-verify against the full spec, not the last fix
+
+**Fixing the named symptom manufactures the next false pass.** When you diagnose round *N* by its
+reported symptom and fix exactly that, round *N+1* silently adopts that symptom as the whole pass
+bar — so the next defect, which the same spec would have caught, sails through because you only
+checked "is the last thing fixed?" Always re-verify a fix against the **full original spec**, never
+against the single symptom you just closed. A green on "the reported bug is gone" is not a green on
+"the behavior is correct."
+
 ## Self-eval gate (close the loop)
 
 - **Root cause confirmed + fix verified** → PASS forward to `cobuild` to apply it, then `coverify` to re-check; log the lesson to `colearn`.

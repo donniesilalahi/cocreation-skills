@@ -32,6 +32,7 @@ Pull risk forward. Default to cancel, not extend. Close every loop with a self-e
 | `coaudit` | coauditor | specialized | **haiku** | visual consistency drift across screens |
 | `coconsolidate` | coconsolidator | specialized | **sonnet** | code/logic DRY: fold duplication into one customizable master |
 | `coharden` | cohardener | specialized | **sonnet** | edge-case hardening after the happy path works |
+| `coport` | coporter | specialized | **sonnet** | design→impl translation: port an artboard/spec into native UI with zero drift |
 
 Model tiers: **opus** = judgment-heavy (shape/research/diagnose, where mistakes amplify);
 **sonnet** = structured build & review; **haiku** = mechanical capture/format.
@@ -45,7 +46,7 @@ needs one or a few loops (pragmatic by default). Use the macro order as a guide,
 ```
 coshape → coresearch → coplan → codesign → ╔ cobuild ⇄ coverify (↘codebug) ╗ → cochangelog
                                             ╚════════ colearn (learn) ══════╝
-specialized, on demand: coaudit (visual drift) · coconsolidate (code DRY) · coharden (edge cases)
+specialized, on demand: coaudit (visual drift) · coconsolidate (code DRY) · coharden (edge cases) · coport (design→impl port)
 ```
 
 - **Mandatory in a full cycle:** `coplan`, the core `cobuild`+`coverify`, `colearn`.
@@ -88,6 +89,10 @@ Collect each loop's self-eval and route:
 - **BLOCKED / needs judgment** → escalate to the human (this is where review budget is spent).
 - **DRIFT / defect** → cross-loop to a specialized loop: `coaudit` (visual inconsistency),
   `coconsolidate` (duplication / DRY), `coharden` (edge cases), `codebug` (defect).
+- **Design→implementation translation** (port an artboard / mock / spec into native UI, or a screen
+  reported "similar but not faithful") → route to `coport`. Distinct from `coaudit`: `coaudit` kills
+  impl-vs-impl drift across screens; `coport` kills design→impl drift for one screen, then hands
+  acceptance to `coverify` and duplication to `coconsolidate`.
 
 ### 5. Wire cross-references
 When you run paired loops in sequence, link their records both ways:

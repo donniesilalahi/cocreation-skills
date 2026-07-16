@@ -26,7 +26,9 @@ right, and checking it shipped right) while the slow manual middle collapses.
 | **cochangelog** | cochangelogger | Record what shipped as a simple changelog list. |
 | **colearn** | colearner | Capture and recall lessons; turn repeat mistakes into guardrails. (core loop — "learn") |
 | **coaudit** | coauditor | Specialized loop: find UI that drifted out of consistency and fix it. |
+| **coconsolidate** | coconsolidator | Specialized loop: fold duplicated code/logic into one customizable master. |
 | **coharden** | cohardener | Specialized loop: harden the edge cases. |
+| **coport** | coporter | Specialized loop: port a design (artboard/spec) into native UI with zero drift. |
 
 Every loop also runs **standalone** — `cochangelog` needs no prior plan. When two are paired, they
 cross-reference each other (a plan and its changelog each link the other).
