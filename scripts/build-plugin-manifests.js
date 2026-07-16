@@ -66,6 +66,7 @@ const ROSTER = [
   ['coaudit', 'coauditor', 'haiku'],
   ['coconsolidate', 'coconsolidator', 'sonnet'],
   ['coharden', 'cohardener', 'sonnet'],
+  ['codraw', 'codrawer', 'sonnet'],
   ['coport', 'coporter', 'sonnet'],
 ]
 
@@ -90,6 +91,8 @@ const PURPOSES = {
     'find duplicated code/logic and fold it into one customizable master',
   coharden:
     'enumerate and close edge cases and failure modes after the happy path works',
+  codraw:
+    'render a design spec into faithful, state-by-state OD artboards + a git-tracked ledger',
   coport:
     'faithfully port a design source into native UI with zero drift',
 }

@@ -28,6 +28,7 @@ right, and checking it shipped right) while the slow manual middle collapses.
 | **coaudit** | coauditor | Specialized loop: find UI that drifted out of consistency and fix it. |
 | **coconsolidate** | coconsolidator | Specialized loop: fold duplicated code/logic into one customizable master. |
 | **coharden** | cohardener | Specialized loop: harden the edge cases. |
+| **codraw** | codrawer | Specialized loop: render a spec into faithful Open Design artboards + a git-tracked ledger (feeds coport). |
 | **coport** | coporter | Specialized loop: port a design (artboard/spec) into native UI with zero drift. |
 
 Every loop also runs **standalone** — `cochangelog` needs no prior plan. When two are paired, they
