@@ -50,7 +50,10 @@ specialized loop. A skill that produces an artifact but doesn't judge it is half
 Spend human attention where mistakes amplify: **shaping** (is this the right thing, and is it
 framed tightly enough that an agent can't wander?) and **review** (did we get what we asked for?).
 Automate execution. Do not automate judgment. The constraint is now **review capacity, not build
-capacity** — protect it.
+capacity** — protect it. Capture that judgment through a structured handoff — typed asks
+(decision / action / review), each with a recommended default — and **never stall waiting**: proceed
+on a low-risk default, run independent loops, or placeholder-and-continue on a soft blocker, then
+resurface every stub before shipping (`SSOT.md` § Human handoff).
 
 ### 4. Pull risk forward
 The cheapest bug is the one you named before building. Red-team the plan, list the assumptions

@@ -88,6 +88,7 @@ One workspace at `.agents/workspace/` in the consumer project:
 .agents/workspace/
   raw/       ← human-owned. AI reads as source of truth, never writes. Briefs, refs, source data.
   STATE.md   ← AI-owned project-state pointer: current SSOT + last loop run + verdict (see below).
+  inbox/     ← AI-owned human↔agent handoff queue: decision/action/review asks (see SSOT.md).
   ...        ← AI-owned working area / output (everything else in the workspace).
 .agents/skills/<co-*>/memory-bank/   ← AI-owned loop log: records + auto-index.
 ```
@@ -114,6 +115,13 @@ intent > spec > plan > design/code > findings) breaks direct conflicts only; unb
 escalate to the human. The `.agents/workspace/STATE.md` pointer (head = current SSOT + focus +
 blockers; append-only ledger = every loop run + verdict) is read first by every loop and updated on
 exit. Full design of record: **`SSOT.md`**. It generalizes the conflict ladder `coport` already ships.
+
+**Human handoff.** Where a cycle needs the human, an `.agents/workspace/inbox/` queue holds typed
+asks — **decision** (pick/answer, with a recommended default), **action** (homework only a human can
+do: visual QA, register an integration, enter a secret), **review** (approve/edit/reject). The agent
+never stalls: proceed on a low-risk default, run independent loops, or **placeholder-and-continue**
+on a soft blocker — then a **completion gate resurfaces every stub and unconfirmed default before
+anything ships**. Detail in `SSOT.md` § Human handoff.
 
 ---
 
