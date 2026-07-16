@@ -54,10 +54,10 @@ for (const entry of fs.readdirSync(skillsRoot, { withFileTypes: true })) {
 // (matches skills/cocreator/SKILL.md's roster table) so regeneration is
 // deterministic.
 const ROSTER = [
-  ['coshape', 'coshaper', 'opus'],
+  ['coframe', 'coframer', 'opus'],
   ['coresearch', 'coresearcher', 'opus'],
   ['coplan', 'coplanner', 'sonnet'],
-  ['codesign', 'codesigner', 'sonnet'],
+  ['cospecify', 'cospecifier', 'sonnet'],
   ['cobuild', 'cobuilder', 'sonnet'],
   ['coverify', 'coverifier', 'sonnet'],
   ['codebug', 'codebugger', 'opus'],
@@ -73,13 +73,13 @@ const ROSTER = [
 // Short hand-summary purpose clauses (<=15 words), one per roster skill —
 // pulled from each skill's SKILL.md description frontmatter.
 const PURPOSES = {
-  coshape:
+  coframe:
     'frame the problem, set a fixed appetite, and write a tight pitch',
   coresearch:
     'gather evidence and red-team the riskiest load-bearing assumption first',
   coplan: 'break a non-trivial task into clear, tracked, verifiable steps',
-  codesign:
-    'design the solution — UI/UX, interfaces, data shape — into a buildable spec',
+  cospecify:
+    'author the buildable solution spec — screens, states, data shapes, interfaces',
   cobuild: 'implement against the plan in small, reviewable increments',
   coverify: 'systematic visual QA against design artboards or specs',
   codebug:

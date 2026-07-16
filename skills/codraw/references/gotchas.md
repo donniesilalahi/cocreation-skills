@@ -42,7 +42,7 @@ become canonical — that's how a design system grows near-duplicate primitives.
 
 **Rule:** when a screen needs an element with no name in the taxonomy, name it **provisionally and say
 so explicitly** in the ledger `notes` / the report. "I picked a reasonable name" ≠ "this name is
-canonical." Flag the gap for a later DESIGN.md reconciliation pass (route it to `codesign` /
+canonical." Flag the gap for a later DESIGN.md reconciliation pass (route it to `cospecify` /
 `coconsolidate`); don't decide it mid-render.
 
 ## 4. Redrawing a primitive instead of reusing it (§2)

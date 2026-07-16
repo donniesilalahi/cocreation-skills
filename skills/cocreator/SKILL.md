@@ -20,10 +20,10 @@ Pull risk forward. Default to cancel, not extend. Close every loop with a self-e
 
 | Loop skill | Doer | Stage | Model | When |
 |---|---|---|---|---|
-| `coshape` | coshaper | shape/strategy | **opus** | frame the problem, set appetite, write the pitch |
+| `coframe` | coframer | frame/strategy | **opus** | frame the problem, set appetite, write the pitch |
 | `coresearch` | coresearcher | discovery | **opus** | gather evidence, red-team the riskiest assumption |
 | `coplan` | coplanner | plan | **sonnet** | decompose into tracked, verifiable steps *(mandatory)* |
-| `codesign` | codesigner | design | **sonnet** | design UI/UX + the spec to build |
+| `cospecify` | cospecifier | spec | **sonnet** | author the buildable solution spec (screens, states, data, interfaces) |
 | `cobuild` | cobuilder | build (make) | **sonnet** | implement in small increments *(mandatory, core)* |
 | `coverify` | coverifier | verify (check) | **sonnet** | test behavior + visuals vs spec *(mandatory, core)* |
 | `codebug` | codebugger | diagnose | **opus** | find root cause when verify fails |
@@ -32,7 +32,7 @@ Pull risk forward. Default to cancel, not extend. Close every loop with a self-e
 | `coaudit` | coauditor | specialized | **haiku** | visual consistency drift across screens |
 | `coconsolidate` | coconsolidator | specialized | **sonnet** | code/logic DRY: fold duplication into one customizable master |
 | `coharden` | cohardener | specialized | **sonnet** | edge-case hardening after the happy path works |
-| `codraw` | codrawer | specialized | **sonnet** | render a codesign spec into faithful OD artboards + a git-tracked ledger (feeds coport) |
+| `codraw` | codrawer | specialized | **sonnet** | render a cospecify spec into faithful OD artboards + a git-tracked ledger (feeds coport) |
 | `coport` | coporter | specialized | **sonnet** | design→impl translation: port an artboard/spec into native UI with zero drift |
 
 Model tiers: **opus** = judgment-heavy (shape/research/diagnose, where mistakes amplify);
@@ -45,7 +45,7 @@ Given a request, name which loops to run and in what order. Don't force the full
 needs one or a few loops (pragmatic by default). Use the macro order as a guide, not a mandate:
 
 ```
-coshape → coresearch → coplan → codesign → ╔ cobuild ⇄ coverify (↘codebug) ╗ → cochangelog
+coframe → coresearch → coplan → cospecify → ╔ cobuild ⇄ coverify (↘codebug) ╗ → cochangelog
                                             ╚════════ colearn (learn) ══════╝
 specialized, on demand: coaudit (visual drift) · coconsolidate (code DRY) · coharden (edge cases) · codraw (spec→OD artboards) · coport (design→impl port)
 ```
@@ -65,7 +65,7 @@ Self-delegate each loop to its doer. Two modes depending on how the ecosystem is
 and reads its own skill, so no path or model wrangling:
 
 ```
-Agent(subagent_type: "cocreation:coshaper",  prompt: "Run the coshape loop on … Return the self-eval verdict + record path.")
+Agent(subagent_type: "cocreation:coframer",  prompt: "Run the coframe loop on … Return the self-eval verdict + record path.")
 Agent(subagent_type: "cocreation:cobuilder", prompt: "Run the cobuild loop on … ")
 ```
 
@@ -90,9 +90,9 @@ Collect each loop's self-eval and route:
 - **BLOCKED / needs judgment** → escalate to the human (this is where review budget is spent).
 - **DRIFT / defect** → cross-loop to a specialized loop: `coaudit` (visual inconsistency),
   `coconsolidate` (duplication / DRY), `coharden` (edge cases), `codebug` (defect).
-- **Spec exists, need the OD artboards** (render a `codesign` spec into a faithful, state-by-state
+- **Spec exists, need the OD artboards** (render a `cospecify` spec into a faithful, state-by-state
   Open Design artboard set + git-tracked ledger + canvases) → route to `codraw`. It is the render/draw
-  step: `codesign(spec) → codraw(artboards+ledger) → { coport, cobuild }`. `codraw` produces what
+  step: `cospecify(spec) → codraw(artboards+ledger) → { coport, cobuild }`. `codraw` produces what
   `coport` ports from and `coverify` QAs against — it renders, it doesn't invent or build.
 - **Design→implementation translation** (port an artboard / mock / spec into native UI, or a screen
   reported "similar but not faithful") → route to `coport`. Distinct from `coaudit`: `coaudit` kills

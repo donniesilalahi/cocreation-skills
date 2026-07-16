@@ -1,6 +1,6 @@
 ---
 name: codraw
-description: The design→artboard render loop (the "draw" step). Takes a codesign spec + a design-system SSOT and renders a faithful, state-by-state Open Design (OD) artboard set — plus a git-tracked JSON ledger cross-referencing every artboard to code, and three canvases (gallery, primitives library, data-driven sitemap). Encodes the invariant method: design-system SSOT first, reuse primitives (never redraw), a strict segmented naming convention with a controlled STATE vocabulary, draw-the-DEFAULT-never-silently-pick on open decisions, new-primitive reconciliation, and a browser-render verify. Use when a buildable spec exists and you need the OD artboards + ledger that coport ports from and coverify QAs against. Project facts (SSOT paths, state vocab, canvas sizes, OD project id, ledger path) live in a design-manifest.json, not this skill. Graceful-degrades to HTML/CSS artboards on disk when the OD MCP is absent. codraw renders — it does not invent the design system or build/QA it. The doer is codrawer.
+description: The design→artboard render loop (the "draw" step). Takes a cospecify spec + a design-system SSOT and renders a faithful, state-by-state Open Design (OD) artboard set — plus a git-tracked JSON ledger cross-referencing every artboard to code, and three canvases (gallery, primitives library, data-driven sitemap). Encodes the invariant method: design-system SSOT first, reuse primitives (never redraw), a strict segmented naming convention with a controlled STATE vocabulary, draw-the-DEFAULT-never-silently-pick on open decisions, new-primitive reconciliation, and a browser-render verify. Use when a buildable spec exists and you need the OD artboards + ledger that coport ports from and coverify QAs against. Project facts (SSOT paths, state vocab, canvas sizes, OD project id, ledger path) live in a design-manifest.json, not this skill. Graceful-degrades to HTML/CSS artboards on disk when the OD MCP is absent. codraw renders — it does not invent the design system or build/QA it. The doer is codrawer.
 ---
 
 # codraw — render a spec into faithful OD artboards (the draw step)
@@ -8,12 +8,12 @@ description: The design→artboard render loop (the "draw" step). Takes a codesi
 The doer is **codrawer** (Sonnet). This is the **render/draw** step of the co-creation pipeline:
 
 ```
-codesign(spec) → codraw(OD artboards + ledger + canvases) → { coport, cobuild } → coverify / coaudit
+cospecify(spec) → codraw(OD artboards + ledger + canvases) → { coport, cobuild } → coverify / coaudit
 ```
 
-`codesign` writes the buildable *spec*; `codraw` renders it into a high-fidelity, state-by-state
+`cospecify` writes the buildable *spec*; `codraw` renders it into a high-fidelity, state-by-state
 **OD artboard set + ledger + canvases**. Its output is the input `coport` ports from and `coverify`
-QAs against. **codraw renders — it never invents the design system (that's `codesign`) nor builds/QAs
+QAs against. **codraw renders — it never invents the design system (that's `cospecify`) nor builds/QAs
 it (`cobuild`/`coverify`).**
 
 This skill ships only the **invariant method**. Every project-specific fact — the design-system SSOT
@@ -32,7 +32,7 @@ it, then get owner confirmation (coport's Step-0 pattern):
    template + state vocab — and hand it to the owner to confirm.
 
 **Require the SSOT before proceeding.** codraw renders an existing design system; if none exists,
-that is `codesign`'s job, not codraw's (invariant #1). A confirmed/human-authored manifest is a
+that is `cospecify`'s job, not codraw's (invariant #1). A confirmed/human-authored manifest is a
 `raw/` input; an AI-drafted one is AI-owned until confirmed.
 
 ## The invariant method (10 steps)

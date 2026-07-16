@@ -18,7 +18,7 @@ make → check → learn engine. Turn a vague goal into concrete, verifiable ste
 
 1. **Recall first** — run `colearn` to pull any lessons relevant to this task.
 2. **Understand** the goal and constraints. For high-blast-radius work, shape it with
-   `EnterPlanMode` / `coshape` before decomposing.
+   `EnterPlanMode` / `coframe` before decomposing.
 3. **Decompose** into small, actionable items (each completable in ~2 hours).
 4. **Track** with `TaskCreate` / `TaskUpdate` so progress is visible live.
 5. **Prioritize** by dependency and impact; **execute** one item at a time.

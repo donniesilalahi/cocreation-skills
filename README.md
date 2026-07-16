@@ -16,10 +16,10 @@ right, and checking it shipped right) while the slow manual middle collapses.
 | Skill (the action) | Doer agent | What it does |
 |-------|-------|---------------------|
 | **`/cocreator`** | — | Master loop. Recommends which loops to run and delegates each to its doer. |
-| **coshape** | coshaper | Frame the problem, set the appetite, write the pitch. |
+| **coframe** | coframer | Frame the problem, set the appetite, write the pitch. |
 | **coresearch** | coresearcher | Discovery and evidence; red-team the load-bearing assumptions. |
 | **coplan** | coplanner | Break big tasks into small, tracked, verifiable steps. |
-| **codesign** | codesigner | Design the solution (UI/UX) and hand it to build. |
+| **cospecify** | cospecifier | Author the buildable solution spec (screens, states, data, interfaces) and hand it to draw/build. |
 | **cobuild** | cobuilder | Build it against the plan. (core loop — "make") |
 | **coverify** | coverifier | Test and QA: behavior and visuals vs. the spec. (core loop — "check") |
 | **codebug** | codebugger | Find the real root cause when something breaks. |
@@ -38,6 +38,11 @@ cross-reference each other (a plan and its changelog each link the other).
 > `analyzing-problems → codebug`, `design-qa → coverify`, `consistency-audit → coaudit`,
 > `documenting-implementations → cochangelog`, and
 > `documenting-lesson-learned` + `accessing-lessons-learned` → `colearn` (merged).
+>
+> **Renamed in 0.8.0.** For clearer, non-native-friendly names that map to the three distinct
+> upstream objects — the *problem*, the *work*, the *solution*: `coshape → coframe` (frame the
+> problem) and `codesign → cospecify` (write the buildable spec). Doers: `coshaper → coframer`,
+> `codesigner → cospecifier`.
 
 ## How to install
 

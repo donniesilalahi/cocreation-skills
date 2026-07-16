@@ -11,14 +11,14 @@ make → check → learn engine — structured build, best run on **Sonnet**. Bu
 
 ## When to Use
 
-- There's a `coplan` plan or `codesign` spec to turn into working code/output.
+- There's a `coplan` plan or `cospecify` spec to turn into working code/output.
 - You're implementing a feature, refactor, or fix — the actual making.
 - Any time you'd otherwise "just build it": do it in reviewable increments.
 
 ## How to Use
 
 1. **Recall first** — run `colearn` to pull lessons/guardrails relevant to this build.
-2. **Pull the plan** — work against the `coplan` record (and `codesign` spec, if any).
+2. **Pull the plan** — work against the `coplan` record (and `cospecify` spec, if any).
 3. **Build one small increment** — the smallest reviewable slice that does something verifiable.
 4. **Hand it to `coverify`** — don't stack the next increment on an unverified one.
 5. **On verify failure, jump to `codebug`** — diagnose root cause, then resume. Mark the plan.

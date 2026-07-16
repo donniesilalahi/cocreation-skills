@@ -10,10 +10,10 @@ scanned from `.agents/skills/`, `.cursor/skills/`, and `.claude/skills/` (projec
 per-tool rewrite needed.
 
 - **cocreator** — master loop; routes a request to the right co-* loop(s) and self-delegates.
-- **coshape** — frame the problem, fix the appetite, write a tight pitch before building.
+- **coframe** — frame the problem, fix the appetite, write a tight pitch before building.
 - **coresearch** — red-team the riskiest assumption a plan rests on before anyone builds on it.
 - **coplan** — break non-trivial work into clear, tracked, verifiable steps.
-- **codesign** — design UI/UX, interfaces, and data shape into a buildable spec.
+- **cospecify** — author the buildable solution spec: screens, states, data shapes, interfaces.
 - **cobuild** — implement the plan in small, reviewable increments.
 - **coverify** — visual QA against design references; produces actionable fix lists.
 - **codebug** — systematically diagnose root causes for bugs and unexpected behavior.
@@ -22,7 +22,7 @@ per-tool rewrite needed.
 - **colearn** — capture, recall, and graduate lessons into guardrails.
 - **coaudit** — find and fix UI elements that should match but have visually drifted.
 - **coconsolidate** — find duplicated code/logic and unify it into one customizable master.
-- **codraw** — render a codesign spec into faithful Open Design artboards + a git-tracked ledger.
+- **codraw** — render a cospecify spec into faithful Open Design artboards + a git-tracked ledger.
 - **coport** — port a design source (artboard/mock/spec) into native UI with zero drift.
 
 ## Start here

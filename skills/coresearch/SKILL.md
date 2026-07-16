@@ -1,6 +1,6 @@
 ---
 name: coresearch
-description: The "research" loop. Gather evidence and test the assumptions a plan rests on — red-teaming the riskiest one first by ranking assumptions by the cheapest test, so the load-bearing belief gets disproven (or confirmed) before anyone builds on it. The doer is coresearcher. Use at the discovery/evidence stage when a decision hinges on an unverified claim or a load-bearing assumption from coshape. Optional loop; runs standalone or hands a verdict back to coplan or coshape. Best on Opus (judgment-heavy).
+description: The "research" loop. Gather evidence and test the assumptions a plan rests on — red-teaming the riskiest one first by ranking assumptions by the cheapest test, so the load-bearing belief gets disproven (or confirmed) before anyone builds on it. The doer is coresearcher. Use at the discovery/evidence stage when a decision hinges on an unverified claim or a load-bearing assumption from coframe. Optional loop; runs standalone or hands a verdict back to coplan or coframe. Best on Opus (judgment-heavy).
 ---
 
 # coresearch — test the assumptions
@@ -11,7 +11,7 @@ assumption cheaply, before the build rests on it.
 
 ## When to Use
 
-- A decision hinges on an unverified claim or a load-bearing assumption (often from `coshape`).
+- A decision hinges on an unverified claim or a load-bearing assumption (often from `coframe`).
 - You need evidence — facts, prior art, feasibility — before committing a plan.
 - The riskiest assumption could sink the work if it's wrong.
 
@@ -28,7 +28,7 @@ assumption cheaply, before the build rests on it.
 
 `WebSearch` / `WebFetch` (gather + verify sources) · `deep-research` skill (fan-out, adversarial
 verification, cited report) · **Agent** (parallel probes) · hand the verdict to `coplan` or
-`coshape`, and any recurring research lesson to `colearn`.
+`coframe`, and any recurring research lesson to `colearn`.
 
 ## Memory Bank
 
@@ -42,7 +42,7 @@ Copy `_template.md`, keep its frontmatter (`title`, `date`, `verdict`, `status`)
 
 ## Self-eval gate (close the loop)
 
-- **Riskiest assumptions tested, verdict cited** → PASS to `coplan` or back to `coshape`.
+- **Riskiest assumptions tested, verdict cited** → PASS to `coplan` or back to `coframe`.
 - **Evidence is thin or contradictory** → re-loop: dig deeper / widen sources.
 - **Needs a judgment call the evidence can't settle** → escalate to the human.
 
