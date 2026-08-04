@@ -62,7 +62,7 @@ self-resolved to keep moving.
 ## 6. Letting the ledger drift from the code (§10)
 
 A ledger whose `codeRef`/`route`/`codeStatus` were seeded once and never updated is a stale snapshot,
-not the live design↔code map `coport`/`cobuild` rely on. Run the code-parity pass so `existing` /
+not the live design↔code map `cotranslate`/`cobuild` rely on. Run the code-parity pass so `existing` /
 `partial` / `new` reflect reality; a wrong `codeStatus` sends the porter to build what already exists
 or trust what doesn't.
 

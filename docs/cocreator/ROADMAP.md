@@ -16,14 +16,44 @@ orchestrates concise `co-*` loop-skills, each a closed mini-loop that self-evalu
 ## The loop architecture
 
 ```
-        ┌──────────────────── colearn (lessons feed back upstream) ───────────────────┐
+        ┌──────────────────── colearn (process lessons feed back) ────────────────────┐
         │                                                                              │
    coframe ──▶ coresearch ──▶ coplan ──▶ cospecify ─▶ ╔═══ CORE LOOP ═══╗ ──▶ cochangelog
    (strategy)  (discovery)   (plan)     (design)      ║ cobuild ⇄ coverify║      (record)
-                                                      ║      ⇅ codebug    ║
-                                                      ╚═══════════════════╝
-   Specialized loops, called on demand from any stage: coaudit (visual consistency) · coconsolidate (code DRY) · coharden (edge cases) · codraw (spec→OD artboards) · coport (design→impl port)
+        ▲                                             ║      ⇅ codebug    ║           │
+        │                                             ╚═══════════════════╝           │
+        └──────────── cocritique (does it do the JOB? → direction verdict) ◀───────────┘
+
+   Specialized loops, called on demand from any stage: coconsolidate (logic + visual drift) · coharden (edge cases) · codraw (spec→OD artboards) · cotranslate (design→impl port)
 ```
+
+**Two feedback edges, not one.** `colearn` closes the loop on *process* — how we work, what keeps
+breaking. `cocritique` closes it on *product* — whether what we built does the job it was hired for.
+Without the second edge the ecosystem can execute a wrong direction flawlessly, forever: a spec can
+pass `coverify` perfectly and still have been the wrong thing to build.
+
+### The workflow layer — named chains over the loops
+
+The roster above is a *vocabulary*; on its own it makes every request start by re-deriving which
+loops apply. **Workflows** are named, pre-wired chains for recurring situations — `discover` ·
+`ship` · `feature` · `design-first` · `fix` · `evaluate` · `release-prep` · `cleanup` — each with an
+entry condition, the loops it deliberately skips, and an **exit gate** that says when the *chain*
+(not just its last loop) has closed. Catalog: `skills/cocreator/references/workflows.md`; selector
+table in `cocreator` SKILL.md §1.
+
+Three things the layer buys that the roster alone doesn't:
+
+1. **The skippable loops are already in the chain.** `coverify` and `colearn` are what get dropped
+   under time pressure, and they are precisely the two the playbook says can't be. Naming them into
+   `ship` and `fix` makes keeping them the default rather than a discipline.
+2. **`evaluate` is a router, not a chain** — `coverify` (vs the spec) · `coconsolidate` (vs itself) ·
+   `cocritique` (vs the job). Three different reference points that read as interchangeable "review"
+   until you name them apart. Running the wrong one answers a question nobody asked.
+3. **It makes long runs self-driving.** A workflow advances on PASS without asking between steps
+   (naming it *was* the approval) and halts on four conditions only: exit gate met, hard-block,
+   retries exhausted, or a direction change. `STATE.md`'s `Workflow:` + `Next:` fields carry the
+   position across sessions, so a fresh context resumes the chain instead of asking what to do.
+   Rules: `cocreator` SKILL.md §8; field design: `SSOT.md`.
 
 **Core loop = make → check → learn.** Not "write code" (build collapses); the engine is
 cobuild → coverify, with codebug on failure, and every failure writing a lesson via colearn
@@ -33,7 +63,10 @@ cobuild → coverify, with codebug on failure, and every failure writing a lesso
 - **PASS** → cross-loop forward.
 - **FAIL** → re-loop, bounded retries, then *cancel not extend* (escalate).
 - **BLOCKED / needs judgment** → escalate to human (where review budget is spent).
-- **DRIFT** → cross-loop to a specialized loop (coaudit / coharden / codebug).
+- **DRIFT** → cross-loop to a specialized loop (coconsolidate / coharden / codebug).
+- **WRONG THING** → the verdict isn't about conformance at all; `cocritique` routes the direction
+  change to coframe (re-frame) or cospecify (deepen / cut), or to coresearch when the evidence
+  doesn't yet support a call.
 
 **Independence + cross-reference:** every loop runs standalone (cochangelog needs no prior plan).
 When paired, they cross-reference — the plan records a `changelog:` ref, the changelog records a
@@ -57,14 +90,23 @@ Convention: **skill = action word**, **agent = the doer**, so the link is obviou
 | `codebug` | `codebugger` | `analyzing-problems` | Diagnose root cause on failure | Opus | Optional |
 | `cochangelog` | `cochangelogger` | `documenting-implementations` | Record what shipped (changelog list) | Haiku | Optional |
 | `colearn` | `colearner` | `documenting-lesson-learned` + `accessing-lessons-learned` (merged) | Capture + recall lessons; guardrails; graduation | Sonnet | **Mandatory** |
-| `coaudit` | `coauditor` | `consistency-audit` | Specialized loop: visual consistency drift | Haiku | Optional |
-| `coconsolidate` | `coconsolidator` | NEW | Specialized loop: code/logic DRY consolidation | Sonnet | Optional |
+| `cocritique` | `cocritic` | NEW | Critique: does the product do the user's job optimally — and what direction change follows | Opus | Optional |
+| `coconsolidate` | `coconsolidator` | `consistency-audit` (merged) | Specialized loop: one master, many call sites — logic duplication **and** visual drift | Sonnet | Optional |
 | `coharden` | `cohardener` | NEW | Specialized loop: edge-case hardening | Sonnet | Optional |
-| `codraw` | `codrawer` | NEW | Specialized loop: render a spec into faithful OD artboards + ledger (feeds coport) | Sonnet | Optional |
-| `coport` | `coporter` | NEW | Specialized loop: design→impl translation (artboard/spec → native UI), zero drift | Sonnet | Optional |
+| `codraw` | `codrawer` | NEW | Specialized loop: render a spec into faithful OD artboards + ledger (feeds cotranslate) | Sonnet | Optional |
+| `cotranslate` | `cotranslator` | NEW | Specialized loop: design→impl translation (artboard/spec → native UI), zero drift | Sonnet | Optional |
 
-16 skills (1 master + 15 loops). Model tiers: **Opus** = judgment-heavy (shape/research/diagnose);
-**Sonnet** = structured build & review; **Haiku** = mechanical capture/format.
+15 skills (1 master + 14 loops). Model tiers: **Opus** = judgment-heavy
+(frame/research/diagnose/critique — where mistakes amplify); **Sonnet** = structured build & review;
+**Haiku** = mechanical capture/format.
+
+**Renamed / merged (v0.11.0).** `coport` → **`cotranslate`** — the skill already described itself as
+"the design→implementation translation loop"; the name now says so, and `port-manifest.json` becomes
+`translate-manifest.json` (the legacy filename is still read). `coaudit` → merged into
+**`coconsolidate`** — both sat on the *same axis* (impl vs impl) with the *same fix* (extract one
+master, migrate every call site); they differed only in lens (pixels vs logic). One loop, two lenses,
+five causes (D1–D5, adding *loose spec* and *bypassed master*). The installer detects both old dirs
+and prints a migration hint (`cli.js` `RENAMES`); it never deletes.
 
 `/cocreator` ships as a plain skill; it self-delegates through the **Agent tool** with `model:`
 overrides — no separate agent artifact required.
@@ -98,7 +140,8 @@ the output they produced. The AI creates `workspace/raw/` on first use — nothi
 source repo (the installer copies only `skills/`).
 
 All 14 record-keeping loops follow the same convention: timestamped `YYYY-MM-DD-*.md` records +
-an UPPERCASE auto-index regenerated by `index.mjs` (coaudit included, with its richer audit fields).
+an UPPERCASE auto-index regenerated by `index.mjs` (including the richer field sets — `coconsolidate`
+carries `lens`/`cause`/`tier`, `cocritique` carries `segment`/`verdict`).
 **Status is a frontmatter `status:` field, never a folder or filename** — the per-status view is
 generated from the field; path/filename stay stable so cross-refs (`plan:`/`changelog:`/`handoffRef`)
 and git history don't break. "Moved on" is a `superseded-by:` link; the only sanctioned move is
@@ -109,12 +152,12 @@ coarse terminal `archive/` (rename-only commit). See `SSOT.md`.
 When many loops each emit an artifact, authority is **owned by dimension**, not by one flat winner:
 intent (`coframe`) owns *why*, the **spec (`cospecify`) owns *what* + acceptance** — the primary SSOT
 executors build and check against — the plan (`coplan`) owns the *work*, design/code are *derived*,
-and diagnostic loops (`coverify`/`codebug`/`coaudit`/`coharden`) own only a *conformance signal*:
+and diagnostic loops (`coverify`/`codebug`/`coconsolidate`/`coharden`/`cocritique`) own only a *signal*:
 their findings reference the spec and never become it. A single ranked chain-of-command (PLAYBOOK >
 intent > spec > plan > design/code > findings) breaks direct conflicts only; unbreakable ones
 escalate to the human. The `.agents/workspace/STATE.md` pointer (head = current SSOT + focus +
 blockers; append-only ledger = every loop run + verdict) is read first by every loop and updated on
-exit. Full design of record: **`SSOT.md`**. It generalizes the conflict ladder `coport` already ships.
+exit. Full design of record: **`SSOT.md`**. It generalizes the conflict ladder `cotranslate` already ships.
 
 **Human handoff.** Where a cycle needs the human, an `.agents/workspace/inbox/` queue holds typed
 asks — **decision** (pick/answer, with a recommended default), **action** (homework only a human can

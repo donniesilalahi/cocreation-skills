@@ -1,13 +1,13 @@
-# `port-manifest.json` — schema + worked example
+# `translate-manifest.json` — schema + worked example
 
-The manifest carries every **project-specific fact** the `coport` skill deliberately does not: token
+The manifest carries every **project-specific fact** the `cotranslate` skill deliberately does not: token
 sources, the masters registry, scaffolding to strip, inverted-param traps, capture and parity
 commands. The skill is generic; the manifest is your project.
 
 ## Where it lives & who owns it
 
-`.agents/workspace/port-manifest.json`. If a human writes it, it is a `raw/` input (source of
-truth). If `coport` drafts it (SKILL §0), it is AI-owned **until the owner confirms** — never port
+`.agents/workspace/translate-manifest.json`. If a human writes it, it is a `raw/` input (source of
+truth). If `cotranslate` drafts it (SKILL §0), it is AI-owned **until the owner confirms** — never port
 against an unconfirmed manifest.
 
 ## Schema
@@ -97,7 +97,7 @@ Impl `core-loop.tokens.json`:
 Run:
 
 ```bash
-python3 skills/coport/scripts/token-parity-check.py --manifest .agents/workspace/port-manifest.json
+python3 skills/cotranslate/scripts/token-parity-check.py --manifest .agents/workspace/translate-manifest.json
 ```
 
 Output — casing is normalized, so `deepFlow`/`resting` PASS and only the real value diff surfaces:

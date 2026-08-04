@@ -25,17 +25,44 @@ right, and checking it shipped right) while the slow manual middle collapses.
 | **codebug** | codebugger | Find the real root cause when something breaks. |
 | **cochangelog** | cochangelogger | Record what shipped as a simple changelog list. |
 | **colearn** | colearner | Capture and recall lessons; turn repeat mistakes into guardrails. (core loop — "learn") |
-| **coaudit** | coauditor | Specialized loop: find UI that drifted out of consistency and fix it. |
-| **coconsolidate** | coconsolidator | Specialized loop: fold duplicated code/logic into one customizable master. |
+| **cocritique** | cocritic | Does the product actually do the user's job — and if not, what direction has to change? (the return edge) |
+| **coconsolidate** | coconsolidator | Specialized loop: one master, many call sites — fold duplicated logic *and* drifted UI elements back into one. |
 | **coharden** | cohardener | Specialized loop: harden the edge cases. |
-| **codraw** | codrawer | Specialized loop: render a spec into faithful Open Design artboards + a git-tracked ledger (feeds coport). |
-| **coport** | coporter | Specialized loop: port a design (artboard/spec) into native UI with zero drift. |
+| **codraw** | codrawer | Specialized loop: render a spec into faithful Open Design artboards + a git-tracked ledger (feeds cotranslate). |
+| **cotranslate** | cotranslator | Specialized loop: port a design (artboard/spec) into native UI with zero drift. |
 
 Every loop also runs **standalone** — `cochangelog` needs no prior plan. When two are paired, they
 cross-reference each other (a plan and its changelog each link the other).
 
+## The workflows
+
+You don't have to pick loops by hand. `/cocreator` chooses a **workflow** — a named chain for a
+recurring situation — and runs it:
+
+| Workflow | When | Chain |
+|---|---|---|
+| **discover** | direction unclear, nothing to build yet | coframe → coresearch |
+| **ship** | a small, well-understood change *(the default)* | cobuild ⇄ coverify → cochangelog |
+| **feature** | a new capability, uncertain or high blast radius | the full chain, coframe → colearn |
+| **design-first** | the UI itself is the deliverable | cospecify → codraw → cotranslate → coverify |
+| **fix** | something is broken | codebug → cobuild → coverify → colearn |
+| **evaluate** | "is this any good?" | coverify *(vs the spec)* · coconsolidate *(vs itself)* · cocritique *(vs the job)* |
+| **release-prep** | about to face users | coharden → coverify → completion gate |
+| **cleanup** | duplication/drift, behavior unchanged | coconsolidate → coverify |
+
+Each has an **exit gate** — the condition that means the chain closed, not just that its last loop
+ran. Enter one directly with `/cocreator fix "checkout 500s on retry"`.
+
+**Built to keep going.** A workflow advances by itself on each PASS — naming it *was* the approval —
+and stops on four things only: the exit gate is met, a human genuinely has to decide or do something,
+retries run out, or the product direction itself is in question. It records where it is in
+`.agents/workspace/STATE.md` (`Workflow:` + `Next:`), so a new session picks the chain back up
+instead of asking you what happens next. Full catalog:
+[`skills/cocreator/references/workflows.md`](skills/cocreator/references/workflows.md).
+
 > **Renamed in 0.2.0.** The old skill names map to: `planning-todos → coplan`,
-> `analyzing-problems → codebug`, `design-qa → coverify`, `consistency-audit → coaudit`,
+> `analyzing-problems → codebug`, `design-qa → coverify`, `consistency-audit → coaudit`
+> (later merged into `coconsolidate`, see 0.11.0),
 > `documenting-implementations → cochangelog`, and
 > `documenting-lesson-learned` + `accessing-lessons-learned` → `colearn` (merged).
 >
@@ -43,6 +70,15 @@ cross-reference each other (a plan and its changelog each link the other).
 > upstream objects — the *problem*, the *work*, the *solution*: `coshape → coframe` (frame the
 > problem) and `codesign → cospecify` (write the buildable spec). Doers: `coshaper → coframer`,
 > `codesigner → cospecifier`.
+>
+> **Renamed & merged in 0.11.0.** `coport → cotranslate` (`coporter → cotranslator`) — the skill
+> already called itself "the design→implementation translation loop"; the name now says so, and
+> `port-manifest.json` becomes `translate-manifest.json` (the old filename is still read).
+> `coaudit` is **merged into `coconsolidate`** — they sat on the same axis (many implementations
+> compared against each other) with the same fix (extract one master, migrate every call site) and
+> differed only in lens, so `coconsolidate` now runs both a **logic lens** and a **visual lens**.
+> Running the installer prints a migration hint if you still have the old directories; nothing is
+> deleted for you.
 
 ## How to install
 

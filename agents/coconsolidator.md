@@ -1,6 +1,6 @@
 ---
 name: coconsolidator
-description: Doer sub-agent for the coconsolidate loop — find duplicated code/logic and fold it into one customizable master. Spawn from cocreator to run the coconsolidate loop. Runs on sonnet.
+description: Doer sub-agent for the coconsolidate loop — fold duplicated logic — and drifted UI elements — into one customizable master. Spawn from cocreator to run the coconsolidate loop. Runs on sonnet.
 model: sonnet
 ---
 

@@ -9,7 +9,9 @@ Skills live at `skills/<name>/SKILL.md` and load natively via the shared Agent S
 scanned from `.agents/skills/`, `.cursor/skills/`, and `.claude/skills/` (project or global). No
 per-tool rewrite needed.
 
-- **cocreator** — master loop; routes a request to the right co-* loop(s) and self-delegates.
+- **cocreator** — master loop; picks a named workflow (discover · ship · feature · design-first ·
+  fix · evaluate · release-prep · cleanup), runs its chain of loops, and self-delegates each to its
+  doer. Advances unattended on PASS; resumes from `STATE.md`'s `Workflow:` / `Next:`.
 - **coframe** — frame the problem, fix the appetite, write a tight pitch before building.
 - **coresearch** — red-team the riskiest assumption a plan rests on before anyone builds on it.
 - **coplan** — break non-trivial work into clear, tracked, verifiable steps.
@@ -20,10 +22,10 @@ per-tool rewrite needed.
 - **coharden** — close edge cases and failure modes after the happy path works.
 - **cochangelog** — record what shipped as a simple, dated changelog.
 - **colearn** — capture, recall, and graduate lessons into guardrails.
-- **coaudit** — find and fix UI elements that should match but have visually drifted.
-- **coconsolidate** — find duplicated code/logic and unify it into one customizable master.
+- **cocritique** — judge whether the product does the user's job optimally, and what direction change follows.
+- **coconsolidate** — one master, many call sites: fold duplicated logic *and* drifted UI elements back into one.
 - **codraw** — render a cospecify spec into faithful Open Design artboards + a git-tracked ledger.
-- **coport** — port a design source (artboard/mock/spec) into native UI with zero drift.
+- **cotranslate** — port a design source (artboard/mock/spec) into native UI with zero drift.
 
 ## Start here
 

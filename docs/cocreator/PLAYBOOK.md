@@ -70,12 +70,22 @@ contain it. Fixed appetite, variable scope: cut scope to fit the box, don't grow
 against what actually shipped, continuously, with cited evidence on both sides. The faster the
 build, the more this matters.
 
+**And close the outer loop too.** "Did we build what we specified?" and "was that worth specifying?"
+are different questions, and only the first one has an answer inside the spec. A team that verifies
+without ever critiquing executes a wrong direction flawlessly — faster, at AI velocity. So the big
+loop returns: the product is judged against the **job** it was hired to do (`cocritique`), and that
+verdict re-opens intent. Two rules keep it honest. **Evidence caps the verdict** — a direction change
+needs observed behavior behind it, and inspection alone yields "we don't know yet, here's the
+cheapest test," which is a real answer, not a failure. And **the finding proposes; it never
+rewrites** — re-framing goes through the human, because that is exactly the judgment call worth
+spending review budget on.
+
 ### 7. One source of truth, owned by dimension
 When many loops each produce an artifact, "what is authoritative?" must have an answer. There is no
 single winner — each loop owns **one dimension** of truth and conforms to the ones above it: intent
 owns *why* (`coframe`), the **spec owns *what* + acceptance** (`cospecify`, the primary thing
 executors build and check against), the plan owns the *work*, design/code are *derived*, and
-diagnostic loops (`coverify`/`codebug`/`coaudit`/`coharden`) own only a **conformance signal** —
+diagnostic loops (`coverify`/`codebug`/`coconsolidate`/`coharden`/`cocritique`) own only a **signal** —
 they emit findings that *reference* the spec and **never become the source of truth**. A single
 ranked chain-of-command (this playbook > intent > spec > plan > design/code > findings) fires only
 to break a direct conflict; an unbreakable one escalates to the human. The source of truth changes
@@ -95,6 +105,7 @@ at a glance. Full design: `SSOT.md`.
 | **"Did we build the right thing?" checked late, by hand** | Verify is a closed loop: intent vs. shipped, checked every cycle, evidence on both sides. |
 | **Risk surfaces in the retro** | Risk is pulled forward: red-team, pre-mortem, circuit breaker, named anti-patterns — failure modes enumerated *before* building. |
 | **Lessons live in someone's head** | Lessons are written by the loop itself on failure, recalled before new work, and **graduated** into guardrails when they recur. |
+| **"Was this worth building?" gets asked at the retro, if at all** | The big loop returns: the product is judged against the *job*, not the spec, on a schedule — with the verdict capped by the evidence behind it, and re-framing routed through a human. |
 
 ---
 

@@ -30,14 +30,14 @@ build is the natural pairing (like a design doc → mockups → implementation).
    components, tokens, and screens so the spec stays consistent with the system.
 4. **Write a buildable spec** — explicit enough that `codraw`/`cobuild` needn't invent decisions:
    states, edge cases, acceptance criteria, the data/interface contract, the primitives used.
-5. **Check against conventions** — flag drift from existing patterns for `coaudit`; flag any new
+5. **Check against conventions** — flag drift from existing patterns for `coconsolidate`; flag any new
    primitive the taxonomy lacks for reconciliation (don't freeze an ad-hoc name silently).
 
 ## Native tooling
 
 **Figma** / **Open Design** MCP tools (read components, tokens, screens — *if present*) ·
 `EnterPlanMode` (rough the spec) · **Agent** (parallel design probes) · hand the spec to `codraw`
-(render artboards) and `cobuild` (implement), drift to `coaudit`, and reusable patterns to `colearn`.
+(render artboards) and `cobuild` (implement), drift to `coconsolidate`, and reusable patterns to `colearn`.
 
 ## Memory Bank
 
@@ -52,7 +52,7 @@ Copy `_template.md`, keep its frontmatter (`title`, `date`, `status`) filled.
 ## Self-eval gate (close the loop)
 
 - **Spec is clear and buildable** → PASS to `codraw` (render the artboards) and/or `cobuild` (build).
-- **Spec drifts from existing conventions** → cross-loop to `coaudit`.
+- **Spec drifts from existing conventions** → cross-loop to `coconsolidate`.
 - **Spec is ambiguous or won't hold together** → re-loop: re-specify.
 - **Needs a product/UX judgment call** → escalate to the human.
 

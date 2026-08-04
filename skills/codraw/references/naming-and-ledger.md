@@ -63,7 +63,7 @@ match the convention arity.
 ## 3. Ledger rules (invariant #5) — the durable design↔code seam
 
 The ledger is **git-tracked in the code repo, not the OD workspace** — that is the whole point: it
-survives OD sessions and is the map `coport`/`coverify`/later code chats read.
+survives OD sessions and is the map `cotranslate`/`coverify`/later code chats read.
 
 - **One entry per artboard-STATE artifact.** Not per screen.
 - **`name` MUST equal the naming convention**; **`state` MUST be in `stateVocab`**; **`id` = the
@@ -71,7 +71,7 @@ survives OD sessions and is the map `coport`/`coverify`/later code chats read.
 - **`flow`** carries the section-flow click-through order (from the hand-off), so the sitemap canvas
   can be generated from the ledger.
 - **`codeRef` / `route` / `codeStatus`** start null/`new` and are filled by the **code-parity pass**
-  (§10). `codeStatus` ∈ `existing | partial | new` tells `coport`/`cobuild` how much is already built.
+  (§10). `codeStatus` ∈ `existing | partial | new` tells `cotranslate`/`cobuild` how much is already built.
 - **`notes`** carries decision flags (§7): `resolved: …` for a defaulted decision, `blocked: …` for
   one needing eng/legal. Both are drawn; the flag routes the follow-up.
 - **Never delete an entry** — mark `status` (`todo | in_progress | done | needs-review`). Bump

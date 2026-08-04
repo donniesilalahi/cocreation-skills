@@ -13,9 +13,9 @@ Many loops emit artifacts — `coframe` a pitch, `coresearch` evidence, `coplan`
 `cospecify` a spec, `codraw` an artboard set + ledger, `cobuild` code, `coverify` a QA report. Two
 failures follow:
 
-1. **Ambiguity:** a downstream doer (`cobuild`, `coport`) doesn't know *which* artifact it must
+1. **Ambiguity:** a downstream doer (`cobuild`, `cotranslate`) doesn't know *which* artifact it must
    build and check against. Is the truth the pitch? the plan? the spec?
-2. **Blur under specialized loops:** jumping into `codebug` / `coverify` / `coaudit` / `coharden`
+2. **Blur under specialized loops:** jumping into `codebug` / `coverify` / `coconsolidate` / `coharden`
    seems to move the source of truth to their local output (a bug repro, a QA checklist), when it
    must not.
 
@@ -34,7 +34,8 @@ active → progress; BMAD gives each story *section* an owner). So:
 | the WORK & its order | `coplan` (tracked steps) | the spec |
 | rendered design | `codraw` (artboards + ledger) | the spec |
 | shipped implementation | `cobuild` (code + `cochangelog`) | the spec |
-| conformance signal | `coverify` / `coaudit` / `codebug` / `coharden` (**findings**) | never owns truth (§below) |
+| conformance signal | `coverify` / `coconsolidate` / `codebug` / `coharden` (**findings**) | never owns truth (§below) |
+| **fitness-for-the-job signal** | **`cocritique` (the verdict)** | never owns truth — but points *up* at intent (§below) |
 
 The **spec (`cospecify`)** is the primary SSOT downstream executors build and check against. The
 pitch is its *rationale layer* (it governs, but once the spec exists the spec is what you build; the
@@ -53,12 +54,12 @@ Higher authority overrides lower **on a direct conflict only**. An **unbreakable
 default to inaction"). The PLAYBOOK already declares itself the top authority ("if a skill and this
 playbook disagree, the playbook wins") — that is the constitution at the head of the chain.
 
-This is the generalization of the **conflict ladder `coport` already ships** (design wins visual,
+This is the generalization of the **conflict ladder `cotranslate` already ships** (design wins visual,
 copy wins strings, unresolved → STOP and ask the owner). Same shape, ecosystem-wide.
 
 ## Diagnostic loops emit findings that REFERENCE the SSOT — they never become it
 
-`codebug` / `coverify` / `coaudit` / `coharden` produce **findings about conformance**, not a new
+`codebug` / `coverify` / `coconsolidate` / `coharden` produce **findings about conformance**, not a new
 source of truth. A bug diagnosis is not a new spec; it is a signal that code diverged from the spec.
 Three clean mechanisms — each loop states which one it uses:
 
@@ -71,9 +72,32 @@ Three clean mechanisms — each loop states which one it uses:
   archive; Tessl: "update the spec first, then re-verify").
 
 **The rule that kills the blur:** the SSOT changes only through a **reviewed channel** (re-run
-`cospecify`) — never silently by a debug/verify/audit loop. This is why `coport` reports
+`cospecify`) — never silently by a debug/verify/audit loop. This is why `cotranslate` reports
 `implemented|blocked` and hands acceptance to `coverify`; why `codebug` re-verifies against the full
 spec, not the last symptom.
+
+### The one loop that points UP the ladder: `cocritique`
+
+Every other diagnostic loop measures the product **against the spec**. `cocritique` measures it
+**against the job** — so its finding can be "the spec was right and still wrong": faithfully built,
+serving an outcome users don't need, or missing one they do. That is a signal aimed at **intent**,
+not at conformance, and the chain-of-command has no rung for "the top of the chain may be mistaken."
+
+The resolution keeps the ladder intact rather than punching a hole in it:
+
+- **`cocritique` still only emits findings.** A verdict is not a new pitch, spec, or SSOT pointer.
+  It writes its memory-bank record (the *isolate* mechanism) and nothing else.
+- **The reviewed channel for intent is `coframe` + the human**, exactly as the reviewed channel for
+  the spec is `cospecify`. A direction verdict files an `inbox/` **decision** ask carrying a
+  recommended default and routes there. Re-framing is never banked automatically — this is the
+  highest-blast-radius change in the ecosystem, so it spends review budget by design (PLAYBOOK §3).
+- **An honest UNKNOWN outranks a confident verdict.** A direction verdict requires at least one
+  `observed` finding (recorded behavior or a direct user statement) on the outcome or signal lens.
+  Inspection-only critique yields **UNKNOWN** plus the cheapest test, routed to `coresearch`. This is
+  "pull risk forward" (PLAYBOOK §4) applied to the ecosystem's own output: a wrong UI finding costs a
+  day, a wrong pivot costs a quarter.
+- **`cocritique` never edits `STATE.md`'s SSOT pointer** — only appends its ledger row, like every
+  other loop.
 
 ## The pointer: `STATE.md` — always know the current SSOT and where work stands
 
@@ -86,17 +110,36 @@ fills. One well-known file, read first by every loop:
 
 - **Head — the active context (overwritten each session):**
   - `Authoritative spec: <path> (cospecify, <date>)` — the one-line SSOT pointer.
+  - `Workflow: <name> — step n/total` + **`Next: <loop> — <what it should do>`** — the resume
+    instruction (see below).
   - Current focus · in-flight loop · open decisions · blockers.
   - `Last updated: <date>` + a `[State: fresh|stale]` token so a downstream doer can distrust a
     stale head.
 - **Progress ledger — history (append-only, immutable):** one row per loop run —
-  `timestamp · loop · agent/model · verdict · record path · commit/artifact`. Never rewrite a past
-  row; supersede it.
+  `timestamp · workflow · loop · agent/model · verdict · record path · commit/artifact`. Never
+  rewrite a past row; supersede it.
 
 **Ritual:** every loop **reads `STATE.md` first** (before its own artifacts) and **writes its ledger
 row on exit** as part of the work, like a commit — not an afterthought. The orchestrator
 (`cocreator`) owns keeping the head's SSOT pointer current. Template:
 `skills/cocreator/references/STATE.template.md`.
+
+### `Workflow:` + `Next:` — what makes a long run self-driving
+
+The pointer answers "what is authoritative and what happened." Those two fields add **"and what
+happens next"** — without them a resuming session knows the last loop finished but not what follows,
+so it stops and asks. That is the failure mode of every multi-session run: not a wrong decision, just
+a chain that quietly stops advancing.
+
+- **`Workflow:`** names the active chain (`cocreator` §1). A resuming session does **not** re-select
+  one while a workflow is in flight.
+- **`Next:`** is a literal instruction, written on *every* loop exit — including the last one, where
+  it reads `workflow closed — exit gate met`. An empty or stale `Next:` is a stalled run.
+- The ledger's `workflow` column makes the history readable as a story rather than a list of loops,
+  and shows a resuming session where the current chain began. `—` for a standalone loop run.
+
+The head is overwritten, so these stay current by construction; the ledger is append-only, so the
+trail survives. Auto-advance rules and the four stop conditions live in `cocreator` SKILL.md §8.
 
 ## Status lives in a field — never in a folder or a filename
 
@@ -190,4 +233,4 @@ channel — human-owned rules always in context — already exists here: `raw/` 
 - `PLAYBOOK.md` — principle 7 ("One source of truth, owned by dimension") states the law; this doc is
   its design.
 - `ROADMAP.md` — where `STATE.md` and the ladder sit in the architecture.
-- `skills/coport/references/port-manifest.md` — the per-dimension conflict ladder this generalizes.
+- `skills/cotranslate/references/translate-manifest.md` — the per-dimension conflict ladder this generalizes.

@@ -1,32 +1,35 @@
 ---
-name: coport
-description: The design→implementation translation loop. Faithfully port a design source (an Open Design / Figma artboard, a JSX/HTML mock, or a written spec) into native UI (SwiftUI now; Kotlin/Compose owner-gated) with ZERO drift. Verify each token's value AND semantics in both sources (inverted params like `frost` are the trap), port EVERY depicted element and state, build each shared primitive as ONE customizable master and compose screens from it, and give every depicted control a real interaction contract. Use when translating a design or spec into real UI, or when a screen is reported "similar but not faithful." Project-specific facts (tokens, masters, capture commands) live in a `port-manifest.json`, not this skill. NOT coaudit — coaudit kills impl-vs-impl drift across screens (horizontal); coport kills design→impl drift for one screen (vertical). Hands visual/interaction acceptance to coverify and duplication cleanup to coconsolidate. The doer is coporter.
+name: cotranslate
+description: The design→implementation translation loop. Faithfully port a design source (an Open Design / Figma artboard, a JSX/HTML mock, or a written spec) into native UI (SwiftUI now; Kotlin/Compose owner-gated) with ZERO drift. Verify each token's value AND semantics in both sources (inverted params like `frost` are the trap), port EVERY depicted element and state, build each shared primitive as ONE customizable master and compose screens from it, and give every depicted control a real interaction contract. Use when translating a design or spec into real UI, or when a screen is reported "similar but not faithful." Project-specific facts (tokens, masters, capture commands) live in a `translate-manifest.json`, not this skill. NOT coconsolidate — coconsolidate kills impl-vs-impl drift across screens (horizontal); cotranslate kills design→impl drift for one screen (vertical). Hands visual/interaction acceptance to coverify and duplication cleanup to coconsolidate. The doer is cotranslator. Formerly named coport.
 ---
 
-# coport — faithful design→implementation port (zero drift)
+# cotranslate — faithful design→implementation port (zero drift)
 
-The doer is **coporter** (Sonnet). This is a specialized **translation** loop, callable from any
+The doer is **cotranslator** (Sonnet). This is a specialized **translation** loop, callable from any
 stage: take a design source (artboard / mock / spec) and produce native UI that matches it exactly.
 
-**The line vs siblings:** `coaudit` compares many implementations of one element against *each
-other* (impl-vs-impl drift). `coport` compares one implementation against its *design source*
+**The line vs siblings:** `coconsolidate` compares many implementations of one thing against *each
+other* (impl-vs-impl drift). `cotranslate` compares one implementation against its *design source*
 (design→impl drift). It is the build+translate cousin of `coverify` — it *produces* the port, then
 hands visual/interaction acceptance to `coverify` and duplication cleanup to `coconsolidate`. It
 does not re-implement either (see §9).
 
 This skill ships only **generic mechanism**. Every project-specific fact — token sources, the
 masters registry, scaffolding to strip, inverted-param traps, capture and parity commands — lives
-in a **`port-manifest.json`** the consumer keeps in `.agents/workspace/` (see
-`references/port-manifest.md`). Load it first.
+in a **`translate-manifest.json`** the consumer keeps in `.agents/workspace/` (see
+`references/translate-manifest.md`). Load it first.
 
-## 0. Bootstrap — the port-manifest (do this before anything)
+## 0. Bootstrap — the translate-manifest (do this before anything)
 
-If `.agents/workspace/port-manifest.json` does not exist, **do not proceed on guessed project
+> **Migrating from `coport`:** a legacy `.agents/workspace/port-manifest.json` is still valid — read
+> it if `translate-manifest.json` is absent, and rename it on the next confirmed edit.
+
+If `.agents/workspace/translate-manifest.json` does not exist, **do not proceed on guessed project
 facts.** Don't punt back to the owner empty-handed — draft the manifest, then get it confirmed:
 
 1. Inventory the design system — the token source and the shared primitives/components.
 2. Run LSP `documentSymbol` on each candidate master (§6) to capture its real customization surface.
-3. Fill the manifest schema (`references/port-manifest.md`) and hand it to the owner to confirm.
+3. Fill the manifest schema (`references/translate-manifest.md`) and hand it to the owner to confirm.
 
 An owner-confirmed (or human-authored) manifest is a `raw/` input; an AI-drafted one is AI-owned
 until confirmed. Only proceed once the design-source glob, token source, and masters registry resolve.
@@ -129,11 +132,11 @@ touches multiple files, so scope is per-span, not per-file (§8).
 ## 7. Token parity (mechanical)
 
 `scripts/token-parity-check.py` diffs the design-source token block against the target token source
-(both paths + formats read from `port-manifest.json`) and flags every value mismatch. Run it
+(both paths + formats read from `translate-manifest.json`) and flags every value mismatch. Run it
 **before translating any color** and in CI:
 
 ```bash
-python3 skills/coport/scripts/token-parity-check.py --manifest .agents/workspace/port-manifest.json
+python3 skills/cotranslate/scripts/token-parity-check.py --manifest .agents/workspace/translate-manifest.json
 # exit 0 = parity; exit 1 = drift
 ```
 
@@ -156,7 +159,7 @@ reported as INFO, not drift — verify those by reading, per §3.
 ## 9. Acceptance & DRY — cross-loop, don't re-implement
 
 - **Visual + interaction acceptance is `coverify`'s job.** After porting, hand off to `coverify`
-  (doer `coverifier`) for the side-by-side gate and the interaction contract. coport does not carry
+  (doer `coverifier`) for the side-by-side gate and the interaction contract. cotranslate does not carry
   a copy of that gate.
 - **Folding duplicate/forked views into one master is `coconsolidate`'s job.** Flag duplication;
   route it there. Acceptance criteria specific to a port: built from shared masters · every depicted
@@ -186,9 +189,9 @@ Next required gate: build | visual | interaction | independent coverify review
 
 ## Memory bank
 
-**Directory:** `.agents/skills/coport/memory-bank/` · **Records:** `YYYY-MM-DD-{board-slug}.md`
-(copy `_template.md`, fill frontmatter `title`/`date`/`platform`/`status`). **Index:** `PORT.md` —
-auto-generated; never hand-edit. After a record: `node .agents/skills/coport/index.mjs` (or
+**Directory:** `.agents/skills/cotranslate/memory-bank/` · **Records:** `YYYY-MM-DD-{board-slug}.md`
+(copy `_template.md`, fill frontmatter `title`/`date`/`platform`/`status`). **Index:** `TRANSLATE.md` —
+auto-generated; never hand-edit. After a record: `node .agents/skills/cotranslate/index.mjs` (or
 `npm run update-indices`). A record may link its `raw/` design input and the output it produced.
 
 ## Self-eval gate (close the loop)
@@ -198,13 +201,13 @@ auto-generated; never hand-edit. After a record: `node .agents/skills/coport/ind
 - **A depicted element or state can't be reproduced faithfully** → re-loop (bounded); do not ship a
   smaller version.
 - **Sources conflict unresolvably, or an owner design decision is needed** → escalate to the human.
-- **Duplication found** → cross-loop to `coconsolidate`. **A logic defect** → `codebug`. **Same
-  element drifted across screens** → `coaudit`.
+- **Duplication found, or the same element drifted across screens** → cross-loop to `coconsolidate`
+  (logic lens / visual lens). **A logic defect** → `codebug`.
 - **Backprop:** every faithfulness failure hands a lesson to `colearn`.
 
 ## References
 
 - `references/swiftui-mapping.md` — CSS/JSX→SwiftUI cheatsheet + SwiftUI-pitfall checklist.
 - `references/compose-mapping.md` — Kotlin/Compose stub (owner-gated).
-- `references/port-manifest.md` — manifest schema + a worked example.
+- `references/translate-manifest.md` — manifest schema + a worked example.
 - `references/gotchas.md` — cross-project translation traps.

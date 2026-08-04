@@ -1,6 +1,6 @@
 ---
 name: codraw
-description: The design→artboard render loop (the "draw" step). Takes a cospecify spec + a design-system SSOT and renders a faithful, state-by-state Open Design (OD) artboard set — plus a git-tracked JSON ledger cross-referencing every artboard to code, and three canvases (gallery, primitives library, data-driven sitemap). Encodes the invariant method: design-system SSOT first, reuse primitives (never redraw), a strict segmented naming convention with a controlled STATE vocabulary, draw-the-DEFAULT-never-silently-pick on open decisions, new-primitive reconciliation, and a browser-render verify. Use when a buildable spec exists and you need the OD artboards + ledger that coport ports from and coverify QAs against. Project facts (SSOT paths, state vocab, canvas sizes, OD project id, ledger path) live in a design-manifest.json, not this skill. Graceful-degrades to HTML/CSS artboards on disk when the OD MCP is absent. codraw renders — it does not invent the design system or build/QA it. The doer is codrawer.
+description: The design→artboard render loop (the "draw" step). Takes a cospecify spec + a design-system SSOT and renders a faithful, state-by-state Open Design (OD) artboard set — plus a git-tracked JSON ledger cross-referencing every artboard to code, and three canvases (gallery, primitives library, data-driven sitemap). Encodes the invariant method: design-system SSOT first, reuse primitives (never redraw), a strict segmented naming convention with a controlled STATE vocabulary, draw-the-DEFAULT-never-silently-pick on open decisions, new-primitive reconciliation, and a browser-render verify. Use when a buildable spec exists and you need the OD artboards + ledger that cotranslate ports from and coverify QAs against. Project facts (SSOT paths, state vocab, canvas sizes, OD project id, ledger path) live in a design-manifest.json, not this skill. Graceful-degrades to HTML/CSS artboards on disk when the OD MCP is absent. codraw renders — it does not invent the design system or build/QA it. The doer is codrawer.
 ---
 
 # codraw — render a spec into faithful OD artboards (the draw step)
@@ -8,11 +8,11 @@ description: The design→artboard render loop (the "draw" step). Takes a cospec
 The doer is **codrawer** (Sonnet). This is the **render/draw** step of the co-creation pipeline:
 
 ```
-cospecify(spec) → codraw(OD artboards + ledger + canvases) → { coport, cobuild } → coverify / coaudit
+cospecify(spec) → codraw(OD artboards + ledger + canvases) → { cotranslate, cobuild } → coverify / coconsolidate
 ```
 
 `cospecify` writes the buildable *spec*; `codraw` renders it into a high-fidelity, state-by-state
-**OD artboard set + ledger + canvases**. Its output is the input `coport` ports from and `coverify`
+**OD artboard set + ledger + canvases**. Its output is the input `cotranslate` ports from and `coverify`
 QAs against. **codraw renders — it never invents the design system (that's `cospecify`) nor builds/QAs
 it (`cobuild`/`coverify`).**
 
@@ -24,7 +24,7 @@ ledger path — lives in a **`design-manifest.json`** the consumer keeps in `.ag
 ## 0. Bootstrap — the design-manifest (before anything)
 
 If `.agents/workspace/design-manifest.json` does not exist, **do not improvise project facts.** Draft
-it, then get owner confirmation (coport's Step-0 pattern):
+it, then get owner confirmation (cotranslate's Step-0 pattern):
 
 1. Locate the design-system SSOT (tokens/materials/motion + the primitives doc) and the screen
    inventory / hand-off specs.
@@ -58,7 +58,7 @@ several states, split into one artifact per state. (Rules: `references/naming-an
 **5. Git-tracked JSON ledger in the CODE repo.** Maintain the ledger (the manifest's `ledgerPath`)
 **in the code repo, not the OD workspace.** It cross-references artboard ↔ code —
 `id`/`handoffRef`/`odArtifact`/`primitives`/`status`/`flow`/`codeRef`/`route`/`codeStatus`. **This is
-the durable seam** later code chats, `coport`, and `coverify` read from. Keep it valid JSON; never
+the durable seam** later code chats, `cotranslate`, and `coverify` read from. Keep it valid JSON; never
 delete entries (mark `status`); update `updated` on every write.
 
 **6. Three canvases.** Produce (unless the manifest opts one out): **gallery** (all artboards),
@@ -84,7 +84,7 @@ gate. Don't re-implement coverify here.
 
 **10. Code-parity pass.** Keep `route`/`codeRef`/`codeStatus` current so the ledger stays the **live
 design↔code map**, not a stale snapshot — `existing` / `partial` / `new` per artboard. This is what
-makes the ledger useful to `coport`/`cobuild` months later.
+makes the ledger useful to `cotranslate`/`cobuild` months later.
 
 ## Graceful degrade — no OD MCP
 
@@ -97,8 +97,8 @@ tool-agnostic; only the render target changes (house style, matching appstore-pr
 
 - codraw reports **`drawn` or `blocked`.** It renders + ledgers + smoke-checks; it does not invent
   the design system, port to code, or own the QA gate.
-- **Cross-loop, don't restate:** translation to native code → `coport`; visual/interaction acceptance
-  → `coverify`; element drift across screens → `coaudit`. Keep only codraw's own acceptance criteria.
+- **Cross-loop, don't restate:** translation to native code → `cotranslate`; visual/interaction acceptance
+  → `coverify`; element drift across screens → `coconsolidate`. Keep only codraw's own acceptance criteria.
 - Do **not** edit the design-system SSOT / primitives library (read-only references) or app code.
 
 ## Memory bank
@@ -112,7 +112,7 @@ auto-generated; never hand-edit. After a record: `node .agents/skills/codraw/ind
 
 - **Every artboard-state rendered from the SSOT primitives, named to convention, ledgered, canvases
   render clean (console + network checked), decisions defaulted + flagged, status `drawn`** → PASS
-  forward to `coport`/`cobuild` (they consume the ledger) and `coverify` (acceptance).
+  forward to `cotranslate`/`cobuild` (they consume the ledger) and `coverify` (acceptance).
 - **A screen can't be rendered faithfully from the SSOT, or a needed primitive doesn't exist** →
   re-loop (bounded); flag the new primitive (step 8), don't invent styling.
 - **An open decision needs an owner/eng/legal call** → draw the default, log it blocked, escalate.
