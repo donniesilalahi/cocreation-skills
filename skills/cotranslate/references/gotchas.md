@@ -1,4 +1,4 @@
-# coport — cross-project translation gotchas
+# cotranslate — cross-project translation gotchas
 
 The traps that recur across every design→implementation port, independent of framework. Each maps
 back to a SKILL section.

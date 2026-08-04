@@ -1,6 +1,6 @@
 # CSS / JSX → SwiftUI mapping + pitfall checklist
 
-Loaded on demand by `coport`. Generic to any SwiftUI target — no project facts here. The design
+Loaded on demand by `cotranslate`. Generic to any SwiftUI target — no project facts here. The design
 source is usually inline-styled JSX/HTML (or a spec that reduces to CSS-like values); this is how
 those values become SwiftUI.
 

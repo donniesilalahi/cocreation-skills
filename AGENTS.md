@@ -20,10 +20,10 @@ per-tool rewrite needed.
 - **coharden** — close edge cases and failure modes after the happy path works.
 - **cochangelog** — record what shipped as a simple, dated changelog.
 - **colearn** — capture, recall, and graduate lessons into guardrails.
-- **coaudit** — find and fix UI elements that should match but have visually drifted.
-- **coconsolidate** — find duplicated code/logic and unify it into one customizable master.
+- **cocritique** — judge whether the product does the user's job optimally, and what direction change follows.
+- **coconsolidate** — one master, many call sites: fold duplicated logic *and* drifted UI elements back into one.
 - **codraw** — render a cospecify spec into faithful Open Design artboards + a git-tracked ledger.
-- **coport** — port a design source (artboard/mock/spec) into native UI with zero drift.
+- **cotranslate** — port a design source (artboard/mock/spec) into native UI with zero drift.
 
 ## Start here
 

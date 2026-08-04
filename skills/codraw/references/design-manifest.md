@@ -3,7 +3,7 @@
 The manifest carries every **project-specific fact** `codraw` deliberately keeps out of `SKILL.md`:
 design-system SSOT paths, the screen inventory, the naming convention + state vocab, canvas sizes,
 the OD project id, and the ledger path. The skill is the generic method; the manifest is your
-project. Mirror of coport's `port-manifest.md`.
+project. Mirror of cotranslate's `translate-manifest.md`.
 
 ## Where it lives & who owns it
 
@@ -65,7 +65,7 @@ unconfirmed manifest.
 ## The ledger (invariant #5) — lift verbatim, parameterized by the manifest
 
 The ledger schema is proven; ship it as the default. It is git-tracked in the **code** repo so later
-code chats, `coport`, and `coverify` read the artboard→code map from it.
+code chats, `cotranslate`, and `coverify` read the artboard→code map from it.
 
 ```jsonc
 {

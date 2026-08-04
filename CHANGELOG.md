@@ -5,6 +5,69 @@ All notable changes to `@donniesilalahi/cocreation-skills`. Format follows
 (pre-1.0, so minor bumps may include renames). Versions before 0.6.0 predate this file — see the
 git history.
 
+## [0.11.0] — 2026-08-04 — cocritique (the return edge) + coport/coaudit restructure
+
+The ecosystem could verify *that we built what we specified* but never *whether that was worth
+specifying*. This adds the missing feedback edge and tidies the two loops whose names and boundaries
+had drifted.
+
+### Added
+- **`cocritique` / `cocritic`** (Opus) — the **return edge of the big loop**: judge whether the
+  product, as it stands, does the user's job **optimally**, and what change in **product direction**
+  follows. Evaluates outside-in across five lenses — **job** (JTBD job map + forces of progress),
+  **outcome** (ODI opportunity score `importance + max(importance − satisfaction, 0)`; ≥15
+  underserved, <10 **overserved**), **journey** (cognitive walkthrough's 4 questions + ISO
+  9241-11 effectiveness/efficiency/satisfaction), **interface** (Nielsen's 10 + 0–4 severity, with
+  WCAG 2.2 AA as a floor rather than a lens), **signal** (HEART + Goals-Signals-Metrics against
+  published benchmarks: SUS ≈ 68, SEQ ≈ 5.5, PMF ≥ 40%). Closes with exactly one verdict —
+  **SERVES / UNDERSERVES / OVERSERVES / MISSERVES / UNKNOWN** — plus the direction change, a
+  falsifier, and a prioritized fix list (BLOCKERS / FRICTION / POLISH).
+- **The evidence ceiling** — the guardrail that separates this from a heuristic checklist. Every
+  finding is tagged `observed | inferred | assumed`; a **direction** verdict requires at least one
+  `observed` finding on the outcome or signal lens, otherwise it degrades to **UNKNOWN** and names
+  the cheapest test instead (routed to `coresearch`). A wrong UI finding costs a day; a wrong pivot
+  costs a quarter — so inspection alone may never bank one.
+- **`cocritique` proposes, never rewrites.** It is the only loop whose signal points *up* the SSOT
+  ladder at **intent** rather than at conformance, so a direction verdict files an `inbox/` decision
+  ask and routes to `coframe`/`cospecify`. It never edits the pitch, the spec, or `STATE.md`'s SSOT
+  pointer. Design of record: `docs/cocreator/SSOT.md` § "The one loop that points UP the ladder".
+- Ships six references (`evaluation-ladder`, `heuristics-and-severity`, `checklists`, `gotchas`,
+  `critique-manifest`, `report-template`), a `memory-bank/` keyed on `segment` + `verdict`, and a
+  `critique-manifest.json` for project facts — same "no project facts in the skill" convention as
+  `codraw`/`cotranslate`.
+- **`docs/cocreator/RESEARCH.md` § C** — the survey behind all of it, including why the existing
+  open-source UX-audit skills (`ux-audit`, `nielsen-heuristics-audit`, `impeccable`, `uxui-principles`,
+  `design-audit`) all start at the interface and carry no evidence discipline, and what was
+  deliberately *not* adopted (composite UX scores, competitor benchmarking, visual-craft sweeps).
+
+### Changed
+- **`coport` → `cotranslate`** (`coporter` → `cotranslator`). The skill's own first line already read
+  "the design→implementation translation loop"; the name now matches. `port-manifest.json` →
+  **`translate-manifest.json`** — the legacy filename is still read, so existing consumers keep
+  working.
+- **`coaudit` merged into `coconsolidate`.** Both compared many implementations of one thing against
+  *each other* (the horizontal axis) and both fixed it the same way (extract one master, migrate every
+  call site); they differed only in lens — pixels vs logic. `coconsolidate` now runs a **logic lens**
+  and a **visual lens** over one machinery, with a unified five-cause taxonomy: D1 copy-paste ·
+  D2 parallel reimplementation · D3 forked-and-drifted · **D4 loose spec** (the spec permits a range,
+  so the drift is *spec-compliant* — fix the spec first, tier C0) · **D5 bypassed master** (a master
+  exists and call sites hardcode around it — tier C4 surgical adopt). Records gain a `lens` field.
+- The merge also removed the project-specific leakage `coaudit` shipped with (hardcoded
+  `Sources/WiseLifeUI` paths and `DESIGN.md §7.x` references). Element registries now live in the
+  consumer's memory bank, where project facts belong.
+- **`scripts/build-plugin-manifests.js`** gains an `EXTRA_STEPS` map so a doer agent can carry
+  load-bearing guardrails in its generated body (used by `cocritic` for the ladder order, the
+  evidence ceiling, and propose-don't-rewrite) without breaking deterministic regeneration.
+- Roster is **15 skills** (1 master + 14 loops): +`cocritique`, −`coaudit`.
+
+### Migration
+- The installer's `RENAMES` map now covers `coport → cotranslate` and `coaudit → coconsolidate`, so
+  `npx` installs print a migration hint for stale directories. **Nothing is deleted for you** —
+  `.agents/skills/` is shared. Move `<old>/memory-bank/*.md` into `<new>/memory-bank/`, delete the old
+  dir, then run `<new>/index.mjs`. `coaudit` records carry `cause: R1|R2|R3` / `tier: T1|T2|T3`; map
+  them to `cause: D4|D1|D5` / `tier: C0|C1|C4` and add `lens: visual`.
+- Plugin installs (Claude Code / Cursor / Codex) re-sync cleanly on update.
+
 ## [0.10.1] — 2026-07-16 — Rename migration for existing installs
 
 ### Added

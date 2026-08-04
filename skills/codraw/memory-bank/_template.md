@@ -34,7 +34,7 @@ Total artboard-states: {N}   ·   Screens: {M}
 {ledger codeRef/route/codeStatus filled? existing/partial/new counts}
 
 ## Notes
-{render-verify catches, owner escalations, next gate: coport / cobuild / coverify}
+{render-verify catches, owner escalations, next gate: cotranslate / cobuild / coverify}
 
 <!-- status: drawn | blocked -->
 <!-- raw input: .agents/workspace/raw/…   ledger: … -->

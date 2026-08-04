@@ -203,7 +203,7 @@ Graduated from real failures — a verifier that ignores these passes broken wor
 - **All passes green, behavior + pixels match spec** → PASS forward: ship, or hand back to `cochangelog` to record what shipped.
 - **Discrepancies found** → re-loop with the developer to apply fixes, re-capture, re-check (bounded retries; default: cancel/park the screen, not extend indefinitely).
 - **Spec itself is ambiguous or the artboard is missing** → escalate to the human.
-- **Defect is a logic bug** → cross-loop to `codebug`; **same element drifted across many screens** → cross-loop to `coaudit`; **robustness gap** → `coharden`.
+- **Defect is a logic bug** → cross-loop to `codebug`; **same element drifted across many screens** → cross-loop to `coconsolidate`; **robustness gap** → `coharden`.
 - **Backprop:** every failure hands a lesson to `colearn` (what broke, the guardrail to prevent it). A bug-class that keeps recurring graduates into a guardrail. This is how the loop self-learns.
 
 ## Relationship to Other Skills

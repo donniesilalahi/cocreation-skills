@@ -75,7 +75,7 @@ against the single symptom you just closed. A green on "the reported bug is gone
 - **Root cause confirmed + fix verified** → PASS forward to `cobuild` to apply it, then `coverify` to re-check; log the lesson to `colearn`.
 - **Hypotheses exhausted, still not reproduced** → re-loop with fresh evidence, bounded retries (default: cancel after ~3 passes, not extend the hunt).
 - **Needs a product/design decision or access you don't have** → escalate to the human.
-- **Diagnosis reveals systemic drift across screens** → cross-loop to `coaudit`; if it's a hardening/robustness gap, hand to `coharden`.
+- **Diagnosis reveals systemic drift across screens** → cross-loop to `coconsolidate`; if it's a hardening/robustness gap, hand to `coharden`.
 
 ## Principles
 

@@ -25,17 +25,18 @@ right, and checking it shipped right) while the slow manual middle collapses.
 | **codebug** | codebugger | Find the real root cause when something breaks. |
 | **cochangelog** | cochangelogger | Record what shipped as a simple changelog list. |
 | **colearn** | colearner | Capture and recall lessons; turn repeat mistakes into guardrails. (core loop — "learn") |
-| **coaudit** | coauditor | Specialized loop: find UI that drifted out of consistency and fix it. |
-| **coconsolidate** | coconsolidator | Specialized loop: fold duplicated code/logic into one customizable master. |
+| **cocritique** | cocritic | Does the product actually do the user's job — and if not, what direction has to change? (the return edge) |
+| **coconsolidate** | coconsolidator | Specialized loop: one master, many call sites — fold duplicated logic *and* drifted UI elements back into one. |
 | **coharden** | cohardener | Specialized loop: harden the edge cases. |
-| **codraw** | codrawer | Specialized loop: render a spec into faithful Open Design artboards + a git-tracked ledger (feeds coport). |
-| **coport** | coporter | Specialized loop: port a design (artboard/spec) into native UI with zero drift. |
+| **codraw** | codrawer | Specialized loop: render a spec into faithful Open Design artboards + a git-tracked ledger (feeds cotranslate). |
+| **cotranslate** | cotranslator | Specialized loop: port a design (artboard/spec) into native UI with zero drift. |
 
 Every loop also runs **standalone** — `cochangelog` needs no prior plan. When two are paired, they
 cross-reference each other (a plan and its changelog each link the other).
 
 > **Renamed in 0.2.0.** The old skill names map to: `planning-todos → coplan`,
-> `analyzing-problems → codebug`, `design-qa → coverify`, `consistency-audit → coaudit`,
+> `analyzing-problems → codebug`, `design-qa → coverify`, `consistency-audit → coaudit`
+> (later merged into `coconsolidate`, see 0.11.0),
 > `documenting-implementations → cochangelog`, and
 > `documenting-lesson-learned` + `accessing-lessons-learned` → `colearn` (merged).
 >
@@ -43,6 +44,15 @@ cross-reference each other (a plan and its changelog each link the other).
 > upstream objects — the *problem*, the *work*, the *solution*: `coshape → coframe` (frame the
 > problem) and `codesign → cospecify` (write the buildable spec). Doers: `coshaper → coframer`,
 > `codesigner → cospecifier`.
+>
+> **Renamed & merged in 0.11.0.** `coport → cotranslate` (`coporter → cotranslator`) — the skill
+> already called itself "the design→implementation translation loop"; the name now says so, and
+> `port-manifest.json` becomes `translate-manifest.json` (the old filename is still read).
+> `coaudit` is **merged into `coconsolidate`** — they sat on the same axis (many implementations
+> compared against each other) with the same fix (extract one master, migrate every call site) and
+> differed only in lens, so `coconsolidate` now runs both a **logic lens** and a **visual lens**.
+> Running the installer prints a migration hint if you still have the old directories; nothing is
+> deleted for you.
 
 ## How to install
 

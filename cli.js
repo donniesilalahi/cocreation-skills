@@ -25,6 +25,8 @@ const wantedSkills = args.filter((arg) => !arg.startsWith('-'))
 const RENAMES = {
   coshape: 'coframe',
   codesign: 'cospecify',
+  coport: 'cotranslate',
+  coaudit: 'coconsolidate',
 }
 
 if (help) {

@@ -63,11 +63,11 @@ const ROSTER = [
   ['codebug', 'codebugger', 'opus'],
   ['cochangelog', 'cochangelogger', 'haiku'],
   ['colearn', 'colearner', 'sonnet'],
-  ['coaudit', 'coauditor', 'haiku'],
+  ['cocritique', 'cocritic', 'opus'],
   ['coconsolidate', 'coconsolidator', 'sonnet'],
   ['coharden', 'cohardener', 'sonnet'],
   ['codraw', 'codrawer', 'sonnet'],
-  ['coport', 'coporter', 'sonnet'],
+  ['cotranslate', 'cotranslator', 'sonnet'],
 ]
 
 // Short hand-summary purpose clauses (<=15 words), one per roster skill —
@@ -86,15 +86,28 @@ const PURPOSES = {
     'systematically diagnose root causes for bugs and unexpected behavior',
   cochangelog: 'record what shipped as a simple, dated changelog list',
   colearn: 'capture, recall, and graduate lessons into guardrails',
-  coaudit: 'find UI elements that should match but have visually drifted',
+  cocritique:
+    'judge whether the product does the user’s job optimally, and what direction change that implies',
   coconsolidate:
-    'find duplicated code/logic and fold it into one customizable master',
+    'fold duplicated logic — and drifted UI elements — into one customizable master',
   coharden:
     'enumerate and close edge cases and failure modes after the happy path works',
   codraw:
     'render a design spec into faithful, state-by-state OD artboards + a git-tracked ledger',
-  coport:
+  cotranslate:
     'faithfully port a design source into native UI with zero drift',
+}
+
+// Extra numbered steps inserted before the closing "return only the verdict"
+// step, for loops whose guardrails are load-bearing enough that the doer must
+// carry them even before it opens its SKILL.md. Keep each to one or two lines —
+// the SKILL.md remains the full operating guide.
+const EXTRA_STEPS = {
+  cocritique: [
+    'Walk the ladder outside-in (job → outcome → journey → interface → signal); never open at the interface.',
+    'Tag every finding `observed | inferred | assumed` and respect the verdict ceiling — a direction verdict needs an `observed` finding on the outcome or signal lens; otherwise issue **UNKNOWN** with the cheapest test. Never bank a direction change on inspection alone.',
+    'You **propose**; you never rewrite. Do not edit the pitch, the spec, or `STATE.md`’s SSOT pointer — file an `inbox/` decision ask and route.',
+  ],
 }
 
 // agents/<doer>.md — one doer sub-agent per roster entry. Deterministic
@@ -103,6 +116,13 @@ const agentsDir = path.join(repoRoot, 'agents')
 fs.mkdirSync(agentsDir, { recursive: true })
 for (const [skill, doer, model] of ROSTER) {
   const purpose = PURPOSES[skill]
+  const steps = [
+    `Read \`\${CLAUDE_PLUGIN_ROOT}/skills/${skill}/SKILL.md\` — that is your full operating guide.`,
+    `Run the \`${skill}\` loop on the task you are given.`,
+    ...(EXTRA_STEPS[skill] || []),
+    `Write your memory-bank record under the consumer project's \`.agents/skills/${skill}/memory-bank/\` (create it if missing) — never inside the plugin.`,
+    'Return ONLY your self-eval verdict + artifact pointers (record path, files touched) — not your full working transcript.',
+  ]
   const content = `---
 name: ${doer}
 description: Doer sub-agent for the ${skill} loop — ${purpose}. Spawn from cocreator to run the ${skill} loop. Runs on ${model}.
@@ -111,10 +131,7 @@ model: ${model}
 
 You are **${doer}**, the doer sub-agent for the \`${skill}\` loop.
 
-1. Read \`\${CLAUDE_PLUGIN_ROOT}/skills/${skill}/SKILL.md\` — that is your full operating guide.
-2. Run the \`${skill}\` loop on the task you are given.
-3. Write your memory-bank record under the consumer project's \`.agents/skills/${skill}/memory-bank/\` (create it if missing) — never inside the plugin.
-4. Return ONLY your self-eval verdict + artifact pointers (record path, files touched) — not your full working transcript.
+${steps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
 `
   fs.writeFileSync(path.join(agentsDir, `${doer}.md`), content)
   console.log(`wrote agents/${doer}.md`)

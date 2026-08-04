@@ -4,7 +4,7 @@ token-parity-check.py — manifest-driven drift detector for design→implementa
 
 Diffs the DESIGN token source against the IMPLEMENTATION token source and flags every value
 mismatch. Both sides — paths, formats, and which token groups to compare — are read from a
-`port-manifest.json`, so this script carries ZERO project-specific facts (that is the whole point
+`translate-manifest.json`, so this script carries ZERO project-specific facts (that is the whole point
 of generalizing it out of any one project).
 
 This is the "verify each token's SEMANTICS in BOTH sources before translating" step (SKILL §3),
@@ -12,7 +12,7 @@ done mechanically so a stale/placeholder token can't slip through an eyeball pas
 GUARDRAIL, not a fixer — it never edits either file. Exit 0 = full parity on shared keys; exit 1 =
 at least one DRIFT (CI-friendly); exit 2 = the manifest itself is missing/unusable.
 
-Manifest `parity` block (see references/port-manifest.md):
+Manifest `parity` block (see references/translate-manifest.md):
 
     "parity": {
       "source": { "path": "<design token file>", "format": "jsx-object",
@@ -135,20 +135,20 @@ def load(spec: dict, side: str) -> dict:
     sys.stderr.write(
         f"error: {side}.format '{fmt}' unsupported (use 'jsx-object' or 'json'). "
         f"A project whose token shape fits neither needs a per-project adapter — see "
-        f"references/port-manifest.md.\n"
+        f"references/translate-manifest.md.\n"
     )
     sys.exit(2)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--manifest", default=".agents/workspace/port-manifest.json")
+    ap.add_argument("--manifest", default=".agents/workspace/translate-manifest.json")
     args = ap.parse_args()
 
     if not os.path.exists(args.manifest):
         sys.stderr.write(
-            f"error: no manifest at {args.manifest}. coport SKILL §0 — draft a port-manifest "
-            f"(references/port-manifest.md) and get owner confirmation before porting.\n"
+            f"error: no manifest at {args.manifest}. cotranslate SKILL §0 — draft a translate-manifest "
+            f"(references/translate-manifest.md) and get owner confirmation before porting.\n"
         )
         return 2
     manifest = json.load(open(args.manifest, encoding="utf-8"))
@@ -156,7 +156,7 @@ def main() -> int:
     if not parity or "source" not in parity or "target" not in parity:
         sys.stderr.write(
             "error: manifest has no usable `parity.source` / `parity.target` block. "
-            "See references/port-manifest.md.\n"
+            "See references/translate-manifest.md.\n"
         )
         return 2
 

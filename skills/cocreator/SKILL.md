@@ -29,11 +29,11 @@ Pull risk forward. Default to cancel, not extend. Close every loop with a self-e
 | `codebug` | codebugger | diagnose | **opus** | find root cause when verify fails |
 | `cochangelog` | cochangelogger | record | **haiku** | changelog list of what shipped |
 | `colearn` | colearner | learn | **sonnet** | recall before work; capture lessons; graduate guardrails *(mandatory, core)* |
-| `coaudit` | coauditor | specialized | **haiku** | visual consistency drift across screens |
-| `coconsolidate` | coconsolidator | specialized | **sonnet** | code/logic DRY: fold duplication into one customizable master |
+| `cocritique` | cocritic | critique | **opus** | does the product do the user's job optimally, and what direction change follows |
+| `coconsolidate` | coconsolidator | specialized | **sonnet** | one master, many call sites — fold duplicated logic *and* drifted UI elements back into one |
 | `coharden` | cohardener | specialized | **sonnet** | edge-case hardening after the happy path works |
-| `codraw` | codrawer | specialized | **sonnet** | render a cospecify spec into faithful OD artboards + a git-tracked ledger (feeds coport) |
-| `coport` | coporter | specialized | **sonnet** | design→impl translation: port an artboard/spec into native UI with zero drift |
+| `codraw` | codrawer | specialized | **sonnet** | render a cospecify spec into faithful OD artboards + a git-tracked ledger (feeds cotranslate) |
+| `cotranslate` | cotranslator | specialized | **sonnet** | design→impl translation: port an artboard/spec into native UI with zero drift |
 
 Model tiers: **opus** = judgment-heavy (shape/research/diagnose, where mistakes amplify);
 **sonnet** = structured build & review; **haiku** = mechanical capture/format.
@@ -52,9 +52,11 @@ Given a request, name which loops to run and in what order. Don't force the full
 needs one or a few loops (pragmatic by default). Use the macro order as a guide, not a mandate:
 
 ```
+      ┌────────────── cocritique (does it do the job? → direction) ──────────────┐
+      ↓                                                                          │
 coframe → coresearch → coplan → cospecify → ╔ cobuild ⇄ coverify (↘codebug) ╗ → cochangelog
                                             ╚════════ colearn (learn) ══════╝
-specialized, on demand: coaudit (visual drift) · coconsolidate (code DRY) · coharden (edge cases) · codraw (spec→OD artboards) · coport (design→impl port)
+specialized, on demand: coconsolidate (logic + visual drift) · coharden (edge cases) · codraw (spec→OD artboards) · cotranslate (design→impl port)
 ```
 
 - **Mandatory in a full cycle:** `coplan`, the core `cobuild`+`coverify`, `colearn`.
@@ -95,16 +97,24 @@ Collect each loop's self-eval and route:
 - **PASS** → cross-loop forward to the next stage.
 - **FAIL** → re-loop the same skill. Bounded retries; after N, **cancel not extend** — escalate.
 - **BLOCKED / needs judgment** → escalate to the human (this is where review budget is spent).
-- **DRIFT / defect** → cross-loop to a specialized loop: `coaudit` (visual inconsistency),
-  `coconsolidate` (duplication / DRY), `coharden` (edge cases), `codebug` (defect).
+- **DRIFT / defect** → cross-loop to a specialized loop: `coconsolidate` (duplication / DRY, and
+  visual inconsistency across screens), `coharden` (edge cases), `codebug` (defect).
 - **Spec exists, need the OD artboards** (render a `cospecify` spec into a faithful, state-by-state
   Open Design artboard set + git-tracked ledger + canvases) → route to `codraw`. It is the render/draw
-  step: `cospecify(spec) → codraw(artboards+ledger) → { coport, cobuild }`. `codraw` produces what
-  `coport` ports from and `coverify` QAs against — it renders, it doesn't invent or build.
+  step: `cospecify(spec) → codraw(artboards+ledger) → { cotranslate, cobuild }`. `codraw` produces what
+  `cotranslate` ports from and `coverify` QAs against — it renders, it doesn't invent or build.
 - **Design→implementation translation** (port an artboard / mock / spec into native UI, or a screen
-  reported "similar but not faithful") → route to `coport`. Distinct from `coaudit`: `coaudit` kills
-  impl-vs-impl drift across screens; `coport` kills design→impl drift for one screen, then hands
-  acceptance to `coverify` and duplication to `coconsolidate`.
+  reported "similar but not faithful") → route to `cotranslate`. Distinct from `coconsolidate`:
+  `coconsolidate` kills impl-vs-impl drift across screens; `cotranslate` kills design→impl drift for
+  one screen, then hands acceptance to `coverify` and duplication back to `coconsolidate`.
+- **"Is this actually working for users?"** — a shipped surface underperforms, a cycle is about to
+  start, someone asks for a design critique / UX review, or the next roadmap bet needs justifying →
+  route to `cocritique`. It is the **return edge**: it judges the product against the *job* (not the
+  spec), issues one verdict (SERVES / UNDERSERVES / OVERSERVES / MISSERVES / UNKNOWN), and routes the
+  direction change to `coframe` (re-frame) or `cospecify` (deepen / cut). It **proposes** a change to
+  intent — it never edits the pitch, the spec, or the SSOT pointer. A verdict of UNKNOWN is a real
+  result: it means the evidence didn't support a direction call, and it hands the cheapest test to
+  `coresearch`.
 
 ### 5. Wire cross-references
 When you run paired loops in sequence, link their records both ways:
@@ -127,14 +137,16 @@ inbox are append-only; never rewrite a past row (supersede it).
 There is **no single SSOT** — each loop owns one dimension and conforms upward. The **spec
 (`cospecify`)** is the primary thing executors build and check against; the pitch (`coframe`) is its
 rationale layer; the plan (`coplan`) sequences the work; design/code are derived. **Diagnostic loops
-(`coverify`/`codebug`/`coaudit`/`coharden`) own only a conformance *signal* — their findings
+(`coverify`/`codebug`/`coconsolidate`/`coharden`/`cocritique`) own only a *signal* — their findings
 *reference* the spec and never become it.** The SSOT changes only through a reviewed channel (re-run
-`cospecify`), never silently by a debug/audit loop.
+`cospecify`), never silently by a debug/audit loop. `cocritique` is the one whose signal is aimed at
+**intent** rather than conformance: it may argue the spec was serving the wrong outcome — but it
+still only *proposes*, via an `inbox/` decision ask routed to `coframe`.
 
 When two artifacts contradict on the *same* claim, break the tie by the ranked chain-of-command —
 **PLAYBOOK > intent (coframe) > spec (cospecify) > plan (coplan) > design/draw > code > findings** —
 and **escalate an unbreakable conflict to the human** (don't auto-resolve). Full design + the
-findings-handling mechanisms: `docs/cocreator/SSOT.md`. This generalizes the conflict ladder `coport`
+findings-handling mechanisms: `docs/cocreator/SSOT.md`. This generalizes the conflict ladder `cotranslate`
 already ships.
 
 ## Human handoff (never stall)
