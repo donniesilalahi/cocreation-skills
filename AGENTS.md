@@ -9,7 +9,9 @@ Skills live at `skills/<name>/SKILL.md` and load natively via the shared Agent S
 scanned from `.agents/skills/`, `.cursor/skills/`, and `.claude/skills/` (project or global). No
 per-tool rewrite needed.
 
-- **cocreator** — master loop; routes a request to the right co-* loop(s) and self-delegates.
+- **cocreator** — master loop; picks a named workflow (discover · ship · feature · design-first ·
+  fix · evaluate · release-prep · cleanup), runs its chain of loops, and self-delegates each to its
+  doer. Advances unattended on PASS; resumes from `STATE.md`'s `Workflow:` / `Next:`.
 - **coframe** — frame the problem, fix the appetite, write a tight pitch before building.
 - **coresearch** — red-team the riskiest assumption a plan rests on before anyone builds on it.
 - **coplan** — break non-trivial work into clear, tracked, verifiable steps.

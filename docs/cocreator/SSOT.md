@@ -110,17 +110,36 @@ fills. One well-known file, read first by every loop:
 
 - **Head — the active context (overwritten each session):**
   - `Authoritative spec: <path> (cospecify, <date>)` — the one-line SSOT pointer.
+  - `Workflow: <name> — step n/total` + **`Next: <loop> — <what it should do>`** — the resume
+    instruction (see below).
   - Current focus · in-flight loop · open decisions · blockers.
   - `Last updated: <date>` + a `[State: fresh|stale]` token so a downstream doer can distrust a
     stale head.
 - **Progress ledger — history (append-only, immutable):** one row per loop run —
-  `timestamp · loop · agent/model · verdict · record path · commit/artifact`. Never rewrite a past
-  row; supersede it.
+  `timestamp · workflow · loop · agent/model · verdict · record path · commit/artifact`. Never
+  rewrite a past row; supersede it.
 
 **Ritual:** every loop **reads `STATE.md` first** (before its own artifacts) and **writes its ledger
 row on exit** as part of the work, like a commit — not an afterthought. The orchestrator
 (`cocreator`) owns keeping the head's SSOT pointer current. Template:
 `skills/cocreator/references/STATE.template.md`.
+
+### `Workflow:` + `Next:` — what makes a long run self-driving
+
+The pointer answers "what is authoritative and what happened." Those two fields add **"and what
+happens next"** — without them a resuming session knows the last loop finished but not what follows,
+so it stops and asks. That is the failure mode of every multi-session run: not a wrong decision, just
+a chain that quietly stops advancing.
+
+- **`Workflow:`** names the active chain (`cocreator` §1). A resuming session does **not** re-select
+  one while a workflow is in flight.
+- **`Next:`** is a literal instruction, written on *every* loop exit — including the last one, where
+  it reads `workflow closed — exit gate met`. An empty or stale `Next:` is a stalled run.
+- The ledger's `workflow` column makes the history readable as a story rather than a list of loops,
+  and shows a resuming session where the current chain began. `—` for a standalone loop run.
+
+The head is overwritten, so these stay current by construction; the ledger is append-only, so the
+trail survives. Auto-advance rules and the four stop conditions live in `cocreator` SKILL.md §8.
 
 ## Status lives in a field — never in a folder or a filename
 

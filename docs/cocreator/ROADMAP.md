@@ -32,6 +32,29 @@ breaking. `cocritique` closes it on *product* — whether what we built does the
 Without the second edge the ecosystem can execute a wrong direction flawlessly, forever: a spec can
 pass `coverify` perfectly and still have been the wrong thing to build.
 
+### The workflow layer — named chains over the loops
+
+The roster above is a *vocabulary*; on its own it makes every request start by re-deriving which
+loops apply. **Workflows** are named, pre-wired chains for recurring situations — `discover` ·
+`ship` · `feature` · `design-first` · `fix` · `evaluate` · `release-prep` · `cleanup` — each with an
+entry condition, the loops it deliberately skips, and an **exit gate** that says when the *chain*
+(not just its last loop) has closed. Catalog: `skills/cocreator/references/workflows.md`; selector
+table in `cocreator` SKILL.md §1.
+
+Three things the layer buys that the roster alone doesn't:
+
+1. **The skippable loops are already in the chain.** `coverify` and `colearn` are what get dropped
+   under time pressure, and they are precisely the two the playbook says can't be. Naming them into
+   `ship` and `fix` makes keeping them the default rather than a discipline.
+2. **`evaluate` is a router, not a chain** — `coverify` (vs the spec) · `coconsolidate` (vs itself) ·
+   `cocritique` (vs the job). Three different reference points that read as interchangeable "review"
+   until you name them apart. Running the wrong one answers a question nobody asked.
+3. **It makes long runs self-driving.** A workflow advances on PASS without asking between steps
+   (naming it *was* the approval) and halts on four conditions only: exit gate met, hard-block,
+   retries exhausted, or a direction change. `STATE.md`'s `Workflow:` + `Next:` fields carry the
+   position across sessions, so a fresh context resumes the chain instead of asking what to do.
+   Rules: `cocreator` SKILL.md §8; field design: `SSOT.md`.
+
 **Core loop = make → check → learn.** Not "write code" (build collapses); the engine is
 cobuild → coverify, with codebug on failure, and every failure writing a lesson via colearn
 (the backprop reflex). A recurring bug-class graduates into a guardrail.

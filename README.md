@@ -34,6 +34,32 @@ right, and checking it shipped right) while the slow manual middle collapses.
 Every loop also runs **standalone** — `cochangelog` needs no prior plan. When two are paired, they
 cross-reference each other (a plan and its changelog each link the other).
 
+## The workflows
+
+You don't have to pick loops by hand. `/cocreator` chooses a **workflow** — a named chain for a
+recurring situation — and runs it:
+
+| Workflow | When | Chain |
+|---|---|---|
+| **discover** | direction unclear, nothing to build yet | coframe → coresearch |
+| **ship** | a small, well-understood change *(the default)* | cobuild ⇄ coverify → cochangelog |
+| **feature** | a new capability, uncertain or high blast radius | the full chain, coframe → colearn |
+| **design-first** | the UI itself is the deliverable | cospecify → codraw → cotranslate → coverify |
+| **fix** | something is broken | codebug → cobuild → coverify → colearn |
+| **evaluate** | "is this any good?" | coverify *(vs the spec)* · coconsolidate *(vs itself)* · cocritique *(vs the job)* |
+| **release-prep** | about to face users | coharden → coverify → completion gate |
+| **cleanup** | duplication/drift, behavior unchanged | coconsolidate → coverify |
+
+Each has an **exit gate** — the condition that means the chain closed, not just that its last loop
+ran. Enter one directly with `/cocreator fix "checkout 500s on retry"`.
+
+**Built to keep going.** A workflow advances by itself on each PASS — naming it *was* the approval —
+and stops on four things only: the exit gate is met, a human genuinely has to decide or do something,
+retries run out, or the product direction itself is in question. It records where it is in
+`.agents/workspace/STATE.md` (`Workflow:` + `Next:`), so a new session picks the chain back up
+instead of asking you what happens next. Full catalog:
+[`skills/cocreator/references/workflows.md`](skills/cocreator/references/workflows.md).
+
 > **Renamed in 0.2.0.** The old skill names map to: `planning-todos → coplan`,
 > `analyzing-problems → codebug`, `design-qa → coverify`, `consistency-audit → coaudit`
 > (later merged into `coconsolidate`, see 0.11.0),

@@ -5,6 +5,57 @@ All notable changes to `@donniesilalahi/cocreation-skills`. Format follows
 (pre-1.0, so minor bumps may include renames). Versions before 0.6.0 predate this file — see the
 git history.
 
+## [0.12.0] — 2026-08-04 — Workflows: named loop chains that drive themselves
+
+The roster was a *vocabulary* — every request began by re-deriving which loops apply, and the two
+loops that get dropped under time pressure (`coverify`, `colearn`) are exactly the two the playbook
+says can't be. This adds the layer above the loops, and makes a chain survive a session boundary
+without a human re-driving it.
+
+### Added
+- **Eight workflows** — `discover` · `ship` · `feature` · `design-first` · `fix` · `evaluate` ·
+  `release-prep` · `cleanup`. Each names an **entry condition**, the **chain**, the loops it
+  **deliberately skips and why**, and an **exit gate** — the condition that means the *chain* closed,
+  not merely that its last loop ran. Catalog: `skills/cocreator/references/workflows.md`; selector
+  table in `cocreator` SKILL.md §1. Enter one directly with
+  `/cocreator <workflow> "<request>"`.
+- **`evaluate` is a router, not a chain.** The three review loops answer different questions against
+  different reference points — `coverify` (vs the **spec**) · `coconsolidate` (vs **itself**, across
+  screens) · `cocritique` (vs the **job**) — and read as interchangeable until named apart. Picking
+  by reference point is now the documented first step; running the wrong one gives a confident answer
+  to a question nobody asked.
+- **`cocreator` §8 "Run it unattended".** A workflow **auto-advances on PASS** — naming the workflow
+  *was* the approval for the sequence, so it does not stop to report progress and wait for
+  "continue". It halts on **four stop conditions only**: the exit gate is met, a hard-block (§Human
+  handoff step 4), bounded retries exhausted, or a **direction change** (`cocritique` MISSERVES, or
+  any verdict re-opening intent — never banked unattended). Everything else keeps moving via the
+  existing default / park / placeholder ladder, with the completion gate resurfacing stubs before
+  anything ships. Includes the cadence guidance (`/loop`, `ScheduleWakeup`, `TaskCreate`) and a
+  three-step resume protocol.
+- **`STATE.md` gains `Workflow:` and `Next:`** in the head, plus a `Workflow` column in the ledger.
+  This is the mechanism that makes long runs self-driving: the pointer already recorded what is
+  authoritative and what happened; these add **what happens next**. `Next:` is written on *every*
+  loop exit — including the last, where it reads `workflow closed — exit gate met`. A stale or empty
+  `Next:` is where an unattended run dies: the following session finds a finished loop, no idea what
+  follows, and stops to ask. Design of record: `SSOT.md` § "`Workflow:` + `Next:`".
+
+### Changed
+- **`cocreator` §1 replaced, not extended.** The old "Recommend — use the macro order as a guide"
+  prose was the only prior form of this idea; it is now the workflow selector, so there is one place
+  that says which loops to run.
+- **`cocreator` §4 trimmed** to verdict→action routing. The per-loop chain explanations it had
+  accumulated (codraw → cotranslate → coverify, cocritique's routing) are covered by the catalog and
+  by each loop's own *Relationship to other skills* section — they are no longer restated three
+  times. §4 now also names "a different question surfaced" as a **workflow switch**, not a detour.
+- **`cocreator` §0 and §7** wired to the new fields: read `Workflow:`/`Next:` first and resume
+  without re-selecting; rewrite them on exit as part of the ledger update.
+- `ROADMAP.md` gains a "workflow layer" section explaining what the layer buys over the roster;
+  README gains a workflow table.
+
+### Notes
+- Existing `STATE.md` files keep working — the new head fields and ledger column are additive. A
+  session that finds no `Workflow:` treats the run as standalone and selects one normally.
+
 ## [0.11.0] — 2026-08-04 — cocritique (the return edge) + coport/coaudit restructure
 
 The ecosystem could verify *that we built what we specified* but never *whether that was worth
