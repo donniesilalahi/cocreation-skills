@@ -18,9 +18,11 @@ manifest: .agents/workspace/study-manifest.json
 ## Scope & job
 {flowsInScope for this record, and why — the bounded list, not "everything".}
 
-## Mobbin priors + gaps
-**Covered by Mobbin**: {n screens, pattern vocabulary found}
-**Gap list (this capture's work order)**: {what Mobbin didn't cover for this target}
+## Discovery
+**Routes discovered**: {n routes, list or summarize}
+**How**: {nav DOM links / sitemap.xml / client-side router manifest — which sources were checked}
+**In scope vs out of scope**: {which discovered routes map to flowsInScope and get captured; which
+are recorded reachable-unvisited because they're outside the job/scope}
 
 ## Capture summary
 {screens captured, per flow, with the naming-convention ids. Link to `captureDir`.}
@@ -29,8 +31,8 @@ manifest: .agents/workspace/study-manifest.json
 {nodes = screens, edges = causing interaction. `reachable-unvisited` count and what they are.}
 
 ## IA + patterns
-{landmark/heading outline per screen; primitives inventory with variants observed; Mobbin-taxonomy
-pattern names where they apply.}
+{landmark/heading outline per screen; primitives inventory with variants observed; pattern names in
+our own taxonomy, flagged provisional where new.}
 
 ## Inferred system (tagged)
 {color ramp / type scale / spacing rhythm / radii / elevation / motion — every line tagged
@@ -40,7 +42,7 @@ pattern names where they apply.}
 **{COMPLETE | PARTIAL | BLOCKED}**
 
 - flows captured / flows in scope: {n}/{n}
-- screens captured / Mobbin-covered screens: {n}/{n}
+- screens captured / screens discovered: {n}/{n}
 - reachable-unvisited: {n}
 - assumed-tag ratio: {n}/{n}
 

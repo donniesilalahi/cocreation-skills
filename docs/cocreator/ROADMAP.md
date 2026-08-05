@@ -83,7 +83,7 @@ Convention: **skill = action word**, **agent = the doer**, so the link is obviou
 | `/cocreator` | — (orchestrator) | NEW | Master loop + dispatcher | inherits | — |
 | `coframe` | `coframer` | NEW | Framing: frame the problem, set appetite, write the pitch | Opus | Optional |
 | `coresearch` | `coresearcher` | NEW | Discovery & evidence; red-team assumptions | Opus | Optional |
-| `costudy` | `costudier` | NEW | Discovery: reverse-engineer another product's UI/UX (screens, flows, IA, inferred design system) from the user's own live session, primed by Mobbin — replaces manual competitive teardowns / Mobbin-only pattern browsing | Sonnet | Optional |
+| `costudy` | `costudier` | NEW | Discovery: reverse-engineer another product's UI/UX (screens, flows, IA, inferred design system) from the user's own live session — builds its own pattern library, the live product is the only source — replaces manual competitive teardowns / third-party gallery browsing | Sonnet | Optional |
 | `coplan` | `coplanner` | `planning-todos` | Decompose into tracked, verifiable steps | Sonnet | **Mandatory** |
 | `cospecify` | `cospecifier` | NEW | Author the buildable solution spec (screens, states, data, interfaces) | Sonnet | Optional |
 | `cobuild` | `cobuilder` | NEW | Build/implement (core, "make") | Sonnet | **Mandatory** |

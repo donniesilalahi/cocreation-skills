@@ -5,6 +5,34 @@ All notable changes to `@donniesilalahi/cocreation-skills`. Format follows
 (pre-1.0, so minor bumps may include renames). Versions before 0.6.0 predate this file — see the
 git history.
 
+## [0.13.1] — 2026-08-05 — costudy: correct the gallery-as-source inversion
+
+### Fixed
+- **costudy no longer treats a third-party UI/UX gallery (Mobbin, Refero, or any other) as an input
+  source, a prime step, or a taxonomy authority.** costudy exists to **BE** the pattern library for
+  products a gallery doesn't cover — not to consume one. The live product is now the only source,
+  full stop.
+- **Deleted the "Prime (Mobbin first)" pipeline step.** In production, an agent ran it as a barrier
+  before capture and burned ~370k tokens on Mobbin sweeps while zero screens were ever captured. The
+  pipeline is now: 0 Recall & orient → 1 Capture → 2 Orient (nav graph) → 3 Understand →
+  4 Synthesize → 5 Render → 6 Self-eval gate — capture starts first, always, and nothing gates it.
+- **Coverage denominator changed to screens captured / screens discovered**, replacing "screens
+  captured / Mobbin-covered screens." The studied target routinely doesn't exist in Mobbin at all —
+  that's the expected case, since costudy exists precisely for products galleries don't cover — and
+  the old denominator read a normal, complete study as a failure (`n/0`).
+- **New guardrail: read-only against the operator's real, logged-in account.** Added after a study
+  ran against a live authenticated account holding real financial data — navigate and observe only,
+  never Save/Submit/Add/Delete/Apply/Confirm, never mutate a record or setting. Guardrails
+  renumbered: gitignore is now #5, clone-and-ship is now #7, terms-forbid is now #8.
+- **New rule: one driver, one session.** Added after a study fanned capture out across parallel
+  sub-agents sharing one live tab, interleaving navigation so screenshots landed on the wrong screen
+  and the causing-interaction edges became fiction. Capture now runs as a single agent walking a
+  single tab, always.
+- Pattern naming now uses costudy's own taxonomy (kebab-case, functional, reused across studies; a
+  genuinely new name is flagged provisional) instead of a gallery's vocabulary. The `mobbin` field is
+  removed from the study manifest; the ledger's `evidence` object drops `mobbinUrl`.
+- Design of record updated: `docs/cocreator/specs/2026-08-05-costudy.md`.
+
 ## [0.13.0] — 2026-08-05 — costudy: reverse-engineer someone else's shipped product
 
 The ecosystem could red-team our own assumptions (`coresearch`) and critique our own shipped
