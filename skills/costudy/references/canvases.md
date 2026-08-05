@@ -32,8 +32,8 @@ edges from traversal (`capture-protocol.md` §3) plus every `reachable-unvisited
 - Edge label = the causing interaction, short form (e.g. `click "Continue"`), not the resulting URL.
 - `reachable-unvisited` nodes render as a visually distinct stub (dashed border, no thumbnail) —
   present in the map, clearly unwalked, never absent.
-- This canvas is the one artifact costudy produces that a screenshot library (Mobbin) structurally
-  can't — the edges are the payload, keep them legible over cramming in every node's thumbnail.
+- This canvas is the one artifact costudy uniquely produces — no screenshot gallery structurally
+  can — the edges are the payload, keep them legible over cramming in every node's thumbnail.
 
 ## 3. IA sitemap
 
@@ -77,7 +77,7 @@ those entries becomes the card's component inventory.
 
 | Field | Content |
 |---|---|
-| Pattern name | Mobbin taxonomy name where applicable, else a provisional name (flag it as provisional, same reflex as codraw's new-primitive flag) |
+| Pattern name | Our own taxonomy name (kebab-case, functional, reused across studies), flagged `provisional` on first use — same reflex as codraw's new-primitive flag |
 | What it does | One or two lines, functional description |
 | What to steal | The specific, transferable idea — interaction model, information architecture choice, a genuinely good default |
 | What to avoid | The specific reason NOT to copy this wholesale — a constraint that doesn't apply to us, a known usability cost, a legal/brand reason it's target-specific |
@@ -85,7 +85,7 @@ those entries becomes the card's component inventory.
 
 **Why "what to avoid" is mandatory, not optional:** a pattern card with only "what to steal" is a copy
 instruction. The "what to avoid" field is what keeps costudy's output a **design input for informed
-decisions**, not a clone-and-ship asset (SKILL guardrail #6) — every card must name the specific
+decisions**, not a clone-and-ship asset (SKILL guardrail #7) — every card must name the specific
 reason this pattern, as observed, isn't simply portable.
 
 ## Fallback — no OD MCP
@@ -96,7 +96,7 @@ under the study's `captureDir` (e.g. `captureDir/canvases/gallery.html`,
 `captureDir/canvases/flow-map.html`, …) instead — same naming, same ledger, same five-canvas set. The
 method is tool-agnostic; only the render target changes.
 
-Canvases live under the gitignored `captureDir` **by design** (guardrail #4 — they embed
+Canvases live under the gitignored `captureDir` **by design** (guardrail #5 — they embed
 screenshots). The ledger is the committed, regenerable source; a canvas is a render of it. Never
 commit canvases to work around a missing OD project.
 

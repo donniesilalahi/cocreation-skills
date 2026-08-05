@@ -1,6 +1,6 @@
 ---
 name: costudy
-description: The "study" loop — reverse-engineer someone else's shipped product into buildable input: screens, flows, IA, an inferred design system. Captured via the user's OWN Chrome session (browser-use CDP primary; chrome-devtools MCP only if a probe confirms same browser; Playwright excluded). Primes with Mobbin for priors + gaps, captures the gaps — screenshot, a11y, DOM, styles, network — human-paced. Produces a nav graph (reachable-unvisited counted), a git-tracked ledger, memory-bank record, and five OD canvases (HTML/CSS fallback). Tagged observed|inferred|assumed. Feeds cospecify (study:<id>) and codraw (referenceLedger); cocritique/coframe read it as comparative evidence only. Doer: costudier. Use for evidence from a competitor/reference product Mobbin doesn't fully cover — post-login screens, niche products. NOT coresearch (OUR assumptions) and NOT cocritique (OUR product vs the job). Never handles credentials; human-gated screens become an inbox action ask; no adapter or forbidden terms → BLOCKED.
+description: The "study" loop — build our own UI/UX pattern library for a product no gallery covers: screens, flows, IA, an inferred design system, reverse-engineered into buildable input. THE LIVE PRODUCT IS THE ONLY SOURCE, never a third-party gallery — costudy replaces those and goes past them: post-login screens, real nav graphs, a11y + token evidence. Captured from the user's OWN Chrome (browser-use CDP primary; chrome-devtools MCP only if a probe confirms same browser; Playwright excluded). Read-only against a real account, human-paced, ONE driver — never parallel agents on one tab. Produces a nav graph (reachable-unvisited counted), a ledger, memory-bank record, five OD canvases (HTML/CSS fallback). Tagged observed|inferred|assumed. Feeds cospecify (study:<id>) and codraw (referenceLedger). Doer: costudier. NOT coresearch (OUR assumptions), NOT cocritique (OUR product vs the job). Never credentials, never mutates the account; human-gated screens → inbox action ask; no adapter or forbidden terms → BLOCKED.
 ---
 
 # costudy — reverse-engineer someone else's shipped product
@@ -22,15 +22,26 @@ costudy(ledger + canvases) ──▶ cospecify (cites study:<id>)
 | `cocritique` | our shipped product vs the user's job |
 | **`costudy`** | **someone else's shipped product** |
 
-Fills the gap Mobbin leaves: niche products, post-login screens, and structural evidence (a11y
-tree, computed tokens, network) a screenshot library can't carry.
+**costudy is the pattern library.** Third-party UI galleries index the popular, pre-login, mobile
+surface of the web and stop there. costudy builds the same artifacts — screens, flows, sections,
+pattern cards — for the product *we* care about, from the running product itself, and carries what
+a screenshot library structurally cannot: post-login screens, the nav graph's causing-interaction
+edges, the a11y tree, and computed design tokens.
+
+**The live product is the only source.** Never seed, prime, or fill a study from a third-party
+gallery — not Mobbin, not Refero, not a competitor's press kit. A gallery hit would be someone
+else's crop of a screen we can capture properly ourselves, undated, unlabelled, with no structure
+behind it.
 
 ## When to Use
 
-- Speccing or drawing a surface with a strong reference product and Mobbin doesn't cover it (niche
-  product, post-login flow, or you need structural evidence beyond a screenshot).
-- Before `cospecify`/`codraw` need concrete pattern evidence instead of a vibe.
+- Speccing or drawing a surface where a real shipped product is the reference and you need its
+  actual screens, flows, and system — not a vibe and not a gallery thumbnail.
+- Any target a gallery won't have: niche products, B2B tools, post-login flows, regional apps.
+- Building a reusable pattern library of a category we keep designing in.
 - NOT for judging our own product (`cocritique`) or testing our own assumptions (`coresearch`).
+- If the human explicitly asks for third-party gallery research, that's `coresearch` — run it there,
+  as its own loop, and never let it gate or feed a costudy capture.
 
 ## 0. Bootstrap — the study-manifest
 
@@ -67,43 +78,45 @@ whole study on one screen; never request, store, or transmit credentials.
 ### 0 — Recall & orient
 Read `STATE.md`, `raw/`, the manifest, and recall relevant lessons via `colearn`.
 
-### 1 — Prime (Mobbin first)
-`search_screens` / `search_flows` for the target **and** its category; `search_sections` for web
-marketing surfaces. Two outputs: free pattern priors (vocabulary + category baseline), and an
-explicit **gap list** — what Mobbin does not cover for this target. The gap list is the capture
-step's work order. Record `mobbin.coveredScreens` and `mobbin.gaps` in the manifest. Mobbin
-platform is `ios|web` only — no Android.
-
-### 2 — Capture
-Per screen, in one pass: full-page **screenshot** · **a11y snapshot** (landmarks, headings, roles,
+### 1 — Capture (the live product is the study)
+**Start here. Nothing gates this step.** Walk the manifest's `flowsInScope` in the live session and,
+per screen, in one pass: full-page **screenshot** · **a11y snapshot** (landmarks, headings, roles,
 names) · **DOM subtree** of the main region · **computed-style sample** on representative nodes ·
 **network requests** fired during the transition into the screen. Files land in `captureDir` under
 the manifest's segmented, STATE-last naming convention — same discipline as codraw, so a capture
-name maps 1:1 to a later artboard name. Human-paced; no bulk crawl, no parallel hammering. Full
-recipe + selectors/scripts + the redaction pass: `references/capture-protocol.md`.
+name maps 1:1 to a later artboard name.
 
-### 3 — Orient (nav graph)
+**One driver, one session.** The live browser has a single focus. Capture runs in **one** agent
+walking one tab — never fanned out to parallel sub-agents, however "serial" they claim to be:
+concurrent drivers interleave navigation, and an interleaved walk destroys the causing-interaction
+edge that step 2 exists to record. Human-paced; no bulk crawl, no parallel hammering.
+
+**Read-only.** See guardrail #1. Full recipe + selectors/scripts + the redaction pass:
+`references/capture-protocol.md`.
+
+### 2 — Orient (nav graph)
 Nodes = screens; edges = the **interaction that caused the transition** (element + action), not
 just "these two pages exist." Discover routes beyond what was walked — `sitemap.xml`, client-side
 router manifest, nav DOM links, in-page anchors. Every discovered-but-unwalked route is recorded as
 **`reachable-unvisited`** and stated as a count in the verdict, never quietly dropped.
 
-### 4 — Understand (three passes)
+### 3 — Understand (three passes)
 1. **IA / hierarchy** — a11y landmarks + heading outline per screen.
-2. **Pattern** — name each screen with the Mobbin taxonomy where it applies; inventory primitives
+2. **Pattern** — name each screen's pattern in OUR taxonomy (kebab-case, functional,
+   reused across studies; a genuinely new one is flagged provisional); inventory primitives
    (button, field, card, sheet, nav, …) with variants observed.
 3. **System (inferred)** — derive color ramp, type scale, spacing rhythm, radii, elevation, and
    motion from computed styles. **Always tagged `inferred`** — the highest-value, least-certain
    output; never presented as the target's real tokens.
 
-### 5 — Synthesize
+### 4 — Synthesize
 Write the **study ledger** (git-tracked JSON at `ledgerPath`, in the code repo, mirroring codraw's
 ledger shape so codraw consumes it directly — entries are never deleted, only status-marked) and
 the **memory-bank record**. Every finding carries **`observed | inferred | assumed`** (borrowed
 from cocritique); a conclusion resting on `assumed` is no stronger than its weakest input. Full
 schema, naming convention, and the codraw handoff: `references/ledger-and-naming.md`.
 
-### 6 — Render (five canvases)
+### 5 — Render (five canvases)
 Open Design canvases, degrading to HTML/CSS artboards on disk when the OD MCP is absent — same
 fallback contract as codraw (identical naming, ledger, canvas set either way):
 
@@ -117,23 +130,33 @@ fallback contract as codraw (identical naming, ledger, canvas set either way):
 
 Detail + fallback mechanics: `references/canvases.md`.
 
-### 7 — Self-eval gate
+### 6 — Self-eval gate
 See below.
 
 ## Guardrails (non-negotiable)
 
-1. The user's **own** session only. Never request, store, or transmit credentials.
-2. **Human-paced**, single-session traversal. No bulk crawling, no scraping at scale.
-3. **Redaction pass before write** — mask other users' PII and the operator's own account
-   identifiers in screenshots, DOM, and network records; scrub tokens from URLs.
-4. Captures are **gitignored by default** (binary bloat + IP hygiene) — on first run, add
+1. **Read-only against a real account.** The session is the operator's own live, logged-in account
+   with their real money/health/work data in it. Navigate and observe only: never Save, Submit,
+   Add, Delete, Apply, or Confirm; never type into a field that persists; never create, mutate, or
+   delete a scenario, record, or setting. A destructive click is not recoverable by re-running the
+   study. When a state can only be reached by mutating (a success screen after a real submit),
+   record it `reachable-unvisited` and move on.
+2. The user's **own** session only. Never request, store, or transmit credentials.
+3. **Human-paced**, single-session traversal, **one driver**. No bulk crawling, no scraping at
+   scale, no parallel agents sharing the live tab.
+4. **Redaction pass before write** — mask other users' PII and the operator's own account
+   identifiers in screenshots, DOM, and network records; scrub tokens from URLs. This applies to
+   **anything returned out of the study too**: a sub-agent's summary, a ledger field, a canvas
+   caption. Real figures become placeholder shapes (`$X,XXX`); the shape is the finding, the value
+   never is.
+5. Captures are **gitignored by default** (binary bloat + IP hygiene) — on first run, add
    `.agents/workspace/studies/` to the consumer project's `.gitignore` if it isn't there. Only the
    ledger and the memory-bank record are committed; canvases are a render of the ledger, not an
    artifact to commit.
-5. Honor ToS and `robots.txt`. Do not defeat bot protection, rate limits, or paywalls.
-6. Output is **reference for informed design decisions**, not a clone-and-ship asset. Pattern cards
+6. Honor ToS and `robots.txt`. Do not defeat bot protection, rate limits, or paywalls.
+7. Output is **reference for informed design decisions**, not a clone-and-ship asset. Pattern cards
    carry "what to avoid" precisely to keep this a design input, not a copy machine.
-7. If a target's terms forbid this kind of inspection, say so and stop — `BLOCKED`, not a
+8. If a target's terms forbid this kind of inspection, say so and stop — `BLOCKED`, not a
    workaround.
 
 ## Self-eval gate (close the loop)
@@ -141,7 +164,7 @@ See below.
 Verdict: **`COMPLETE | PARTIAL | BLOCKED`**, with four coverage numbers:
 
 - flows captured / flows in scope
-- screens captured / Mobbin-covered screens
+- screens captured / screens discovered
 - `reachable-unvisited` count
 - assumed-tag ratio
 
@@ -194,7 +217,9 @@ overwrite a past study.
 ## Principles
 
 - **A job and a bounded scope before any capture** — studying "everything" is the failure mode.
-- **Mobbin first, browser only for the gap** — never re-capture what a pattern library already has.
+- **The live product is the only source** — never seed a study from a third-party gallery.
+- **Read-only against a real account** — a destructive click is not undone by re-running the study.
+- **One driver, one tab** — parallel capture agents interleave and turn the nav graph into fiction.
 - **Never silently drop a route** — `reachable-unvisited` is a stated count, not an omission.
 - **Inferred is not observed** — the design-system sheet is a hypothesis about tokens, always
   labelled as one.

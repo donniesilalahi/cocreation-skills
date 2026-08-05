@@ -40,6 +40,23 @@ there's no reconciliation pass that catches a mismatch except a canvas failing t
 sanctioned exception is iOS ingestion, `capture-protocol.md` §7, where a human-supplied screenshot set
 needs one naming pass on the way in.)
 
+## 1a. Pattern taxonomy — our own, not a gallery's
+
+The ledger's `pattern` field names each screen's pattern using **costudy's own taxonomy** — never a
+third-party gallery's vocabulary. Rules:
+
+- **kebab-case, functional names** — describe what the pattern does, not what it looks like:
+  `payment-method-selection`, not `card-radio-group`.
+- **Reused verbatim across studies.** The point of a taxonomy is that it accumulates: the second
+  study of a checkout flow should land on the same `payment-method-selection` name the first one
+  used, not a fresh synonym. Before naming a pattern, check prior study ledgers (`docs/studies/*`)
+  for a name that already fits — that's what turns a pile of one-off studies into a real, growing
+  pattern library.
+- **A genuinely new pattern is flagged `provisional`** on first use (e.g. in the pattern card's
+  evidence line or a `provisional: true` note alongside it) rather than minted with false confidence
+  — same reflex as codraw's new-primitive flag. Drop the flag once a second, independent study
+  reuses the name.
+
 ## 2. Ledger — full schema
 
 Git-tracked at the manifest's `ledgerPath`, **in the code repo, not the OD workspace** — same rule as
@@ -70,14 +87,14 @@ codraw, same reason: it must outlive the AI workspace and be readable by `cospec
 | `flow` | string | yes | must be in `flowsInScope` | |
 | `screen` | string | yes | kebab-case | |
 | `state` | string | yes | must be in `stateVocab` | last segment of `id`; `scripts`-level validation should check this matches |
-| `pattern` | string \| null | optional | Mobbin taxonomy name | null if no Mobbin match; filled from step 1 (Prime) or step 4.2 (pattern pass) |
+| `pattern` | string \| null | optional | our own taxonomy name (§1a) | null until the pattern pass runs; filled from SKILL step 3.2 (pattern pass) |
 | `primitives` | string[] | optional | free-form inventory | component vocabulary observed on this screen (`field`, `button`, `radio-card`, `inline-alert`, …) |
 | `ia` | string[] | yes | landmark/heading outline entries | e.g. `["header/nav","main/h1 Checkout","main/h2 Payment method"]` — the raw material for the IA sitemap canvas |
 | `tokens` | object \| null | optional | computed-style sample, keyed by node class (`text`/`surface`/`control`/`elevated`) | **always `tag: inferred`** at the entry level when this is populated — see §3 |
 | `network` | string[] | optional | `"METHOD /path"` strings | requests observed firing on entry to this screen; `[]` if the adapter couldn't observe them (note the gap, don't omit the field) |
-| `evidence` | object | yes | `{ screenshot, a11y, dom, mobbinUrl }` — each a path or URL or `null` | the four capture artifacts + optional Mobbin source; at least one non-null required |
+| `evidence` | object | yes | `{ screenshot, a11y, dom }` — each a path or `null` | the three capture artifacts; at least one non-null required |
 | `tag` | string | yes | `"observed"` \| `"inferred"` \| `"assumed"` | see §3 — the entry's overall evidence strength |
-| `odArtifact` | string \| null | optional | canvas/artboard path | filled once rendered (SKILL step 6); null until then |
+| `odArtifact` | string \| null | optional | canvas/artboard path | filled once rendered (SKILL step 5); null until then |
 | `status` | string | yes | `"captured"` \| `"synthesized"` \| `"rendered"` \| `"superseded"` | see §4 — status is a field, never a rename |
 
 ```jsonc
@@ -95,8 +112,7 @@ codraw, same reason: it must outlive the AI workspace and be readable by `cospec
   "evidence": {
     "screenshot": ".agents/workspace/studies/acme-2026-08-05/acme__checkout__payment__error.png",
     "a11y":       ".agents/workspace/studies/acme-2026-08-05/acme__checkout__payment__error.a11y.json",
-    "dom":        ".agents/workspace/studies/acme-2026-08-05/acme__checkout__payment__error.dom.html",
-    "mobbinUrl":  null
+    "dom":        ".agents/workspace/studies/acme-2026-08-05/acme__checkout__payment__error.dom.html"
   },
   "tag": "observed",
   "odArtifact": null,
@@ -112,8 +128,8 @@ inside a synthesized artifact (e.g. one field of a pattern card).
 | Tag | Qualifies when | Example |
 |---|---|---|
 | `observed` | Directly captured — a screenshot, DOM snapshot, or network log exists and was read, not summarized from memory | "The payment screen shows an inline red alert with text 'Card declined'" — read straight off the DOM/screenshot |
-| `inferred` | Derived by computation or generalization from `observed` evidence, not itself directly captured | The token sweep's computed-style sample; a design-system ramp generalized across several `observed` screens; a pattern name assigned by matching Mobbin taxonomy to an observed layout |
-| `assumed` | No direct evidence — filled from priors, category baseline, or an untested guess | "Probably uses the same error-toast pattern on mobile" with no mobile capture; a Mobbin category prior applied to a screen never actually reached |
+| `inferred` | Derived by computation or generalization from `observed` evidence, not itself directly captured | The token sweep's computed-style sample; a design-system ramp generalized across several `observed` screens; a pattern name assigned by matching our own taxonomy to an observed layout |
+| `assumed` | No direct evidence — filled from priors, category baseline, or an untested guess | "Probably uses the same error-toast pattern on mobile" with no mobile capture; a pattern assumed from a similar product in the same category, never actually observed on this target |
 
 **Rule: a conclusion is no stronger than its weakest input.** A pattern card that cites three
 `observed` screens and one `assumed` gap can't be tagged `observed` overall — it inherits `assumed`.
@@ -131,7 +147,7 @@ Per the repo's status-in-a-field rule (`docs/cocreator/SSOT.md`): a capture's li
 `status`, never in a filename or a folder move.
 
 - `captured` — the five artifacts exist, redacted, on disk.
-- `synthesized` — folded into IA/pattern/system-tokens passes (SKILL step 4).
+- `synthesized` — folded into IA/pattern/system-tokens passes (SKILL step 3).
 - `rendered` — has an `odArtifact` (canvas exists).
 - `superseded` — a later capture replaced this one for the same `id`; **do not delete** — add
   `supersedes`/`superseded-by` if you need the cross-reference, same as any other repo record.

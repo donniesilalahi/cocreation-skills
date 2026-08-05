@@ -1,6 +1,6 @@
 # Capture protocol — adapter probe, per-screen recipe, traversal, redaction
 
-The operational heart of `costudy`. Everything here runs inside pipeline step 2 (Capture) of
+The operational heart of `costudy`. Everything here runs inside pipeline step 1 (Capture) of
 `SKILL.md`, gated by the manifest (`references/study-manifest.md`) and feeding the ledger
 (`references/ledger-and-naming.md`).
 
@@ -98,6 +98,20 @@ causing click/nav to the screen settling (short: a few seconds), not the screen'
 
 ## 3. Traversal discipline
 
+- **Read-only. Hard gate, no exceptions.** This is the operator's real, logged-in account with
+  their real data in it. Navigate, scroll, hover, open — never Save, Submit, Add, Delete, Apply, or
+  Confirm; never type into a field that persists; never create, rename, or delete a scenario,
+  record, or setting; never change an account setting to reveal a state. A destructive click can't
+  be undone by re-running the study. A state reachable only by mutating gets recorded
+  `reachable-unvisited` with the reason, not clicked into.
+  - Corollary for read-only *reads*: opening a modal, expanding a disclosure, switching a tab, and
+    toggling a client-side view filter are fine — they change what's rendered, not what's stored.
+    If you can't tell which a control does, treat it as a write and don't click it.
+- **One driver, one session.** The live browser has one focus. Capture runs in a **single** agent
+  walking a single tab — never fan capture out to parallel sub-agents, even "strictly serial" ones.
+  Two drivers on one tab interleave navigation: screenshots land on the wrong screen, and the
+  causing-interaction edge (§below) becomes fiction. If capture is delegated at all, it is delegated
+  as **one** long-running agent, not one per flow.
 - **Human-paced, one session.** No bulk crawl, no parallel tabs hammering the target, no scripted
   link-following loop. Each transition is a deliberate, single navigation.
 - **Record the causing interaction, not just the resulting URL.** Every edge in the nav graph is
@@ -121,7 +135,7 @@ Beyond what was actually walked, harvest routes from:
 - **In-page anchors** — links inside content, not just chrome/nav.
 
 Every discovered-but-unwalked route is recorded as `reachable-unvisited` in the nav graph — **never
-dropped**. It's stated as a count in the self-eval verdict (SKILL §7), not silently absorbed into
+dropped**. It's stated as a count in the self-eval verdict (SKILL §6), not silently absorbed into
 "done."
 
 ## 5. Redaction pass — hard gate, runs BEFORE anything is written to disk
@@ -169,7 +183,7 @@ There is no browser adapter for native iOS. The path is manual:
    the one time costudy touches filenames, since there was no capture step to name them correctly the
    first time.
 3. Downstream passes that work from images alone still run: IA (visual hierarchy read from the
-   screenshot), pattern naming (Mobbin taxonomy by eye).
+   screenshot), pattern naming (our own taxonomy, by eye).
 4. Passes that need live DOM/network are **unavailable**: no computed-style sample, no network log.
    The ledger entry's `tokens` and `network` fields stay null; `tag` is `observed` for what's visibly
    true in the screenshot and `assumed` for anything about underlying implementation.
@@ -178,20 +192,29 @@ There is no browser adapter for native iOS. The path is manual:
 
 ## Gotchas
 
-1. **The isolated-profile trap is silent.** `chrome-devtools` launching its own profile doesn't error
+1. **The barrier trap.** Any preliminary research step placed *before* capture — priming from a
+   third-party source, a category survey, a "get oriented first" pass — becomes a barrier: it has no
+   natural stopping point, it consumes the run, and the study closes having captured zero screens.
+   Capture starts first, always. Nothing gates step 1; if a research urge shows up, it happens
+   *after* screens are on disk, not before.
+2. **The fan-out trap.** Spawning one capture agent per flow against a single live tab looks like
+   parallelism but isn't — the browser has one focus. Concurrent drivers interleave navigation:
+   screenshots land on whatever screen happened to be showing, not the one the agent thinks it's on,
+   and the causing-interaction edge (§3) recorded for that transition becomes fiction. Capture is
+   one driver, one session, always — see §3.
+3. **The isolated-profile trap is silent.** `chrome-devtools` launching its own profile doesn't error
    — it captures a real, renderable, wrong (logged-out) screen. The probe in §1 is the only defense;
    skipping it produces confidently-wrong captures.
-2. **Redaction after the fact is not redaction.** Once a file with PII is written to `captureDir`, the
+4. **Redaction after the fact is not redaction.** Once a file with PII is written to `captureDir`, the
    damage is the write itself — deleting it later doesn't undo that it existed unmasked on disk even
    briefly. The gate in §5 runs before the write, not after.
-3. **URL-only edges collapse the nav graph.** Recording only "screen A then screen B" without the
+5. **URL-only edges collapse the nav graph.** Recording only "screen A then screen B" without the
    causing element+action turns the flow map into an unordered page list — the one artifact costudy
-   uniquely produces (that Mobbin can't) is the edge, not the node.
-4. **Mobbin is `ios|web` only.** No Android. Don't record Android coverage or gaps against it.
-5. **Inferred tokens presented as real tokens is the single most damaging drift.** The token sweep
+   uniquely produces is the edge, not the node.
+6. **Inferred tokens presented as real tokens is the single most damaging drift.** The token sweep
    (§2) samples one instance per class — always tag `inferred`, always caveat it's a sample, never let
    it read as "Acme's design system says…" downstream.
-6. **Bulk-crawl temptation.** A script that walks every discovered link automatically looks more
+7. **Bulk-crawl temptation.** A script that walks every discovered link automatically looks more
    thorough than human-paced traversal — it also violates the traversal discipline (§3), risks rate
    limits/ToS, and produces edges with no recorded causing interaction. Resist it even under time
    pressure.

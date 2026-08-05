@@ -2,8 +2,8 @@
 
 The manifest carries every **study-specific fact** `costudy` deliberately keeps out of `SKILL.md`:
 the target, the job being studied, the bounded flow list, where captures and the ledger live, the
-naming convention + state vocab, redaction rules, and what Mobbin already covers. The skill is the
-generic method; the manifest is your study. Mirror of codraw's `design-manifest.md`.
+naming convention + state vocab, and redaction rules. The skill is the generic method; the manifest
+is your study. Mirror of codraw's `design-manifest.md`.
 
 ## Where it lives & who owns it
 
@@ -40,9 +40,7 @@ unconfirmed manifest — an unbounded study is the failure mode this file exists
     "maskSelectors":    ["[data-testid=account-menu]", ".user-avatar", ".billing-address"],
     "blurFaces":        true,
     "scrubQueryParams": ["token", "email", "session_id"]
-  },
-
-  "mobbin": { "searched": false, "coveredScreens": 0, "gaps": [] }   // filled by pipeline step 1
+  }
 }
 ```
 
@@ -65,7 +63,6 @@ unconfirmed manifest — an unbounded study is the failure mode this file exists
 | `redaction.maskSelectors` | CSS selectors to mask before any write | Hard gate — see `capture-protocol.md` | Account menu, avatar, billing fields | Other users' PII or the operator's own identity ships in a capture |
 | `redaction.blurFaces` | Blur faces in screenshots | Photos of real people (avatars, testimonials) are PII | `true` by default | Faces of real, non-consenting people land in a git-adjacent artifact |
 | `redaction.scrubQueryParams` | URL params to strip | Tokens/emails leak through query strings, not just visible UI | `["token","email","session_id"]` | Auth tokens or emails get recorded verbatim in the nav graph or network log |
-| `mobbin.searched` / `coveredScreens` / `gaps` | Prime-pass results | Records what Mobbin already covers so browser capture targets the gap, not everything | filled after step 1 (Prime) | Browser capture duplicates what a pattern library already had for free |
 
 ### Why `job` + `flowsInScope` is the load-bearing constraint
 
@@ -84,10 +81,9 @@ just aren't captured.
 1. **Never invent `job` or `flowsInScope` silently** — these are the two fields with no safe default.
    If the request that triggered costudy names them ("study Acme's checkout"), use that. If not,
    raise an `inbox/` **decision** ask: propose a job statement + a 3–7 flow list inferred from the
-   target's own nav (visible top-level nav items, marketing site structure) and a Mobbin category
-   scan, with a **recommended default**, per the SSOT inbox contract. Proceed on the recommended
-   default only if it's a genuinely low-risk read; otherwise wait — this decision sets the entire
-   study's blast radius.
+   target's own nav (visible top-level nav items, marketing site structure), with a **recommended
+   default**, per the SSOT inbox contract. Proceed on the recommended default only if it's a
+   genuinely low-risk read; otherwise wait — this decision sets the entire study's blast radius.
 2. **Everything else drafts freely and cheaply**: `target.*` from the entry URL and a page-title/meta
    check, `captureDir`/`ledgerPath` from the naming defaults above, `namingConvention`/`stateVocab`
    from this file's shipped defaults, `redaction` from the shipped default selectors (extend once real

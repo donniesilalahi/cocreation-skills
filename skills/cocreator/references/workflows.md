@@ -61,13 +61,15 @@ colearn(recall) → coframe → coresearch → ┬ verdict holds → coplan (han
 **`costudy` alongside `coresearch`.** Same stage (discovery), same entry-point shape (fed by
 nothing) — but a different object of study: `coresearch` red-teams *our* load-bearing assumptions,
 `costudy` reverse-engineers *someone else's* shipped product (screens, flows, IA, inferred design
-system) from the user's own live authenticated session, primed by Mobbin. **Skipped when** no
-comparable product exists worth studying, or the open question doesn't turn on how others solve it.
+system) from the user's own live authenticated session — the live product is the only source, and
+costudy builds its own pattern library from it rather than consuming a third-party gallery.
+**Skipped when** no comparable product exists worth studying, or the open question doesn't turn on
+how others solve it.
 **Hands off** its study ledger to `cospecify`/`codraw` once the workflow reaches design (primary
 feed — see `design-first` below), and to `cocritique`/`coframe` as comparative evidence only
 (secondary — competitors are not the bar, per PLAYBOOK).
 **Exit gate (costudy):** verdict `COMPLETE | PARTIAL | BLOCKED` with coverage numbers — flows
-captured / in scope, screens captured / Mobbin-covered, `reachable-unvisited` count, assumed-tag
+captured / in scope, screens captured / screens discovered, `reachable-unvisited` count, assumed-tag
 ratio. `PARTIAL` is a legitimate pass-through **if it names what's missing** (iOS studies are
 `PARTIAL` on network/token evidence by construction — screenshots carry no computed styles).
 `BLOCKED` halts `costudy` itself but not the rest of `discover`, since the two run in parallel.
