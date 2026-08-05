@@ -22,6 +22,7 @@ Pull risk forward. Default to cancel, not extend. Close every loop with a self-e
 |---|---|---|---|---|
 | `coframe` | coframer | frame/strategy | **opus** | frame the problem, set appetite, write the pitch |
 | `coresearch` | coresearcher | discovery | **opus** | gather evidence, red-team the riskiest assumption |
+| `costudy` | costudier | discovery | **sonnet** | reverse-engineer another product's UI/UX from your live session into a study ledger |
 | `coplan` | coplanner | plan | **sonnet** | decompose into tracked, verifiable steps *(mandatory)* |
 | `cospecify` | cospecifier | spec | **sonnet** | author the buildable solution spec (screens, states, data, interfaces) |
 | `cobuild` | cobuilder | build (make) | **sonnet** | implement in small increments *(mandatory, core)* |
@@ -60,16 +61,16 @@ recurring situation — then run it. Full catalog with entry conditions, skips, 
       ┌────────────── cocritique (does it do the job? → direction) ──────────────┐
       ↓                                                                          │
 coframe → coresearch → coplan → cospecify → ╔ cobuild ⇄ coverify (↘codebug) ╗ → cochangelog
-                                            ╚════════ colearn (learn) ══════╝
+          + costudy                         ╚════════ colearn (learn) ══════╝
 specialized, on demand: coconsolidate (logic + visual drift) · coharden (edge cases) · codraw (spec→OD artboards) · cotranslate (design→impl port)
 ```
 
 | Workflow | Enter when | Chain | Exit gate |
 |---|---|---|---|
-| **discover** | direction unclear, nothing to build yet | `colearn`(recall) → `coframe` → `coresearch` | pitch + appetite; assumptions tested or accepted. *"Don't build it" is a valid exit.* |
+| **discover** | direction unclear, nothing to build yet | `colearn`(recall) → `coframe` → `coresearch`, optionally alongside `costudy` (competitor UI evidence) | pitch + appetite; assumptions tested or accepted. *"Don't build it" is a valid exit.* |
 | **ship** | small, well-understood change *(the default)* | `colearn`(recall) → `cobuild` ⇄ `coverify` → `cochangelog` | verify PASS + changelog line + no open stub |
 | **feature** | new capability, uncertain or high blast radius | `colearn` → `coframe` → `coresearch` → `coplan` → `cospecify` → [`codraw`] → `cobuild` ⇄ `coverify` → `coharden` → `cochangelog` → `colearn` | plan closed, verify PASS vs spec, lesson recorded |
-| **design-first** | the UI itself is the deliverable | `cospecify` → `codraw` → `cotranslate` → `coverify` → `cochangelog` | every element + state from shared masters; coverify accepts vs artboard |
+| **design-first** | the UI itself is the deliverable | [`costudy`] → `cospecify` → `codraw` → `cotranslate` → `coverify` → `cochangelog` | every element + state from shared masters; coverify accepts vs artboard |
 | **fix** | something is broken | `colearn`(recall) → `codebug` → `cobuild` → `coverify` → `colearn`(capture) | root cause named, fix verified, **lesson written** |
 | **evaluate** | "is this any good?" — *a router, see below* | `coverify` \| `coconsolidate` \| `cocritique` | verdict + evidence + the next workflow named |
 | **release-prep** | about to face users | `coharden` → `coverify` → [`coconsolidate`] → `cochangelog` → completion gate | edge cases closed **and the completion gate is clean** |

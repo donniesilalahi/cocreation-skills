@@ -56,6 +56,7 @@ for (const entry of fs.readdirSync(skillsRoot, { withFileTypes: true })) {
 const ROSTER = [
   ['coframe', 'coframer', 'opus'],
   ['coresearch', 'coresearcher', 'opus'],
+  ['costudy', 'costudier', 'sonnet'],
   ['coplan', 'coplanner', 'sonnet'],
   ['cospecify', 'cospecifier', 'sonnet'],
   ['cobuild', 'cobuilder', 'sonnet'],
@@ -77,6 +78,8 @@ const PURPOSES = {
     'frame the problem, set a fixed appetite, and write a tight pitch',
   coresearch:
     'gather evidence and red-team the riskiest load-bearing assumption first',
+  costudy:
+    "reverse-engineer another product's UI/UX into a git-tracked study ledger + OD canvases",
   coplan: 'break a non-trivial task into clear, tracked, verifiable steps',
   cospecify:
     'author the buildable solution spec — screens, states, data shapes, interfaces',

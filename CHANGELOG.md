@@ -5,6 +5,43 @@ All notable changes to `@donniesilalahi/cocreation-skills`. Format follows
 (pre-1.0, so minor bumps may include renames). Versions before 0.6.0 predate this file — see the
 git history.
 
+## [0.13.0] — 2026-08-05 — costudy: reverse-engineer someone else's shipped product
+
+The ecosystem could red-team our own assumptions (`coresearch`) and critique our own shipped
+product against the user's job (`cocritique`), but had no loop for the third object of study:
+**someone else's** shipped product. This adds it.
+
+### Added
+- **`costudy` / `costudier`** (Sonnet) — reverse-engineers another product's UI/UX (screens, flows,
+  information hierarchy, and an inferred design system) into buildable input, captured from the
+  user's own live authenticated Chrome session and primed by Mobbin MCP. Renders to a git-tracked
+  study ledger + Open Design canvases (gallery, flow map, IA sitemap, design-system sheet, pattern
+  cards), mirroring `codraw`'s ledger shape so both are consumable by the same downstream reader.
+  Session adapter: `browser-use` (CDP, attaches to the running Chrome so the existing logged-in
+  profile reaches post-auth screens) primary, `chrome-devtools` MCP opportunistic when it shares the
+  same live browser, **Playwright MCP excluded** (fresh profile, no session). Closes with a verdict —
+  **`COMPLETE | PARTIAL | BLOCKED`** — carrying coverage numbers (flows captured / in scope, screens
+  vs. Mobbin-covered, `reachable-unvisited` count, assumed-tag ratio); `PARTIAL` is a legitimate
+  pass-through as long as what's missing is named (iOS studies are `PARTIAL` on token evidence by
+  construction — screenshots carry no computed styles).
+- **Entry-point loop, discovery stage** (fed by nothing, like `coresearch`) — runs in parallel with
+  it, optional, in the `discover` workflow. Feeds `cospecify` (cited as `study:<id>`) and `codraw`
+  (primary) upstream of it in `design-first`; feeds `cocritique`/`coframe` only as *comparative*
+  evidence, never as the bar (competitors are not the bar, per PLAYBOOK).
+- **Guardrails, non-negotiable:** the user's own session only (never credentials); human-paced,
+  single-session traversal (no bulk crawling); a redaction pass before write (mask PII, scrub token
+  query params); captures gitignored by default (only the ledger + memory-bank record are committed);
+  honor ToS/`robots.txt` (never defeat bot protection or paywalls); output is reference for design
+  decisions, never a clone-and-ship asset — pattern cards name "what to avoid" precisely to keep it
+  that way.
+- **`codraw`'s `design-manifest.json` gains an optional `referenceLedger` field** — a pointer at a
+  `costudy` study ledger, so `codraw` resolves reference artboards directly without re-deriving
+  anything. Read-only; `codraw` never writes to it.
+- Design of record: `docs/cocreator/specs/2026-08-05-costudy.md`.
+
+### Changed
+- Roster is **16 skills** (1 master + 15 loops): +`costudy`.
+
 ## [0.12.0] — 2026-08-04 — Workflows: named loop chains that drive themselves
 
 The roster was a *vocabulary* — every request began by re-deriving which loops apply, and the two

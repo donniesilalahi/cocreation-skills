@@ -18,6 +18,7 @@ right, and checking it shipped right) while the slow manual middle collapses.
 | **`/cocreator`** | — | Master loop. Recommends which loops to run and delegates each to its doer. |
 | **coframe** | coframer | Frame the problem, set the appetite, write the pitch. |
 | **coresearch** | coresearcher | Discovery and evidence; red-team the load-bearing assumptions. |
+| **costudy** | costudier | Reverse-engineer another product's UI/UX — screens, flows, inferred design system — from your own live session, primed by Mobbin. |
 | **coplan** | coplanner | Break big tasks into small, tracked, verifiable steps. |
 | **cospecify** | cospecifier | Author the buildable solution spec (screens, states, data, interfaces) and hand it to draw/build. |
 | **cobuild** | cobuilder | Build it against the plan. (core loop — "make") |
