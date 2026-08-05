@@ -54,7 +54,23 @@ assumption is unverified. Also where `cocritique` routes a MISSERVES or UNKNOWN 
 ```
 colearn(recall) → coframe → coresearch → ┬ verdict holds → coplan (hand off to feature/ship)
                                           └ verdict fails → stop. Not building is the result.
+
+[costudy] runs in parallel, optional — reverse-engineers a comparable shipped product as evidence.
 ```
+
+**`costudy` alongside `coresearch`.** Same stage (discovery), same entry-point shape (fed by
+nothing) — but a different object of study: `coresearch` red-teams *our* load-bearing assumptions,
+`costudy` reverse-engineers *someone else's* shipped product (screens, flows, IA, inferred design
+system) from the user's own live authenticated session, primed by Mobbin. **Skipped when** no
+comparable product exists worth studying, or the open question doesn't turn on how others solve it.
+**Hands off** its study ledger to `cospecify`/`codraw` once the workflow reaches design (primary
+feed — see `design-first` below), and to `cocritique`/`coframe` as comparative evidence only
+(secondary — competitors are not the bar, per PLAYBOOK).
+**Exit gate (costudy):** verdict `COMPLETE | PARTIAL | BLOCKED` with coverage numbers — flows
+captured / in scope, screens captured / Mobbin-covered, `reachable-unvisited` count, assumed-tag
+ratio. `PARTIAL` is a legitimate pass-through **if it names what's missing** (iOS studies are
+`PARTIAL` on network/token evidence by construction — screenshots carry no computed styles).
+`BLOCKED` halts `costudy` itself but not the rest of `discover`, since the two run in parallel.
 
 **Skips:** everything downstream. Nothing is built here, on purpose.
 **Exit gate:** a pitch with a fixed appetite and its load-bearing assumptions named — each either
@@ -108,9 +124,18 @@ or explicitly deferred, the changelog cross-references the plan, and a lesson is
 acceptance criterion. Also the workflow for "here's a Figma/mock, build it."
 
 ```
-cospecify → codraw → cotranslate → coverify → cochangelog
+[costudy] → cospecify → codraw → cotranslate → coverify → cochangelog
                                        ↘ drift across screens → coconsolidate
 ```
+
+**`costudy` is optional, upstream of `cospecify`.** Run it first when the deliverable has a direct
+competitive analog worth studying — its study ledger (`ledgerPath`) is cited by `cospecify` as
+`study:<id>`, and `codraw`'s `design-manifest.json` resolves it directly via the optional
+`referenceLedger` field, so neither loop has to re-derive reference evidence. **Skipped when** no
+comparable product exists, or the screen has no useful external analog.
+**Exit gate (costudy):** verdict `COMPLETE | PARTIAL | BLOCKED`, same coverage numbers as in
+`discover` above. `PARTIAL` passes through as long as what's missing is named; `BLOCKED` halts
+`costudy` only — `design-first` still proceeds from the spec + design-system SSOT alone.
 
 **Skips:** `coplan` for a single surface (the artboard set *is* the decomposition); scale back up to
 `feature` for a multi-screen flow.

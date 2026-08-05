@@ -20,7 +20,7 @@ orchestrates concise `co-*` loop-skills, each a closed mini-loop that self-evalu
         │                                                                              │
    coframe ──▶ coresearch ──▶ coplan ──▶ cospecify ─▶ ╔═══ CORE LOOP ═══╗ ──▶ cochangelog
    (strategy)  (discovery)   (plan)     (design)      ║ cobuild ⇄ coverify║      (record)
-        ▲                                             ║      ⇅ codebug    ║           │
+        ▲      + costudy                              ║      ⇅ codebug    ║           │
         │                                             ╚═══════════════════╝           │
         └──────────── cocritique (does it do the JOB? → direction verdict) ◀───────────┘
 
@@ -83,6 +83,7 @@ Convention: **skill = action word**, **agent = the doer**, so the link is obviou
 | `/cocreator` | — (orchestrator) | NEW | Master loop + dispatcher | inherits | — |
 | `coframe` | `coframer` | NEW | Framing: frame the problem, set appetite, write the pitch | Opus | Optional |
 | `coresearch` | `coresearcher` | NEW | Discovery & evidence; red-team assumptions | Opus | Optional |
+| `costudy` | `costudier` | NEW | Discovery: reverse-engineer another product's UI/UX (screens, flows, IA, inferred design system) from the user's own live session, primed by Mobbin — replaces manual competitive teardowns / Mobbin-only pattern browsing | Sonnet | Optional |
 | `coplan` | `coplanner` | `planning-todos` | Decompose into tracked, verifiable steps | Sonnet | **Mandatory** |
 | `cospecify` | `cospecifier` | NEW | Author the buildable solution spec (screens, states, data, interfaces) | Sonnet | Optional |
 | `cobuild` | `cobuilder` | NEW | Build/implement (core, "make") | Sonnet | **Mandatory** |
@@ -96,7 +97,7 @@ Convention: **skill = action word**, **agent = the doer**, so the link is obviou
 | `codraw` | `codrawer` | NEW | Specialized loop: render a spec into faithful OD artboards + ledger (feeds cotranslate) | Sonnet | Optional |
 | `cotranslate` | `cotranslator` | NEW | Specialized loop: design→impl translation (artboard/spec → native UI), zero drift | Sonnet | Optional |
 
-15 skills (1 master + 14 loops). Model tiers: **Opus** = judgment-heavy
+16 skills (1 master + 15 loops). Model tiers: **Opus** = judgment-heavy
 (frame/research/diagnose/critique — where mistakes amplify); **Sonnet** = structured build & review;
 **Haiku** = mechanical capture/format.
 

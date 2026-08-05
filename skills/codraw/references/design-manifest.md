@@ -58,9 +58,26 @@ unconfirmed manifest.
     "artboardPath": "artboards/{M}/{name}.html"   // also the on-disk fallback path
   },
 
-  "ledgerPath": "memory-bank/design/design-ledger.json"  // git-tracked in the CODE repo, not OD
+  "ledgerPath": "memory-bank/design/design-ledger.json", // git-tracked in the CODE repo, not OD
+
+  "referenceLedger": "docs/studies/acme.study.json"  // OPTIONAL. Path to a costudy study ledger —
+                                                      // lets codraw resolve reference artboards (a
+                                                      // competitor's captured screens/patterns)
+                                                      // directly, without re-deriving anything.
+                                                      // Read-only; codraw never writes to it.
 }
 ```
+
+## `referenceLedger` (optional) — reference evidence from `costudy`
+
+When `costudy` has reverse-engineered a comparable shipped product into its own git-tracked ledger
+(`docs/studies/<target>.study.json` by convention — see its `SKILL.md`), point `referenceLedger` at
+that path. codraw then resolves `study:<id>` citations from a `cospecify` spec directly against it —
+pattern name, primitives observed, inferred tokens, evidence tag (`observed | inferred | assumed`) —
+instead of re-deriving comparative evidence itself. Absent this field, codraw renders from the
+design-system SSOT alone, same as before; nothing about the core method changes. codraw only reads
+this ledger — it never writes to it, and a `costudy` entry's `assumed`-tagged findings (most often
+the "inferred design system" pass) must never be presented as this project's own tokens.
 
 ## The ledger (invariant #5) — lift verbatim, parameterized by the manifest
 
