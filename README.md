@@ -179,6 +179,17 @@ directly, so either manifest works.
 **Cursor**: add this repo as a plugin, or skip the manifest entirely — Cursor also scans
 `.agents/skills/` (and `.cursor/skills/`) directly, so the skills load without any plugin install.
 
+**OpenCode**: OpenCode does not read root `agents/` or the other plugin manifests. From this
+checkout, the included `opencode.json` and `.opencode/agents/` make skills and doer agents available
+directly. For consumer projects, install the skills plus OpenCode-native doer agents:
+
+```bash
+npx @donniesilalahi/cocreation-skills --project --opencode
+```
+
+For global agents, use `--global --opencode`. This writes agents to `.opencode/agents/` or
+`~/.config/opencode/agents/`, respectively. Restart OpenCode after installation.
+
 No manifest here is published to a public catalog — install is always from a local path or this
 repo's own git URL.
 

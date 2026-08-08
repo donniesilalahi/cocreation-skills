@@ -117,6 +117,8 @@ const EXTRA_STEPS = {
 // (stable roster order, fixed template) so re-running is idempotent.
 const agentsDir = path.join(repoRoot, 'agents')
 fs.mkdirSync(agentsDir, { recursive: true })
+const opencodeAgentsDir = path.join(repoRoot, '.opencode', 'agents')
+fs.mkdirSync(opencodeAgentsDir, { recursive: true })
 for (const [skill, doer, model] of ROSTER) {
   const purpose = PURPOSES[skill]
   const steps = [
@@ -138,6 +140,23 @@ ${steps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
 `
   fs.writeFileSync(path.join(agentsDir, `${doer}.md`), content)
   console.log(`wrote agents/${doer}.md`)
+
+  const extraSteps = EXTRA_STEPS[skill] || []
+  const opencodeContent = `---
+name: ${doer}
+description: Doer sub-agent for the ${skill} loop — ${purpose}. Spawn from cocreator to run the ${skill} loop.
+mode: subagent
+---
+
+You are **${doer}**, the doer sub-agent for the \`${skill}\` loop.
+
+1. Read \`.agents/skills/${skill}/SKILL.md\` — that is your full operating guide. If it is not installed, read \`skills/${skill}/SKILL.md\` from this repository.
+2. Run the \`${skill}\` loop on the task you are given.
+${extraSteps.map((step, i) => `${i + 3}. ${step}`).join('\n')}${extraSteps.length ? '\n' : ''}${extraSteps.length + 3}. Write your memory-bank record under the consumer project's \`.agents/skills/${skill}/memory-bank/\` (create it if missing) — never inside the plugin.
+${extraSteps.length + 4}. Return ONLY your self-eval verdict + artifact pointers (record path, files touched) — not your full working transcript.
+`
+  fs.writeFileSync(path.join(opencodeAgentsDir, `${doer}.md`), opencodeContent)
+  console.log(`wrote .opencode/agents/${doer}.md`)
 }
 
 function writeJson(relPath, obj) {
@@ -257,5 +276,5 @@ if (skillNames.length !== actualSkillCount || actualSkillCount === 0) {
 }
 
 console.log(
-  `Generated 6 manifests for ${actualSkillCount} skills and ${ROSTER.length} agents.`,
+  `Generated 6 manifests for ${actualSkillCount} skills and ${ROSTER.length} agents for Claude/Codex/Cursor/OpenCode.`,
 )
