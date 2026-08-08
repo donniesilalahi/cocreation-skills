@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 
 const packageRoot = path.dirname(fileURLToPath(import.meta.url))
 const skillsSource = path.join(packageRoot, 'skills')
+const agentsSource = path.join(packageRoot, '.opencode', 'agents')
 const args = process.argv.slice(2)
 
 const installGlobal = args.includes('--global') || args.includes('-g')
@@ -16,6 +17,7 @@ const update = args.includes('--update') || args.includes('-u')
 const listOnly = args.includes('--list')
 const help = args.includes('--help') || args.includes('-h')
 const noHook = args.includes('--no-hook')
+const installOpenCode = args.includes('--opencode')
 const wantedSkills = args.filter((arg) => !arg.startsWith('-'))
 
 // Skills we've renamed. If a consumer still has the OLD dir installed, surface a
@@ -39,6 +41,7 @@ Options:
   --force, -f     Overwrite existing installed skill directories.
   --update, -u    Refresh SKILL.md only; preserve memory-bank/ (safe for updates).
   --no-hook       Skip setting up the git pre-commit hook (project only).
+  --opencode      Install doer agents into OpenCode's native agent directory.
   --list          List available skills without installing.
   --help, -h      Show this help.
 
@@ -100,6 +103,14 @@ for (const skill of selectedSkills) {
 }
 
 console.log(`Done. Skills installed to ${targetBase}`)
+
+if (installOpenCode) {
+  const openCodeAgentsTarget = installProject
+    ? path.join(process.cwd(), '.opencode', 'agents')
+    : path.join(os.homedir(), '.config', 'opencode', 'agents')
+  copyDirectory(agentsSource, openCodeAgentsTarget)
+  console.log(`Installed OpenCode agents to ${openCodeAgentsTarget}`)
+}
 
 warnRenamedSkills(targetBase, availableSkills)
 

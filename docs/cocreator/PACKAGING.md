@@ -8,14 +8,15 @@ plugin/manifest layer; `scripts/build-plugin-manifests.js` is its implementation
 
 ## The one insight
 
-All three tools (Claude Code, Codex, Cursor) now consume the **same open "Agent Skills" standard**
-— a `skills/<name>/SKILL.md` with `name` + `description` frontmatter — and all three scan the
+Claude Code, Codex, Cursor, and OpenCode consume the **same open "Agent Skills" standard**
+— a `skills/<name>/SKILL.md` with `name` + `description` frontmatter — and all four scan the
 `.agents/skills/` path that this repo's installer (`cli.js`) already targets. So the skills
 **already load** natively in every tool with zero per-tool rewrite.
 
-The only thing that differs per tool is the thin **plugin/marketplace manifest** that makes a
-skill bundle *installable and discoverable* as one unit. That manifest layer is what this packaging
-work adds. **One source of truth (`skills/*/SKILL.md`), three generated manifest wrappers.**
+OpenCode consumes the same skill files, but its agent loader is separate: it scans `.opencode/agents/`
+or `~/.config/opencode/agents/`, not root `agents/`. The thin plugin/marketplace manifests make the
+skill bundle installable for Claude Code, Codex, and Cursor; OpenCode agents use a generated native
+copy. **One source of truth (`skills/*/SKILL.md`), generated tool-specific wrappers.**
 
 ## Scope decisions (locked)
 
@@ -45,6 +46,10 @@ Codex: `codex marketplace add <path-or-owner/repo>` → `/plugins`.
 Cursor: add the repo as a local plugin / `/add-plugin` (skills also load directly via the
 `.agents/skills/` and legacy `.claude/skills/` scan paths).
 
+OpenCode: run `npx @donniesilalahi/cocreation-skills --project --opencode` to install skills into
+`.agents/skills/` and doer agents into `.opencode/agents/`. Use `--global --opencode` for global
+agents. Restart OpenCode after installation.
+
 ## Files this adds / changes
 
 | File | Role |
@@ -54,6 +59,7 @@ Cursor: add the repo as a local plugin / `/add-plugin` (skills also load directl
 | `.codex-plugin/…` | NEW (generated, unpublished). Codex parity manifest. Exact schema per official Codex spec. |
 | `.cursor-plugin/…` | NEW (generated, unpublished). Cursor parity manifest. Exact schema per `github.com/cursor/plugins`. |
 | `AGENTS.md` | NEW. Root cross-tool pointer (Linux-Foundation standard, read by all three) at the skill set. |
+| `.opencode/agents/` | NEW. Generated OpenCode-native doer agents; omits Claude-only plugin variables and model aliases. |
 | `scripts/build-plugin-manifests.js` | NEW. The generator. Single source → all manifests. Idempotent. |
 | `package.json` | `build-manifests` script; `prepack` also runs it; manifests get version from here. |
 | `README.md` | Install-as-plugin section for all three tools. |
@@ -62,7 +68,7 @@ Cursor: add the repo as a local plugin / `/add-plugin` (skills also load directl
 
 - **Input:** `package.json` (name, version, description, author, license, homepage, repository) +
   a directory scan of `skills/*/SKILL.md` (reads each `name` + `description` from frontmatter).
-- **Output:** writes the manifest files above, deterministically. Re-running with no source change
+- **Output:** writes the manifest files above plus `.opencode/agents/*.md`, deterministically. Re-running with no source change
   is a no-op (stable key order, trailing newline) — safe to wire into `prepack` and a pre-commit
   hook without spurious diffs.
 - **Version:** every manifest's `version` is read from `package.json` — the single source. This is
