@@ -10,8 +10,8 @@ plan:
 - **Building**: [What this build delivers]
 - **Plan**: [Link to the coplan record it builds against]
 - **Increments**:
-  - [ ] Increment 1 → coverify
-  - [ ] Increment 2 → coverify
+  - [ ] Increment 1 → cotest
+  - [ ] Increment 2 → cotest
 - **Done**:
   - [x] Increment 0 → verified
 - **Blockers**: [Anything stopping progress; failures handed to codebug]

@@ -82,7 +82,7 @@ the "inferred design system" pass) must never be presented as this project's own
 ## The ledger (invariant #5) — lift verbatim, parameterized by the manifest
 
 The ledger schema is proven; ship it as the default. It is git-tracked in the **code** repo so later
-code chats, `cotranslate`, and `coverify` read the artboard→code map from it.
+code chats, `cotranslate`, and `cotest` read the artboard→code map from it.
 
 ```jsonc
 {

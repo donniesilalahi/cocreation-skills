@@ -62,7 +62,7 @@ A verdict that covers a whole product plus two sub-surfaces is not actionable fo
 ### A11 — Rewriting the spec
 The critique concludes the spec is wrong and edits it, or updates `STATE.md`'s SSOT pointer. That
 silently bypasses the reviewed channel and destroys the trail. **Fix:** cocritique **proposes** —
-files an `inbox/` decision ask and routes to `coframe`/`cospecify`. The human decides.
+files an `inbox/` decision ask and routes to `codirect`/`cospecify`. The human decides.
 
 ### A12 — Stalling for evidence
 Refusing to produce anything until metrics arrive. The workspace protocol forbids this. **Fix:**
@@ -113,13 +113,13 @@ fix list. They are also the two most easily missed, because neither generates a 
 
 | Symptom | That's not cocritique — it's |
 |---|---|
-| "This doesn't match the artboard/spec" | `coverify` (impl vs spec) |
+| "This doesn't match the artboard/spec" | `cotest` (impl vs spec) |
 | "This button is 18pt here and 16pt there" | `coconsolidate` (impl vs impl drift) |
 | "Port this design into native UI faithfully" | `cotranslate` (design → impl) |
 | "This crashes / returns the wrong value" | `codebug` (defect) |
 | "What happens on empty/overflow/offline?" | `coharden` (edge cases) |
 | "Is this assumption true?" | `coresearch` (evidence) |
-| "The job itself is wrong; re-frame it" | `coframe` — cocritique *routes* there, it doesn't do it |
+| "The job itself is wrong; re-frame it" | `codirect` — cocritique *routes* there, it doesn't do it |
 
 If the question is "does this match what we decided", it is never cocritique. cocritique only asks
 "was what we decided worth deciding".

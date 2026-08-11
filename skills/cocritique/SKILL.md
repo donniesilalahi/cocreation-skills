@@ -1,24 +1,25 @@
 ---
 name: cocritique
-description: The "critique" loop. Answers one question — does the product, as it stands, do the user's job optimally, and if not what has to change in the product's DIRECTION? Evaluates a current/shipped experience outside-in across five lenses — job (JTBD job map), outcome (ODI opportunity score), journey (cognitive walkthrough, ISO 9241-11), interface (Nielsen heuristics + 0–4 severity, WCAG 2.2 AA), signal (HEART, SUS/SEQ benchmarks, PMF) — and returns ONE verdict (SERVES / UNDERSERVES / OVERSERVES / MISSERVES / UNKNOWN) plus the direction change it implies and a prioritized fix list. Every finding is tagged observed|inferred|assumed; a verdict resting on assumptions can be no stronger than UNKNOWN and must name the cheapest test instead. Use for design critique, UX/HCI review, "is this actually working for users", post-ship evaluation, or before committing to the next cycle. NOT coverify (impl vs spec) and NOT coconsolidate (impl vs impl drift) — cocritique checks the product against the JOB. The doer is cocritic.
+description: The "critique" loop. Answers one question — does the product, as it stands, do the user's job optimally, and if not what has to change in the product's DIRECTION? Evaluates a current/shipped experience outside-in across five lenses — job (JTBD job map), outcome (ODI opportunity score), journey (cognitive walkthrough, ISO 9241-11), interface (Nielsen heuristics + 0–4 severity, WCAG 2.2 AA), signal (HEART, SUS/SEQ benchmarks, PMF) — and returns ONE verdict (SERVES / UNDERSERVES / OVERSERVES / MISSERVES / UNKNOWN) plus the direction change it implies and a prioritized fix list. Every finding is tagged observed|inferred|assumed; a verdict resting on assumptions can be no stronger than UNKNOWN and must name the cheapest test instead. Use for design critique, UX/HCI review, "is this actually working for users", post-ship evaluation, or before committing to the next cycle. NOT cotest (impl vs spec) and NOT coconsolidate (impl vs impl drift) — cocritique checks the product against the JOB. The doer is cocritic.
 ---
 
 # cocritique — is the product doing the job?
 
 The doer is **cocritic** (Opus — judgment-heavy). This is the **return edge of the big loop**: it
 evaluates what exists against the job it was hired to do, and hands a direction verdict back
-upstream to `coframe`. Where `colearn` feeds back *process* lessons, `cocritique` feeds back
+upstream to `codirect`. Where `colearn` feeds back *process* lessons, `cocritique` feeds back
 *product direction*.
 
 **The line vs siblings — three different reference points:**
 
 | Loop | Compares | Answers |
 |---|---|---|
-| `coverify` | impl **vs the spec** | Did we build what we said? |
+| `cochallenge` | decision artifact **pre-build** | Did the reasoning survive attack before we built it? |
+| `cotest` | impl **vs the spec** | Did we build what we said? |
 | `coconsolidate` | impl **vs itself** across screens | Is it consistent / DRY? |
 | **`cocritique`** | product **vs the JOB** | Did what we said turn out to be worth building? |
 
-A screen can pass `coverify` perfectly and still fail here — faithful to a spec that was serving the
+A screen can pass `cotest` perfectly and still fail here — faithful to a spec that was serving the
 wrong outcome. That gap is this loop's whole reason to exist.
 
 ## 0. Bootstrap — the critique-manifest
@@ -139,7 +140,7 @@ Exactly **one** verdict for the product/surface under critique. Never hedge acro
 | **SERVES** | Right job, outcomes appropriately served, no journey break | None. Ship the fix list — friction only. |
 | **UNDERSERVES** | Right job, ≥1 outcome scoring ≥15, or a journey break on a core task | **Deepen within the frame.** Name the outcome to invest in. → `cospecify` |
 | **OVERSERVES** | Effort concentrated on outcomes scoring <10 while others starve | **Remove / reallocate.** Name what to cut. → `cospecify` |
-| **MISSERVES** | Users hire the product for a different job than it serves | **Re-frame.** → `coframe` (segment / scope / job change) |
+| **MISSERVES** | Users hire the product for a different job than it serves | **Re-frame.** → `codirect` (segment / scope / job change) |
 | **UNKNOWN** | Evidence ceiling not met for a direction verdict (§2) | **Test first.** Name the cheapest test. → `coresearch` |
 
 Each verdict carries: the load-bearing findings + their evidence tags, what would **falsify** it
@@ -164,14 +165,14 @@ Findings name a component/file/step, not a vibe. "Make it cleaner" is not a find
 
 cocritique emits a **signal about the job**, and like every diagnostic loop **its findings never
 become the source of truth** (`docs/cocreator/SSOT.md`). What makes it unusual: it is the one loop
-whose escalation target is **intent (`coframe`)** rather than the spec, because it is licensed to
+whose escalation target is **intent (`codirect`)** rather than the spec, because it is licensed to
 challenge the *why*, not just conformance to it.
 
 So it **proposes**, it never rewrites:
 
 - A verdict that implies a direction change files an `inbox/` **decision** ask with a recommended
-  default, and routes to `coframe` (MISSERVES) or `cospecify` (UNDER/OVERSERVES).
-- It never edits the pitch, the spec, or `STATE.md`'s SSOT pointer. The human + `coframe` decide.
+  default, and routes to `codirect` (MISSERVES) or `cospecify` (UNDER/OVERSERVES).
+- It never edits the pitch, the spec, or `STATE.md`'s SSOT pointer. The human + `codirect` decide.
 - It appends its run + verdict to the `STATE.md` ledger like any other loop.
 
 ## 7. Report format
@@ -213,7 +214,7 @@ Open asks filed: <inbox record paths>
 `node .agents/skills/cocritique/index.mjs` (or `npm run update-indices`).
 
 A record links the `raw/` input it read and the artifact it critiqued, plus a `frame:` cross-ref to
-the `coframe` pitch when the verdict re-opens intent. Re-critiquing the same surface later writes a
+the `codirect` pitch when the verdict re-opens intent. Re-critiquing the same surface later writes a
 **new dated record** and adds `superseded-by:` to the old one — the trend across records is itself
 evidence.
 
@@ -238,7 +239,7 @@ evidence.
 ## Self-eval gate (close the loop)
 
 - **Ladder walked, one verdict issued with evidence tags + falsifier, fix list prioritized, direction
-  ask filed** → PASS. Route per §4: `coframe` (MISSERVES), `cospecify` (UNDER/OVERSERVES),
+  ask filed** → PASS. Route per §4: `codirect` (MISSERVES), `cospecify` (UNDER/OVERSERVES),
   `coplan` + `cobuild` (fix list), `coresearch` (UNKNOWN).
 - **Evidence ceiling blocks a direction verdict** → issue **UNKNOWN** with the cheapest test. That is
   a PASS, not a failure — the loop closed honestly.
@@ -246,7 +247,7 @@ evidence.
   the product** → escalate to the human (`inbox/` decision ask). Never bank a pivot unilaterally.
 - **Findings are all severity 0–1 taste calls** → re-loop once with a tighter task scope; if still
   thin, report SERVES and say the surface didn't warrant a critique.
-- **Backprop:** a verdict that later proves wrong, and any spec that passed `coverify` yet failed
+- **Backprop:** a verdict that later proves wrong, and any spec that passed `cotest` yet failed
   here, hands a lesson to `colearn` — that pattern is exactly the "confident mistake" the playbook
   warns about.
 

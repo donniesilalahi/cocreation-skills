@@ -11,7 +11,7 @@ status: draft
 - **Interfaces**: [Contracts, signatures, API shapes]
 - **Data shape**: [Models, schemas, key fields]
 - **Edge cases**: [Boundaries the build must handle]
-- **Acceptance criteria**: [How cobuild/coverify know it's right]
+- **Acceptance criteria**: [How cobuild/cotest know it's right]
 - **Design sources**: [Figma / Open Design refs, if any]
 - **Notes**: [Decisions and trade-offs]
 

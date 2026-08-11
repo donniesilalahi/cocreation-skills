@@ -1,6 +1,6 @@
 ---
 name: cospecify
-description: The "spec" loop. Author the buildable solution spec — screens, states, data shapes, interfaces, and the design-system decisions — and hand it to codraw (to render as artboards) and cobuild (to implement), so neither has to invent decisions mid-stream. The doer is cospecifier. Maps to the day-to-day PRD / functional spec / design doc; it decides the SOLUTION (distinct from coframe deciding the problem, and coplan deciding the work). It does NOT draw the pixels (that's codraw) or write the code (cobuild). Use at the design stage once the problem is framed and the plan is set, whenever the solution's shape needs pinning down before implementation. Optional loop; runs standalone or feeds codraw/cobuild. Best on Sonnet (structured design work).
+description: The "spec" loop. Author the buildable solution spec — screens, states, data shapes, interfaces, and the design-system decisions — and hand it to codraw (to render as artboards) and cobuild (to implement), so neither has to invent decisions mid-stream. The doer is cospecifier. Maps to the day-to-day PRD / functional spec / design doc; it decides the SOLUTION (distinct from codirect deciding the problem, and coplan deciding the work). It does NOT draw the pixels (that's codraw) or write the code (cobuild). Use at the design stage once the problem is framed and the plan is set, whenever the solution's shape needs pinning down before implementation. Optional loop; runs standalone or feeds codraw/cobuild. Best on Sonnet (structured design work).
 ---
 
 # cospecify — write the buildable spec
@@ -11,7 +11,7 @@ work, best run on **Sonnet**. Decide the solution's shape so `codraw` renders ag
 
 **What it owns vs. its neighbours:** cospecify decides the **solution** — the buildable spec
 (a PRD / functional spec / design doc): screens, states, data shapes, interface contracts, and the
-design-system decisions. It does **not** decide the *problem* (`coframe`), the *work* (`coplan`),
+design-system decisions. It does **not** decide the *problem* (`codirect`), the *work* (`coplan`),
 the *pixels* (`codraw` renders the spec into artboards), or the *code* (`cobuild`). Spec → draw →
 build is the natural pairing (like a design doc → mockups → implementation).
 

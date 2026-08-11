@@ -78,11 +78,11 @@ status: open
 {Additions proposed vs the removal/default/reorder weighed against each.}
 
 ## Routing
-Direction ask → {coframe | cospecify} · Fix list → coplan → cobuild · Unknowns → coresearch ·
+Direction ask → {codirect | cospecify} · Fix list → coplan → cobuild · Unknowns → coresearch ·
 Lessons → colearn
 
 <!-- verdict: SERVES | UNDERSERVES | OVERSERVES | MISSERVES | UNKNOWN -->
 <!-- status: open | routed | actioned | superseded -->
 <!-- superseded-by: {path to the newer critique of this surface} -->
-<!-- frame: {coframe pitch record, when the verdict re-opens intent} -->
+<!-- frame: {codirect pitch record, when the verdict re-opens intent} -->
 <!-- raw input: .agents/workspace/raw/…   artifact: … -->

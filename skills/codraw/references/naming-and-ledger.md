@@ -63,7 +63,7 @@ match the convention arity.
 ## 3. Ledger rules (invariant #5) — the durable design↔code seam
 
 The ledger is **git-tracked in the code repo, not the OD workspace** — that is the whole point: it
-survives OD sessions and is the map `cotranslate`/`coverify`/later code chats read.
+survives OD sessions and is the map `cotranslate`/`cotest`/later code chats read.
 
 - **One entry per artboard-STATE artifact.** Not per screen.
 - **`name` MUST equal the naming convention**; **`state` MUST be in `stateVocab`**; **`id` = the

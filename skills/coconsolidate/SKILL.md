@@ -20,7 +20,7 @@ columns change.
 
 **The line vs siblings — all three compare different things:**
 
-- `coverify` compares impl **vs the spec/artboard** (vertical conformance).
+- `cotest` compares impl **vs the spec/artboard** (vertical conformance).
 - `cotranslate` produces impl **from** a design source (vertical translation).
 - **`coconsolidate` compares impl vs impl** (horizontal). It is the only one that asks
   "do these N things agree with each other?"
@@ -272,7 +272,7 @@ status: open
 ## Self-eval gate (close the loop)
 
 - **Sites folded into one master (or conformed to the canonical), copies deleted, build/tests green,
-  behavior unchanged, affected captures re-eyeballed** → PASS forward to `coverify` to confirm the
+  behavior unchanged, affected captures re-eyeballed** → PASS forward to `cotest` to confirm the
   affected surfaces still match their spec/artboards.
 - **Matrix shows the sites aren't really the same thing (coincidental)** → record the decision, leave
   them, done — that *is* a pass.
@@ -289,8 +289,8 @@ status: open
 
 ## Relationship to Other Skills
 
-- **`coverify`** — vertical (screen vs artboard/spec). This loop is horizontal (sites vs each other).
-  Run `coverify` to learn the *canonical* value; run this to *propagate* it.
+- **`cotest`** — vertical (screen vs artboard/spec). This loop is horizontal (sites vs each other).
+  Run `cotest` to learn the *canonical* value; run this to *propagate* it.
 - **`cotranslate`** — produces the port and **flags duplication for this loop**; it never runs the
   DRY pass itself.
 - **`cocritique`** — asks whether the element should exist at all. Consistency ≠ correctness.
