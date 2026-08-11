@@ -1,8 +1,8 @@
 {
   "name": "cocreation",
   "displayName": "Cocreation Skills",
-  "version": "0.14.0",
-  "description": "An ecosystem of co-* loop skills for human-AI product co-creation — frame, research, plan, specify, draw, build, verify, debug, document, and learn — orchestrated by /cocreator.",
+  "version": "0.15.0",
+  "description": "An ecosystem of co-* loop skills for human-AI product co-creation — direct, challenge, research, plan, specify, draw, build, test, debug, document, and learn — orchestrated by /cocreator.",
   "author": {
     "name": "Donnie Silalahi",
     "email": "donniesilalahi@gmail.com"
