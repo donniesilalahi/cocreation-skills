@@ -5,7 +5,7 @@ has to re-derive "which loops does a bug fix need?" every time, and so the loops
 skip under pressure (the check, the lesson) are already in the chain.
 
 **Workflows are defaults, not rails.** The loop-level decision tree still governs what happens
-*inside* one: a `coverify` FAIL inside `ship` drops into `fix`'s `codebug` and comes back. Naming
+*inside* one: a `cotest` FAIL inside `ship` drops into `fix`'s `codebug` and comes back. Naming
 the workflow says where you started and what "done" means — not that the path is fixed.
 
 ---
@@ -32,12 +32,13 @@ is the one most often answered wrong:
 
 | Reference point | Question | Loop |
 |---|---|---|
-| **the spec** | did we build what we said? | `coverify` |
+| **the spec** | did we build what we said? | `cotest` |
 | **itself, across screens** | do the N copies agree? | `coconsolidate` |
 | **the job** | was it worth building? | `cocritique` |
+| **the reasoning** | does the decision survive attack? | `cochallenge` |
 
 Running the wrong one gives a confident answer to a question nobody asked. A screen can pass
-`coverify` perfectly, be flawlessly consistent, and still fail `cocritique`.
+`cotest` perfectly, be flawlessly consistent, and still fail `cocritique`.
 
 ---
 
@@ -52,11 +53,16 @@ Each workflow lists its **entry condition**, the **chain**, what it **deliberate
 assumption is unverified. Also where `cocritique` routes a MISSERVES or UNKNOWN verdict.
 
 ```
-colearn(recall) → coframe → coresearch → ┬ verdict holds → coplan (hand off to feature/ship)
-                                          └ verdict fails → stop. Not building is the result.
+colearn(recall) → codirect → cochallenge → coresearch → ┬ verdict holds → coplan (hand off to feature/ship)
+                                                         └ verdict fails → stop. Not building is the result.
 
 [costudy] runs in parallel, optional — reverse-engineers a comparable shipped product as evidence.
 ```
+
+**`cochallenge` stress-tests the pitch before evidence is spent on it:** HOLED → `codirect`
+re-runs with the hole list; COLLAPSES → stop (not building is the result); UNKNOWN folds the
+open question into `coresearch`'s queue. The challenger is never the generator — a fresh
+adversarial context, not the codirector grading its own pitch.
 
 **`costudy` alongside `coresearch`.** Same stage (discovery), same entry-point shape (fed by
 nothing) — but a different object of study: `coresearch` red-teams *our* load-bearing assumptions,
@@ -66,7 +72,7 @@ costudy builds its own pattern library from it rather than consuming a third-par
 **Skipped when** no comparable product exists worth studying, or the open question doesn't turn on
 how others solve it.
 **Hands off** its study ledger to `cospecify`/`codraw` once the workflow reaches design (primary
-feed — see `design-first` below), and to `cocritique`/`coframe` as comparative evidence only
+feed — see `design-first` below), and to `cocritique`/`codirect` as comparative evidence only
 (secondary — competitors are not the bar, per PLAYBOOK).
 **Exit gate (costudy):** verdict `COMPLETE | PARTIAL | BLOCKED` with coverage numbers — flows
 captured / in scope, screens captured / screens discovered, `reachable-unvisited` count, assumed-tag
@@ -87,15 +93,15 @@ its blast radius is small. The most common workflow; treat it as the default unt
 it insufficient.
 
 ```
-colearn(recall) → cobuild ⇄ coverify → cochangelog
+colearn(recall) → cobuild ⇄ cotest → cochangelog
 ```
 
-**Skips:** `coframe` (the framing is the request), `coresearch` (nothing unverified),
+**Skips:** `codirect` (the framing is the request), `coresearch` (nothing unverified),
 `coplan` (one step doesn't need decomposing), `cospecify` (see below).
-**Exit gate:** the change is built, `coverify` PASSes, the changelog line exists, and no inbox stub
+**Exit gate:** the change is built, `cotest` PASSes, the changelog line exists, and no inbox stub
 is unresolved.
 
-> **Why `cospecify` is out and `coverify` is in.** A spec's job is to stop an executor inventing
+> **Why `cospecify` is out and `cotest` is in.** A spec's job is to stop an executor inventing
 > decisions mid-stream — on a change with no decisions to invent, it's ceremony. The check is the
 > opposite: it's the whole thesis of the playbook (build collapses, review becomes the constraint),
 > so it's the last thing to drop, not the first. If you find yourself wanting a spec here, that's the
@@ -109,13 +115,14 @@ is unresolved.
 expensive. The full chain. Earn it — don't impose it on `ship`-sized work.
 
 ```
-colearn(recall) → coframe → coresearch → coplan → cospecify → [codraw] →
-                  cobuild ⇄ coverify (↘ codebug) → coharden → cochangelog → colearn(capture)
+colearn(recall) → codirect → cochallenge → coresearch → coplan → cospecify → cochallenge → [codraw] →
+                  cobuild ⇄ cotest (↘ codebug) → coharden → cochangelog → colearn(capture)
 ```
 
 **Skips:** nothing by default. Drop `coresearch` when no assumption is load-bearing; drop `codraw`
-when there's no visual surface; drop `coharden` only if `release-prep` will run before users see it.
-**Exit gate:** every plan step is closed, `coverify` PASSes against the spec, edge cases are covered
+when there's no visual surface; drop `coharden` only if `release-prep` will run before users see it;
+drop the second `cochallenge` when the spec is a thin restatement of an already-HOLDS pitch.
+**Exit gate:** every plan step is closed, `cotest` PASSes against the spec, edge cases are covered
 or explicitly deferred, the changelog cross-references the plan, and a lesson is recorded.
 
 ---
@@ -126,8 +133,8 @@ or explicitly deferred, the changelog cross-references the plan, and a lesson is
 acceptance criterion. Also the workflow for "here's a Figma/mock, build it."
 
 ```
-[costudy] → cospecify → codraw → cotranslate → coverify → cochangelog
-                                       ↘ drift across screens → coconsolidate
+[costudy] → cospecify → cochallenge → codraw → cotranslate → cotest → cochangelog
+                                                    ↘ drift across screens → coconsolidate
 ```
 
 **`costudy` is optional, upstream of `cospecify`.** Run it first when the deliverable has a direct
@@ -140,23 +147,24 @@ comparable product exists, or the screen has no useful external analog.
 `costudy` only — `design-first` still proceeds from the spec + design-system SSOT alone.
 
 **Skips:** `coplan` for a single surface (the artboard set *is* the decomposition); scale back up to
-`feature` for a multi-screen flow.
+`feature` for a multi-screen flow; drop `cochallenge` when the spec merely transcribes an existing
+approved design.
 **Exit gate:** every depicted element and state is implemented from shared masters, token parity
-passes, every control has a live interaction, and `coverify` accepts the screen against its artboard.
+passes, every control has a live interaction, and `cotest` accepts the screen against its artboard.
 
 > **Order matters here, twice.** `codraw` *renders* a spec — it does not invent one, so `cospecify`
 > comes first even when the design already exists (the spec is where states, data, and edge behavior
 > get pinned). And `cotranslate` reports `implemented | blocked` and is forbidden from self-accepting,
-> so `coverify` is not optional garnish — it is the only thing that can close the workflow.
+> so `cotest` is not optional garnish — it is the only thing that can close the workflow.
 
 ---
 
 ### `fix` — something is broken
 
-**Enter when:** a defect is reported, a test fails, or `coverify` FAILs inside another workflow.
+**Enter when:** a defect is reported, a test fails, or `cotest` FAILs inside another workflow.
 
 ```
-colearn(recall) → codebug → cobuild → coverify → colearn(capture)
+colearn(recall) → codebug → cobuild → cotest → colearn(capture)
                                           ↘ still failing → back to codebug (bounded)
 ```
 
@@ -181,10 +189,12 @@ than one when more than one question is genuinely open — but name which is whi
 findings are not comparable.
 
 ```
-vs the spec  → coverify      → fix list          → fix / ship
-vs itself    → coconsolidate → one master        → cleanup
-vs the job   → cocritique    → direction verdict → discover (MISSERVES) · feature (UNDERSERVES)
-                                                 · cleanup/cut (OVERSERVES) · discover (UNKNOWN)
+vs the spec      → cotest        → fix list          → fix / ship
+vs itself        → coconsolidate → one master        → cleanup
+vs the job       → cocritique    → direction verdict → discover (MISSERVES) · feature (UNDERSERVES)
+                                                     · cleanup/cut (OVERSERVES) · discover (UNKNOWN)
+vs the reasoning → cochallenge   → challenge verdict → codirect (COLLAPSES) · generator re-run (HOLED)
+                                                     · discover/coresearch (UNKNOWN)
 ```
 
 **Skips:** all building. Evaluation produces findings and a route, never edits.
@@ -199,12 +209,12 @@ support a direction call, and it hands the cheapest test to `discover`.
 **Enter when:** the happy path works and it's about to reach people who didn't build it.
 
 ```
-coharden → coverify → [coconsolidate sweep] → cochangelog → completion gate
+coharden → cotest → [coconsolidate sweep] → cochangelog → completion gate
 ```
 
 **Skips:** `cobuild` beyond what hardening requires. This workflow does not add capability — scope
 growth here is how releases slip.
-**Exit gate:** edge cases and failure paths covered, `coverify` PASSes, **and the completion gate is
+**Exit gate:** edge cases and failure paths covered, `cotest` PASSes, **and the completion gate is
 clean** — no inbox item still `open` and blocking, no unconfirmed `placeholder` or `default-applied`
 left in the build. That gate is the actual deliverable of this workflow; the rest is preparation
 for it.
@@ -216,7 +226,7 @@ for it.
 **Enter when:** duplication or drift has accumulated, and nothing about behavior should change.
 
 ```
-coconsolidate → coverify
+coconsolidate → cotest
 ```
 
 **Skips:** `cochangelog` when nothing user-visible changed (record it in the consolidation record
@@ -236,7 +246,7 @@ discover ──▶ feature ──▶ release-prep ──▶ evaluate(cocritique)
    ▲                                                              │
    └────────────── MISSERVES / UNKNOWN ◀──────────────────────────┘
 
-evaluate(coverify)      ──▶ fix
+evaluate(cotest)      ──▶ fix
 evaluate(coconsolidate) ──▶ cleanup
 evaluate(cocritique)    ──▶ UNDERSERVES ──▶ feature   (deepen)
                             OVERSERVES  ──▶ cleanup   (cut)
@@ -249,7 +259,7 @@ direction flawlessly.
 
 ## Rules that hold across every workflow
 
-1. **`coverify` is never skipped on anything that changes behavior.** Build collapsed; review is the
+1. **`cotest` is never skipped on anything that changes behavior.** Build collapsed; review is the
    constraint. Dropping the check to go faster optimizes the part that was never the bottleneck.
 2. **A failure always writes a lesson.** `colearn` capture is mandatory in `fix` and after any FAIL
    anywhere else.
@@ -257,9 +267,9 @@ direction flawlessly.
    the only thing that stops a known mistake being repeated.
 4. **Escalate the workflow, don't bolt loops onto it.** Wanting a spec inside `ship` means the work
    is `feature`-sized. Re-enter at the right workflow instead of growing a small one.
-5. **Diagnostic loops never edit the source of truth.** `coverify`, `coconsolidate`, `codebug`,
-   `coharden`, `cocritique` emit findings and route. Spec changes go through `cospecify`; intent
-   changes go through `coframe` + the human.
+5. **Diagnostic loops never edit the source of truth.** `cochallenge`, `cotest`, `coconsolidate`,
+   `codebug`, `coharden`, `cocritique` emit findings and route. Spec changes go through `cospecify`;
+   intent changes go through `codirect` + the human.
 6. **The completion gate applies to every workflow, not just `release-prep`.** Nothing reports done
    while an inbox item is open-and-blocking or a placeholder is unconfirmed.
 7. **One workflow at a time per surface.** Two in flight on the same surface produce contradictory
