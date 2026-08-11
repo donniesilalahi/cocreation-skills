@@ -9,13 +9,13 @@ Kiro, BMAD, Cline/Roo memory banks, the OpenAI Model Spec) and file-based decisi
 
 ## The problem
 
-Many loops emit artifacts — `coframe` a pitch, `coresearch` evidence, `coplan` a task list,
-`cospecify` a spec, `codraw` an artboard set + ledger, `cobuild` code, `coverify` a QA report. Two
+Many loops emit artifacts — `codirect` a pitch, `coresearch` evidence, `coplan` a task list,
+`cospecify` a spec, `codraw` an artboard set + ledger, `cobuild` code, `cotest` a QA report. Two
 failures follow:
 
 1. **Ambiguity:** a downstream doer (`cobuild`, `cotranslate`) doesn't know *which* artifact it must
    build and check against. Is the truth the pitch? the plan? the spec?
-2. **Blur under specialized loops:** jumping into `codebug` / `coverify` / `coconsolidate` / `coharden`
+2. **Blur under specialized loops:** jumping into `codebug` / `cotest` / `coconsolidate` / `coharden`
    seems to move the source of truth to their local output (a bug repro, a QA checklist), when it
    must not.
 
@@ -29,12 +29,13 @@ active → progress; BMAD gives each story *section* an owner). So:
 
 | Dimension (the question) | Owner = SSOT for it | Conforms to |
 |---|---|---|
-| WHY / intent / appetite | `coframe` (the pitch) | the PLAYBOOK (constitution) |
+| WHY / intent / appetite | `codirect` (the pitch) | the PLAYBOOK (constitution) |
 | **WHAT + acceptance criteria** | **`cospecify` (the spec)** | intent |
 | the WORK & its order | `coplan` (tracked steps) | the spec |
 | rendered design | `codraw` (artboards + ledger) | the spec |
 | shipped implementation | `cobuild` (code + `cochangelog`) | the spec |
-| conformance signal | `coverify` / `coconsolidate` / `codebug` / `coharden` (**findings**) | never owns truth (§below) |
+| conformance signal | `cotest` / `coconsolidate` / `codebug` / `coharden` (**findings**) | never owns truth (§below) |
+| reasoning signal (pre-build) | `cochallenge` (the challenge verdict) | never owns truth — points *up* at intent, like cocritique (§below) |
 | **fitness-for-the-job signal** | **`cocritique` (the verdict)** | never owns truth — but points *up* at intent (§below) |
 
 The **spec (`cospecify`)** is the primary SSOT downstream executors build and check against. The
@@ -45,7 +46,7 @@ spec traces back to the pitch). The plan sequences *building* the spec; it does 
 contradict on the *same* claim, never in normal operation:
 
 ```
-PLAYBOOK (constitution)  >  intent (coframe)  >  spec (cospecify)  >  plan (coplan)
+PLAYBOOK (constitution)  >  intent (codirect)  >  spec (cospecify)  >  plan (coplan)
                          >  design/draw (codraw)  >  code (cobuild)  >  findings (verify/audit/debug)
 ```
 
@@ -59,8 +60,8 @@ copy wins strings, unresolved → STOP and ask the owner). Same shape, ecosystem
 
 ## Diagnostic loops emit findings that REFERENCE the SSOT — they never become it
 
-`codebug` / `coverify` / `coconsolidate` / `coharden` produce **findings about conformance**, not a new
-source of truth. A bug diagnosis is not a new spec; it is a signal that code diverged from the spec.
+`codebug` / `cotest` / `coconsolidate` / `coharden` produce **findings about conformance**, and
+`cochallenge` produces **findings about reasoning** — never a new source of truth. A bug diagnosis is not a new spec; it is a signal that code diverged from the spec.
 Three clean mechanisms — each loop states which one it uses:
 
 - **Isolate** — write findings only into a bounded, separately-owned slot (BMAD: the QA agent may
@@ -73,21 +74,25 @@ Three clean mechanisms — each loop states which one it uses:
 
 **The rule that kills the blur:** the SSOT changes only through a **reviewed channel** (re-run
 `cospecify`) — never silently by a debug/verify/audit loop. This is why `cotranslate` reports
-`implemented|blocked` and hands acceptance to `coverify`; why `codebug` re-verifies against the full
+`implemented|blocked` and hands acceptance to `cotest`; why `codebug` re-verifies against the full
 spec, not the last symptom.
 
-### The one loop that points UP the ladder: `cocritique`
+### The loops that point UP the ladder: `cocritique` and `cochallenge`
 
-Every other diagnostic loop measures the product **against the spec**. `cocritique` measures it
-**against the job** — so its finding can be "the spec was right and still wrong": faithfully built,
-serving an outcome users don't need, or missing one they do. That is a signal aimed at **intent**,
-not at conformance, and the chain-of-command has no rung for "the top of the chain may be mistaken."
+Most diagnostic loops measure the product **against the spec**. Two are licensed to aim at
+**intent** instead: `cocritique` measures the shipped product **against the job** — so its finding
+can be "the spec was right and still wrong": faithfully built, serving an outcome users don't need,
+or missing one they do. `cochallenge` attacks the **reasoning of a decision artifact pre-build**
+(pitch/spec/plan) — its COLLAPSES verdict says a load-bearing premise fails before anything is
+built on it. Both are signals the chain-of-command has no rung for: "the top of the chain may be
+mistaken." Both resolve the same way — findings only, routed to `codirect` + the human through an
+`inbox/` decision ask (cochallenge's HOLED verdict routes lower: the generator loop simply re-runs).
 
 The resolution keeps the ladder intact rather than punching a hole in it:
 
 - **`cocritique` still only emits findings.** A verdict is not a new pitch, spec, or SSOT pointer.
   It writes its memory-bank record (the *isolate* mechanism) and nothing else.
-- **The reviewed channel for intent is `coframe` + the human**, exactly as the reviewed channel for
+- **The reviewed channel for intent is `codirect` + the human**, exactly as the reviewed channel for
   the spec is `cospecify`. A direction verdict files an `inbox/` **decision** ask carrying a
   recommended default and routes there. Re-framing is never banked automatically — this is the
   highest-blast-radius change in the ecosystem, so it spends review budget by design (PLAYBOOK §3).

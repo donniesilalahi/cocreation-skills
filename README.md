@@ -16,13 +16,14 @@ right, and checking it shipped right) while the slow manual middle collapses.
 | Skill (the action) | Doer agent | What it does |
 |-------|-------|---------------------|
 | **`/cocreator`** | — | Master loop. Recommends which loops to run and delegates each to its doer. |
-| **coframe** | coframer | Frame the problem, set the appetite, write the pitch. |
+| **codirect** | codirector | Set the product + design direction, fix the appetite, write the pitch. |
 | **coresearch** | coresearcher | Discovery and evidence; red-team the load-bearing assumptions. |
 | **costudy** | costudier | Reverse-engineer another product's UI/UX — screens, flows, inferred design system — from your own live session. Builds its own pattern library; the live product is the only source. |
 | **coplan** | coplanner | Break big tasks into small, tracked, verifiable steps. |
 | **cospecify** | cospecifier | Author the buildable solution spec (screens, states, data, interfaces) and hand it to draw/build. |
+| **cochallenge** | cochallenger | Devil's advocate: stress-test the direction/spec/plan *before* build — blindspots, first principles, problem-solution fit. |
 | **cobuild** | cobuilder | Build it against the plan. (core loop — "make") |
-| **coverify** | coverifier | Test and QA: behavior and visuals vs. the spec. (core loop — "check") |
+| **cotest** | cotester | Test and QA: behavior and visuals vs. the spec — cross-check only. (core loop — "check") |
 | **codebug** | codebugger | Find the real root cause when something breaks. |
 | **cochangelog** | cochangelogger | Record what shipped as a simple changelog list. |
 | **colearn** | colearner | Capture and recall lessons; turn repeat mistakes into guardrails. (core loop — "learn") |
@@ -42,14 +43,14 @@ recurring situation — and runs it:
 
 | Workflow | When | Chain |
 |---|---|---|
-| **discover** | direction unclear, nothing to build yet | coframe → coresearch |
-| **ship** | a small, well-understood change *(the default)* | cobuild ⇄ coverify → cochangelog |
-| **feature** | a new capability, uncertain or high blast radius | the full chain, coframe → colearn |
-| **design-first** | the UI itself is the deliverable | cospecify → codraw → cotranslate → coverify |
-| **fix** | something is broken | codebug → cobuild → coverify → colearn |
-| **evaluate** | "is this any good?" | coverify *(vs the spec)* · coconsolidate *(vs itself)* · cocritique *(vs the job)* |
-| **release-prep** | about to face users | coharden → coverify → completion gate |
-| **cleanup** | duplication/drift, behavior unchanged | coconsolidate → coverify |
+| **discover** | direction unclear, nothing to build yet | codirect → cochallenge → coresearch |
+| **ship** | a small, well-understood change *(the default)* | cobuild ⇄ cotest → cochangelog |
+| **feature** | a new capability, uncertain or high blast radius | the full chain, codirect → colearn |
+| **design-first** | the UI itself is the deliverable | cospecify → cochallenge → codraw → cotranslate → cotest |
+| **fix** | something is broken | codebug → cobuild → cotest → colearn |
+| **evaluate** | "is this any good?" | cotest *(vs the spec)* · coconsolidate *(vs itself)* · cocritique *(vs the job)* · cochallenge *(vs the reasoning)* |
+| **release-prep** | about to face users | coharden → cotest → completion gate |
+| **cleanup** | duplication/drift, behavior unchanged | coconsolidate → cotest |
 
 Each has an **exit gate** — the condition that means the chain closed, not just that its last loop
 ran. Enter one directly with `/cocreator fix "checkout 500s on retry"`.
@@ -80,6 +81,12 @@ instead of asking you what happens next. Full catalog:
 > differed only in lens, so `coconsolidate` now runs both a **logic lens** and a **visual lens**.
 > Running the installer prints a migration hint if you still have the old directories; nothing is
 > deleted for you.
+>
+> **Renamed & added in 0.15.0.** `coframe → codirect` (`coframer → codirector`, index
+> `FRAME.md → DIRECTION.md`) — the Director-of-Product seat: product *and* design direction.
+> `coverify → cotest` (`coverifier → cotester`, index `QA.md → TEST.md`) — QA testing strictly
+> against the spec. New **`cochallenge`** (`cochallenger`) — the devil's-advocate evaluator for
+> decision artifacts pre-build, enforcing the generator/evaluator split.
 
 ## How to install
 
@@ -127,15 +134,16 @@ npx @donniesilalahi/cocreation-skills --project --force
 
 ### Migrating renamed skills (npx installs only)
 
-`0.8.0` renamed `coshape → coframe` and `codesign → cospecify`. On an npx install the old dirs stay
-put (stale) and your notes live under the old name — the installer prints a reminder when it sees
-them. To migrate each pair:
+Renames leave the old dirs in place on an npx install (stale) with your notes under the old name —
+the installer prints a reminder when it sees them. Current mappings: `coshape → codirect`,
+`coframe → codirect`, `codesign → cospecify`, `coport → cotranslate`, `coaudit → coconsolidate`,
+`coverify → cotest`. To migrate each pair:
 
 ```bash
-# example: coshape → coframe (repeat for codesign → cospecify)
-mv .agents/skills/coshape/memory-bank/*.md .agents/skills/coframe/memory-bank/ 2>/dev/null
-rm -rf .agents/skills/coshape
-node .agents/skills/coframe/index.mjs   # rebuild the index so your records show up
+# example: coframe → codirect (repeat for the others)
+mv .agents/skills/coframe/memory-bank/*.md .agents/skills/codirect/memory-bank/ 2>/dev/null
+rm -rf .agents/skills/coframe
+node .agents/skills/codirect/index.mjs   # rebuild the index so your records show up
 ```
 
 Plugin installs don't need this — the rename is handled by the re-sync.

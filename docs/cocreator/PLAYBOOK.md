@@ -83,9 +83,9 @@ spending review budget on.
 ### 7. One source of truth, owned by dimension
 When many loops each produce an artifact, "what is authoritative?" must have an answer. There is no
 single winner — each loop owns **one dimension** of truth and conforms to the ones above it: intent
-owns *why* (`coframe`), the **spec owns *what* + acceptance** (`cospecify`, the primary thing
+owns *why* (`codirect`), the **spec owns *what* + acceptance** (`cospecify`, the primary thing
 executors build and check against), the plan owns the *work*, design/code are *derived*, and
-diagnostic loops (`coverify`/`codebug`/`coconsolidate`/`coharden`/`cocritique`) own only a **signal** —
+diagnostic loops (`cotest`/`codebug`/`coconsolidate`/`coharden`/`cocritique`) own only a **signal** —
 they emit findings that *reference* the spec and **never become the source of truth**. A single
 ranked chain-of-command (this playbook > intent > spec > plan > design/code > findings) fires only
 to break a direct conflict; an unbreakable one escalates to the human. The source of truth changes

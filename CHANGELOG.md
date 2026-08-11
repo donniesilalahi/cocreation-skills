@@ -5,6 +5,26 @@ All notable changes to `@donniesilalahi/cocreation-skills`. Format follows
 (pre-1.0, so minor bumps may include renames). Versions before 0.6.0 predate this file — see the
 git history.
 
+## [0.15.0] — 2026-08-11 — generator/evaluator split: codirect · cotest · cochallenge
+
+### Added
+- **New `cochallenge` loop** (`cochallenger`, Opus, index `CHALLENGE.md`) — the devil's-advocate
+  evaluator for decision artifacts *pre-build* (direction pitch / spec / plan). Attack set: first
+  principles, problem-solution fit, blindspots, assumption stress-tests, cheapest falsification.
+  One verdict: HOLDS / HOLED / COLLAPSES / UNKNOWN. Enforces the generator/evaluator split — the
+  challenger is never the generator, runs fresh-context, and its findings are signal, never truth.
+- Wired into `discover`, `feature`, `design-first` (after codirect and after cospecify); the
+  `evaluate` router gains a fourth reference point: **vs the reasoning**.
+
+### Changed
+- **`coframe` → `codirect`** (`coframer → codirector`, index `FRAME.md → DIRECTION.md`) — the
+  Director-of-Product seat: product direction *and* design direction at direction level
+  (execution detail stays in cospecify/codraw).
+- **`coverify` → `cotest`** (`coverifier → cotester`, index `QA.md → TEST.md`) — QA testing
+  strictly against the spec; scope is cross-checking only. Model tier moved to **Haiku**
+  (checklist cross-checking is mechanical; verification-trap guardrails unchanged).
+- Installer `RENAMES` covers `coframe → codirect` and `coverify → cotest` (nothing auto-deleted).
+
 ## [0.13.1] — 2026-08-05 — costudy: correct the gallery-as-source inversion
 
 ### Fixed

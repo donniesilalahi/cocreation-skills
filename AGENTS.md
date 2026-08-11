@@ -12,12 +12,13 @@ per-tool rewrite needed.
 - **cocreator** — master loop; picks a named workflow (discover · ship · feature · design-first ·
   fix · evaluate · release-prep · cleanup), runs its chain of loops, and self-delegates each to its
   doer. Advances unattended on PASS; resumes from `STATE.md`'s `Workflow:` / `Next:`.
-- **coframe** — frame the problem, fix the appetite, write a tight pitch before building.
+- **codirect** — set product + design direction, fix the appetite, write a tight pitch before building.
 - **coresearch** — red-team the riskiest assumption a plan rests on before anyone builds on it.
 - **coplan** — break non-trivial work into clear, tracked, verifiable steps.
 - **cospecify** — author the buildable solution spec: screens, states, data shapes, interfaces.
+- **cochallenge** — devil-advocate the direction/spec/plan pre-build; generator/evaluator split.
 - **cobuild** — implement the plan in small, reviewable increments.
-- **coverify** — visual QA against design references; produces actionable fix lists.
+- **cotest** — QA testing against the spec/design references; produces actionable fix lists.
 - **codebug** — systematically diagnose root causes for bugs and unexpected behavior.
 - **coharden** — close edge cases and failure modes after the happy path works.
 - **cochangelog** — record what shipped as a simple, dated changelog.
