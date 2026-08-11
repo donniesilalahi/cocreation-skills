@@ -12,5 +12,8 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "cocreation@cocreation-skills": true
   }
 }

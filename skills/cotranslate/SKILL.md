@@ -1,6 +1,6 @@
 ---
 name: cotranslate
-description: The design→implementation translation loop. Faithfully port a design source (an Open Design / Figma artboard, a JSX/HTML mock, or a written spec) into native UI (SwiftUI now; Kotlin/Compose owner-gated) with ZERO drift. Verify each token's value AND semantics in both sources (inverted params like `frost` are the trap), port EVERY depicted element and state, build each shared primitive as ONE customizable master and compose screens from it, and give every depicted control a real interaction contract. Use when translating a design or spec into real UI, or when a screen is reported "similar but not faithful." Project-specific facts (tokens, masters, capture commands) live in a `translate-manifest.json`, not this skill. NOT coconsolidate — coconsolidate kills impl-vs-impl drift across screens (horizontal); cotranslate kills design→impl drift for one screen (vertical). Hands visual/interaction acceptance to coverify and duplication cleanup to coconsolidate. The doer is cotranslator. Formerly named coport.
+description: The design→implementation translation loop. Faithfully port a design source (an Open Design / Figma artboard, a JSX/HTML mock, or a written spec) into native UI (SwiftUI now; Kotlin/Compose owner-gated) with ZERO drift. Verify each token's value AND semantics in both sources (inverted params like `frost` are the trap), port EVERY depicted element and state, build each shared primitive as ONE customizable master and compose screens from it, and give every depicted control a real interaction contract. Use when translating a design or spec into real UI, or when a screen is reported "similar but not faithful." Project-specific facts (tokens, masters, capture commands) live in a `translate-manifest.json`, not this skill. NOT coconsolidate — coconsolidate kills impl-vs-impl drift across screens (horizontal); cotranslate kills design→impl drift for one screen (vertical). Hands visual/interaction acceptance to cotest and duplication cleanup to coconsolidate. The doer is cotranslator. Formerly named coport.
 ---
 
 # cotranslate — faithful design→implementation port (zero drift)
@@ -10,8 +10,8 @@ stage: take a design source (artboard / mock / spec) and produce native UI that 
 
 **The line vs siblings:** `coconsolidate` compares many implementations of one thing against *each
 other* (impl-vs-impl drift). `cotranslate` compares one implementation against its *design source*
-(design→impl drift). It is the build+translate cousin of `coverify` — it *produces* the port, then
-hands visual/interaction acceptance to `coverify` and duplication cleanup to `coconsolidate`. It
+(design→impl drift). It is the build+translate cousin of `cotest` — it *produces* the port, then
+hands visual/interaction acceptance to `cotest` and duplication cleanup to `coconsolidate`. It
 does not re-implement either (see §9).
 
 This skill ships only **generic mechanism**. Every project-specific fact — token sources, the
@@ -158,13 +158,13 @@ reported as INFO, not drift — verify those by reading, per §3.
 
 ## 9. Acceptance & DRY — cross-loop, don't re-implement
 
-- **Visual + interaction acceptance is `coverify`'s job.** After porting, hand off to `coverify`
-  (doer `coverifier`) for the side-by-side gate and the interaction contract. cotranslate does not carry
+- **Visual + interaction acceptance is `cotest`'s job.** After porting, hand off to `cotest`
+  (doer `cotester`) for the side-by-side gate and the interaction contract. cotranslate does not carry
   a copy of that gate.
 - **Folding duplicate/forked views into one master is `coconsolidate`'s job.** Flag duplication;
   route it there. Acceptance criteria specific to a port: built from shared masters · every depicted
   element + state present · tokens verified (script + read) · copy matches the copy source ·
-  interactions proven · deviations owner-approved · independent `coverify` review recorded.
+  interactions proven · deviations owner-approved · independent `cotest` review recorded.
 
 ## 10. Report format (the porter's single deliverable)
 
@@ -184,7 +184,7 @@ Interaction report:
 
 Token parity command/result: <current output>   States implemented: <light/dark/…>
 Duplication flagged for coconsolidate: <…>   Owner escalations: <…>
-Next required gate: build | visual | interaction | independent coverify review
+Next required gate: build | visual | interaction | independent cotest review
 ```
 
 ## Memory bank
@@ -197,7 +197,7 @@ auto-generated; never hand-edit. After a record: `node .agents/skills/cotranslat
 ## Self-eval gate (close the loop)
 
 - **Every depicted element + state ported from shared masters, tokens verified, interactions
-  contracted, status `implemented`** → PASS forward to `coverify` for acceptance.
+  contracted, status `implemented`** → PASS forward to `cotest` for acceptance.
 - **A depicted element or state can't be reproduced faithfully** → re-loop (bounded); do not ship a
   smaller version.
 - **Sources conflict unresolvably, or an owner design decision is needed** → escalate to the human.

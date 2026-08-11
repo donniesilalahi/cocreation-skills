@@ -15,7 +15,7 @@ shipped as "working" after a static-only pass, both caught only by an actual bro
 
 Both are "correct-looking source, wrong runtime behavior" — the class static review is structurally
 unable to catch. **For any canvas/dashboard/interactive artifact, a real render + console check +
-network check is a required step, not optional polish.** codraw does this smoke check; `coverify`
+network check is a required step, not optional polish.** codraw does this smoke check; `cotest`
 owns the full acceptance gate.
 
 ## 2. A new categorical value must be added to EVERY lookup that enumerates the set (§6)

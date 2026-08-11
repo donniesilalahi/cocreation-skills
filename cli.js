@@ -25,10 +25,12 @@ const wantedSkills = args.filter((arg) => !arg.startsWith('-'))
 // .agents/skills/ is SHARED (it can hold the user's skills from other sources)
 // and blanket deletion there is unsafe. We detect and instruct; we NEVER delete.
 const RENAMES = {
-  coshape: 'coframe',
+  coshape: 'codirect',
+  coframe: 'codirect',
   codesign: 'cospecify',
   coport: 'cotranslate',
   coaudit: 'coconsolidate',
+  coverify: 'cotest',
 }
 
 if (help) {

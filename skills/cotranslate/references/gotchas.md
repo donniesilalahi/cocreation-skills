@@ -49,12 +49,12 @@ one unit with one owner.
 
 ## 7. Re-implementing sibling loops (§9)
 
-The verify gate is `coverify`. The DRY fold is `coconsolidate`. Carrying copies of either inside the
+The verify gate is `cotest`. The DRY fold is `coconsolidate`. Carrying copies of either inside the
 port is the very duplication `coconsolidate` exists to prevent. Hand off; keep only the
 port-specific acceptance criteria.
 
 ## 8. Self-accepting the port (§8)
 
 The porter reports `implemented` or `blocked` — never `done`/`fixed`/`accepted`/`pass`. Build and
-capture require an orchestrator-granted exclusive runtime lock; independent `coverify` owns
+capture require an orchestrator-granted exclusive runtime lock; independent `cotest` owns
 acceptance. A porter that grades its own work is how "similar but not faithful" ships.

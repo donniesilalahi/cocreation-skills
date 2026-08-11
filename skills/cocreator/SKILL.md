@@ -20,13 +20,14 @@ Pull risk forward. Default to cancel, not extend. Close every loop with a self-e
 
 | Loop skill | Doer | Stage | Model | When |
 |---|---|---|---|---|
-| `coframe` | coframer | frame/strategy | **opus** | frame the problem, set appetite, write the pitch |
+| `codirect` | codirector | direct/strategy | **opus** | set product + design direction, fix the appetite, write the pitch |
 | `coresearch` | coresearcher | discovery | **opus** | gather evidence, red-team the riskiest assumption |
 | `costudy` | costudier | discovery | **sonnet** | reverse-engineer another product's UI/UX from your live session into a study ledger |
 | `coplan` | coplanner | plan | **sonnet** | decompose into tracked, verifiable steps *(mandatory)* |
 | `cospecify` | cospecifier | spec | **sonnet** | author the buildable solution spec (screens, states, data, interfaces) |
+| `cochallenge` | cochallenger | challenge (pre-build) | **opus** | devil-advocate the direction/spec/plan before build — blindspots, first principles, problem-solution fit |
 | `cobuild` | cobuilder | build (make) | **sonnet** | implement in small increments *(mandatory, core)* |
-| `coverify` | coverifier | verify (check) | **sonnet** | test behavior + visuals vs spec *(mandatory, core)* |
+| `cotest` | cotester | test (check) | **haiku** | test behavior + visuals vs spec — cross-check only *(mandatory, core)* |
 | `codebug` | codebugger | diagnose | **opus** | find root cause when verify fails |
 | `cochangelog` | cochangelogger | record | **haiku** | changelog list of what shipped |
 | `colearn` | colearner | learn | **sonnet** | recall before work; capture lessons; graduate guardrails *(mandatory, core)* |
@@ -36,8 +37,9 @@ Pull risk forward. Default to cancel, not extend. Close every loop with a self-e
 | `codraw` | codrawer | specialized | **sonnet** | render a cospecify spec into faithful OD artboards + a git-tracked ledger (feeds cotranslate) |
 | `cotranslate` | cotranslator | specialized | **sonnet** | design→impl translation: port an artboard/spec into native UI with zero drift |
 
-Model tiers: **opus** = judgment-heavy (shape/research/diagnose, where mistakes amplify);
-**sonnet** = structured build & review; **haiku** = mechanical capture/format.
+Model tiers: **opus** = judgment-heavy (direct/challenge/research/diagnose, where mistakes
+amplify); **sonnet** = structured build & review; **haiku** = mechanical capture/format and
+checklist cross-checking.
 
 ## How to use
 
@@ -58,35 +60,37 @@ recurring situation — then run it. Full catalog with entry conditions, skips, 
 **`references/workflows.md`**.
 
 ```
-      ┌────────────── cocritique (does it do the job? → direction) ──────────────┐
-      ↓                                                                          │
-coframe → coresearch → coplan → cospecify → ╔ cobuild ⇄ coverify (↘codebug) ╗ → cochangelog
-          + costudy                         ╚════════ colearn (learn) ══════╝
+      ┌──────────────── cocritique (does it do the job? → direction) ────────────────┐
+      ↓                                                                              │
+codirect → [cochallenge] → coresearch → coplan → cospecify → [cochallenge] →
+           + costudy                     ╔ cobuild ⇄ cotest (↘codebug) ╗ → cochangelog
+                                         ╚═══════ colearn (learn) ═════╝
 specialized, on demand: coconsolidate (logic + visual drift) · coharden (edge cases) · codraw (spec→OD artboards) · cotranslate (design→impl port)
 ```
 
 | Workflow | Enter when | Chain | Exit gate |
 |---|---|---|---|
-| **discover** | direction unclear, nothing to build yet | `colearn`(recall) → `coframe` → `coresearch`, optionally alongside `costudy` (competitor UI evidence) | pitch + appetite; assumptions tested or accepted. *"Don't build it" is a valid exit.* |
-| **ship** | small, well-understood change *(the default)* | `colearn`(recall) → `cobuild` ⇄ `coverify` → `cochangelog` | verify PASS + changelog line + no open stub |
-| **feature** | new capability, uncertain or high blast radius | `colearn` → `coframe` → `coresearch` → `coplan` → `cospecify` → [`codraw`] → `cobuild` ⇄ `coverify` → `coharden` → `cochangelog` → `colearn` | plan closed, verify PASS vs spec, lesson recorded |
-| **design-first** | the UI itself is the deliverable | [`costudy`] → `cospecify` → `codraw` → `cotranslate` → `coverify` → `cochangelog` | every element + state from shared masters; coverify accepts vs artboard |
-| **fix** | something is broken | `colearn`(recall) → `codebug` → `cobuild` → `coverify` → `colearn`(capture) | root cause named, fix verified, **lesson written** |
-| **evaluate** | "is this any good?" — *a router, see below* | `coverify` \| `coconsolidate` \| `cocritique` | verdict + evidence + the next workflow named |
-| **release-prep** | about to face users | `coharden` → `coverify` → [`coconsolidate`] → `cochangelog` → completion gate | edge cases closed **and the completion gate is clean** |
-| **cleanup** | duplication/drift; behavior must not change | `coconsolidate` → `coverify` | one master per cluster, behavior provably unchanged |
+| **discover** | direction unclear, nothing to build yet | `colearn`(recall) → `codirect` → `cochallenge` → `coresearch`, optionally alongside `costudy` (competitor UI evidence) | pitch + appetite; assumptions tested or accepted. *"Don't build it" is a valid exit.* |
+| **ship** | small, well-understood change *(the default)* | `colearn`(recall) → `cobuild` ⇄ `cotest` → `cochangelog` | test PASS + changelog line + no open stub |
+| **feature** | new capability, uncertain or high blast radius | `colearn` → `codirect` → `cochallenge` → `coresearch` → `coplan` → `cospecify` → `cochallenge` → [`codraw`] → `cobuild` ⇄ `cotest` → `coharden` → `cochangelog` → `colearn` | plan closed, test PASS vs spec, lesson recorded |
+| **design-first** | the UI itself is the deliverable | [`costudy`] → `cospecify` → `cochallenge` → `codraw` → `cotranslate` → `cotest` → `cochangelog` | every element + state from shared masters; cotest accepts vs artboard |
+| **fix** | something is broken | `colearn`(recall) → `codebug` → `cobuild` → `cotest` → `colearn`(capture) | root cause named, fix verified, **lesson written** |
+| **evaluate** | "is this any good?" — *a router, see below* | `cotest` \| `coconsolidate` \| `cocritique` \| `cochallenge` | verdict + evidence + the next workflow named |
+| **release-prep** | about to face users | `coharden` → `cotest` → [`coconsolidate`] → `cochangelog` → completion gate | edge cases closed **and the completion gate is clean** |
+| **cleanup** | duplication/drift; behavior must not change | `coconsolidate` → `cotest` | one master per cluster, behavior provably unchanged |
 
 **`evaluate` is a router, not a chain** — pick by what "good" is measured *against*. This is the
 distinction most often got wrong; running the wrong one answers a question nobody asked:
 
 | Reference point | Question | Loop | Then |
 |---|---|---|---|
-| the **spec** | did we build what we said? | `coverify` | → fix / ship |
+| the **spec** | did we build what we said? | `cotest` | → fix / ship |
 | **itself**, across screens | do the N copies agree? | `coconsolidate` | → cleanup |
 | the **job** | was it worth building? | `cocritique` | → discover (MISSERVES/UNKNOWN) · feature (UNDERSERVES) · cleanup (OVERSERVES) |
+| the **reasoning** | does the decision survive attack? | `cochallenge` | → codirect (COLLAPSES) · generator re-run (HOLED) · discover/coresearch (UNKNOWN) |
 
 **Rules that outrank any workflow:**
-- **`coverify` is never skipped on anything that changes behavior.** Build collapsed; review is the
+- **`cotest` is never skipped on anything that changes behavior.** Build collapsed; review is the
   constraint. Dropping the check optimizes the part that was never the bottleneck.
 - **A failure always writes a lesson** (`colearn` capture) — mandatory in `fix`, and after any FAIL.
 - **Escalate the workflow, don't bolt loops onto it.** Wanting a spec inside `ship` means the work is
@@ -107,7 +111,7 @@ Self-delegate each loop to its doer. Two modes depending on how the ecosystem is
 and reads its own skill, so no path or model wrangling:
 
 ```
-Agent(subagent_type: "cocreation:coframer",  prompt: "Run the coframe loop on … Return the self-eval verdict + record path.")
+Agent(subagent_type: "cocreation:codirector", prompt: "Run the codirect loop on … Return the self-eval verdict + record path.")
 Agent(subagent_type: "cocreation:cobuilder", prompt: "Run the cobuild loop on … ")
 ```
 
@@ -135,6 +139,8 @@ is the default path; the verdict is what actually decides the next step.
   what genuinely can't be defaulted or stubbed.
 - **DRIFT / defect** → leave the chain for the workflow that owns it: `fix` (defect), `cleanup`
   (duplication or visual drift), or `coharden` inline (edge cases). Come back to where you left.
+- **HOLED / COLLAPSES** (from `cochallenge`) → the generator loop re-runs with the hole list
+  (HOLED), or the chain returns to `codirect` (COLLAPSES — a direction change, stop condition 4).
 - **A different question surfaced** → that's a workflow switch, not a detour. Name it, log it, run
   it. The three that most often surface mid-chain: needing artboards → `design-first`; a screen
   "similar but not faithful" → `design-first` from `cotranslate`; "was this worth building at
@@ -149,7 +155,7 @@ When you run paired loops in sequence, link their records both ways:
 - Any input/output: point the record at the human's `workspace/raw/` input and the AI's output.
 
 ### 6. Backprop on failure
-Every `coverify`/`codebug` failure should hand a lesson to `colearn`. A lesson that keeps firing
+Every `cotest`/`codebug` failure should hand a lesson to `colearn`. A lesson that keeps firing
 graduates: lesson → skill → sub-agent (see `colearn`). This is how the ecosystem self-learns.
 
 ### 7. Update STATE + inbox on exit
@@ -200,16 +206,17 @@ park the ask in `inbox/` and do something independent instead.
 ## Source of truth (the precedence ladder)
 
 There is **no single SSOT** — each loop owns one dimension and conforms upward. The **spec
-(`cospecify`)** is the primary thing executors build and check against; the pitch (`coframe`) is its
+(`cospecify`)** is the primary thing executors build and check against; the pitch (`codirect`) is its
 rationale layer; the plan (`coplan`) sequences the work; design/code are derived. **Diagnostic loops
-(`coverify`/`codebug`/`coconsolidate`/`coharden`/`cocritique`) own only a *signal* — their findings
-*reference* the spec and never become it.** The SSOT changes only through a reviewed channel (re-run
-`cospecify`), never silently by a debug/audit loop. `cocritique` is the one whose signal is aimed at
-**intent** rather than conformance: it may argue the spec was serving the wrong outcome — but it
-still only *proposes*, via an `inbox/` decision ask routed to `coframe`.
+(`cochallenge`/`cotest`/`codebug`/`coconsolidate`/`coharden`/`cocritique`) own only a *signal* — their
+findings *reference* the spec and never become it.** The SSOT changes only through a reviewed channel
+(re-run `cospecify`), never silently by a debug/audit loop. `cocritique` and `cochallenge` are the two
+whose signal is aimed at **intent** rather than conformance: they may argue the spec or pitch was
+serving the wrong outcome — but they still only *propose*, via an `inbox/` decision ask routed to
+`codirect`.
 
 When two artifacts contradict on the *same* claim, break the tie by the ranked chain-of-command —
-**PLAYBOOK > intent (coframe) > spec (cospecify) > plan (coplan) > design/draw > code > findings** —
+**PLAYBOOK > intent (codirect) > spec (cospecify) > plan (coplan) > design/draw > code > findings** —
 and **escalate an unbreakable conflict to the human** (don't auto-resolve). Full design + the
 findings-handling mechanisms: `docs/cocreator/SSOT.md`. This generalizes the conflict ladder `cotranslate`
 already ships.
@@ -247,7 +254,7 @@ both first and updates them on exit (§0, §7; templates in `references/`).
 `EnterPlanMode` (shape/plan a high-blast-radius cycle) · **Agent** (delegate to doers w/ model
 overrides) · `/loop` + `ScheduleWakeup` (drive a long multi-loop cycle on a cadence) ·
 `TaskCreate`/`TaskUpdate` (track the loops in a cycle) · `/verify`, `/code-review`, `/simplify`
-(inside coverify/coharden).
+(inside cotest/coharden).
 
 ## Principles
 

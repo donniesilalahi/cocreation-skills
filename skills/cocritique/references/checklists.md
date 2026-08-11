@@ -86,6 +86,6 @@ Two depths. Pick by blast radius, not by how much time you have.
 - [ ] Falsifier written: "this verdict is wrong if…".
 - [ ] Cheapest test named, with what it unblocks.
 - [ ] Fix list bucketed and ordered by severity × frequency × job-criticality.
-- [ ] Direction ask filed to `inbox/` with a recommended default; routed to `coframe` or `cospecify`.
+- [ ] Direction ask filed to `inbox/` with a recommended default; routed to `codirect` or `cospecify`.
 - [ ] Record written with `verdict:` frontmatter; prior record on this surface marked `superseded-by:`.
 - [ ] `STATE.md` ledger row appended. **SSOT pointer NOT edited** — cocritique proposes, it never rewrites.

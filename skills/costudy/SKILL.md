@@ -11,7 +11,7 @@ The doer is **costudier** (Sonnet). This is the optional **discovery** loop, an 
 ```
 costudy(ledger + canvases) ──▶ cospecify (cites study:<id>)
                            └─▶ codraw (referenceLedger)
-                           └─▶ cocritique / coframe (comparative evidence, never the bar)
+                           └─▶ cocritique / codirect (comparative evidence, never the bar)
 ```
 
 **Object of study, three loops:**

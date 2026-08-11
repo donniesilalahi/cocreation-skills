@@ -136,10 +136,10 @@ the addition won. Prefer removal on a tie. "No additions proposed" is a good out
 
 ## Routing
 
-- Direction ask → **{coframe | cospecify}**
+- Direction ask → **{codirect | cospecify}**
 - Fix list → **coplan** → **cobuild**
 - Unknowns → **coresearch**: {the cheapest test}
-- Lessons → **colearn**: {e.g. "spec passed coverify but failed the job — <pattern>"}
+- Lessons → **colearn**: {e.g. "spec passed cotest but failed the job — <pattern>"}
 
 **SSOT note:** these are findings. They reference the spec and never become it. `STATE.md` gets a
 ledger row; the SSOT pointer is untouched.

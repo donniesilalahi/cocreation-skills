@@ -32,7 +32,7 @@
 
 | Date | Workflow | Loop | Agent/model | Verdict | Record | Commit/artifact |
 |------|----------|------|-------------|---------|--------|-----------------|
-| YYYY-MM-DD | feature | coframe | coframer/opus | done | `.agents/skills/coframe/memory-bank/…` | `<sha>` |
+| YYYY-MM-DD | feature | codirect | codirector/opus | done | `.agents/skills/codirect/memory-bank/…` | `<sha>` |
 | YYYY-MM-DD | feature | cospecify | cospecifier/sonnet | done | `.agents/skills/cospecify/memory-bank/…` | `<sha>` |
 | YYYY-MM-DD | design-first | codraw | codrawer/sonnet | blocked | `.agents/skills/codraw/memory-bank/…` | — |
 

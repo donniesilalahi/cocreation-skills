@@ -54,13 +54,14 @@ for (const entry of fs.readdirSync(skillsRoot, { withFileTypes: true })) {
 // (matches skills/cocreator/SKILL.md's roster table) so regeneration is
 // deterministic.
 const ROSTER = [
-  ['coframe', 'coframer', 'opus'],
+  ['codirect', 'codirector', 'opus'],
   ['coresearch', 'coresearcher', 'opus'],
   ['costudy', 'costudier', 'sonnet'],
   ['coplan', 'coplanner', 'sonnet'],
   ['cospecify', 'cospecifier', 'sonnet'],
+  ['cochallenge', 'cochallenger', 'opus'],
   ['cobuild', 'cobuilder', 'sonnet'],
-  ['coverify', 'coverifier', 'sonnet'],
+  ['cotest', 'cotester', 'haiku'],
   ['codebug', 'codebugger', 'opus'],
   ['cochangelog', 'cochangelogger', 'haiku'],
   ['colearn', 'colearner', 'sonnet'],
@@ -74,8 +75,10 @@ const ROSTER = [
 // Short hand-summary purpose clauses (<=15 words), one per roster skill —
 // pulled from each skill's SKILL.md description frontmatter.
 const PURPOSES = {
-  coframe:
-    'frame the problem, set a fixed appetite, and write a tight pitch',
+  codirect:
+    'set product + design direction, fix the appetite, and write a tight pitch',
+  cochallenge:
+    'devil-advocate the direction/spec/plan pre-build — stress-test reasoning, surface blindspots',
   coresearch:
     'gather evidence and red-team the riskiest load-bearing assumption first',
   costudy:
@@ -84,7 +87,7 @@ const PURPOSES = {
   cospecify:
     'author the buildable solution spec — screens, states, data shapes, interfaces',
   cobuild: 'implement against the plan in small, reviewable increments',
-  coverify: 'systematic visual QA against design artboards or specs',
+  cotest: 'systematic QA testing of built output against design artboards or specs',
   codebug:
     'systematically diagnose root causes for bugs and unexpected behavior',
   cochangelog: 'record what shipped as a simple, dated changelog list',
@@ -106,6 +109,10 @@ const PURPOSES = {
 // carry them even before it opens its SKILL.md. Keep each to one or two lines —
 // the SKILL.md remains the full operating guide.
 const EXTRA_STEPS = {
+  cochallenge: [
+    'You are the evaluator, never the generator: challenge only artifacts you did not produce, from fresh context — read the artifact + raw inputs, not its author’s reasoning.',
+    'Issue exactly one verdict — HOLDS / HOLED / COLLAPSES / UNKNOWN — with the findings that carry it. Never edit the artifact; route instead (generator re-run, codirect, or coresearch).',
+  ],
   cocritique: [
     'Walk the ladder outside-in (job → outcome → journey → interface → signal); never open at the interface.',
     'Tag every finding `observed | inferred | assumed` and respect the verdict ceiling — a direction verdict needs an `observed` finding on the outcome or signal lens; otherwise issue **UNKNOWN** with the cheapest test. Never bank a direction change on inspection alone.',

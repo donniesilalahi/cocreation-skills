@@ -17,4 +17,4 @@ status: in-progress
 - **Defects found**: [Anything handed to codebug]
 - **Notes**: [Risk trade-offs, what was deliberately left open and why]
 
-<!-- status: in-progress | done | blocked  ·  re-run coverify on every closed case -->
+<!-- status: in-progress | done | blocked  ·  re-run cotest on every closed case -->

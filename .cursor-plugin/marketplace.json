@@ -5,13 +5,13 @@
     "email": "donniesilalahi@gmail.com"
   },
   "metadata": {
-    "description": "An ecosystem of co-* loop skills for human-AI product co-creation — frame, research, plan, specify, draw, build, verify, debug, document, and learn — orchestrated by /cocreator."
+    "description": "An ecosystem of co-* loop skills for human-AI product co-creation — direct, challenge, research, plan, specify, draw, build, test, debug, document, and learn — orchestrated by /cocreator."
   },
   "plugins": [
     {
       "name": "cocreation",
       "source": ".",
-      "description": "An ecosystem of co-* loop skills for human-AI product co-creation — frame, research, plan, specify, draw, build, verify, debug, document, and learn — orchestrated by /cocreator."
+      "description": "An ecosystem of co-* loop skills for human-AI product co-creation — direct, challenge, research, plan, specify, draw, build, test, debug, document, and learn — orchestrated by /cocreator."
     }
   ]
 }

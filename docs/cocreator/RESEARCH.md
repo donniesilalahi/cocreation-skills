@@ -102,7 +102,7 @@ genuinely good at what they do.
   different users; it only enters the report when a real user actually switched.
 - **Visual-craft dimension sweeps** (spacing/type/colour/motion checklists, as in `impeccable` and
   `design-audit`). Real, but they belong to consistency (`coconsolidate`) and conformance
-  (`coverify`), not to fitness-for-the-job. Keeping them out is what keeps `cocritique` MECE.
+  (`cotest`), not to fitness-for-the-job. Keeping them out is what keeps `cocritique` MECE.
 
 Sources: Christensen, *Competing Against Luck* · Ulwick, *What Customers Want* / jobs-to-be-done.com ·
 Moesta, *Demand-Side Sales* · Wharton et al. (1994) · ISO 9241-11:2018, ISO 9241-210:2019 · W3C WCAG

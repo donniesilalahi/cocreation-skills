@@ -1,11 +1,11 @@
 ---
 name: codebug
-description: The "diagnose" loop. Systematically diagnose root causes for bugs, errors, and unexpected behavior. Use this skill when something is broken and you need structured analysis instead of guessing — the core engine jumps here when coverify finds a failure.
+description: The "diagnose" loop. Systematically diagnose root causes for bugs, errors, and unexpected behavior. Use this skill when something is broken and you need structured analysis instead of guessing — the core engine jumps here when cotest finds a failure.
 ---
 
 # Analyzing Problems
 
-The doer is **codebugger**. This is the **diagnose** loop the core engine jumps to when `coverify` finds a failure; it feeds confirmed fixes back to `cobuild` and recurring lessons to `colearn`.
+The doer is **codebugger**. This is the **diagnose** loop the core engine jumps to when `cotest` finds a failure; it feeds confirmed fixes back to `cobuild` and recurring lessons to `colearn`.
 
 ## Purpose
 
@@ -72,7 +72,7 @@ against the single symptom you just closed. A green on "the reported bug is gone
 
 ## Self-eval gate (close the loop)
 
-- **Root cause confirmed + fix verified** → PASS forward to `cobuild` to apply it, then `coverify` to re-check; log the lesson to `colearn`.
+- **Root cause confirmed + fix verified** → PASS forward to `cobuild` to apply it, then `cotest` to re-check; log the lesson to `colearn`.
 - **Hypotheses exhausted, still not reproduced** → re-loop with fresh evidence, bounded retries (default: cancel after ~3 passes, not extend the hunt).
 - **Needs a product/design decision or access you don't have** → escalate to the human.
 - **Diagnosis reveals systemic drift across screens** → cross-loop to `coconsolidate`; if it's a hardening/robustness gap, hand to `coharden`.

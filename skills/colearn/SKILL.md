@@ -17,7 +17,7 @@ lessons graduate from advisory note → applied skill → enforcing sub-agent).
 ## When to Use
 
 - **Capture** — after fixing a non-obvious bug, finishing a feature, or finding a better pattern.
-  The core loop calls this automatically when `coverify` or `codebug` finds a failure (the backprop
+  The core loop calls this automatically when `cotest` or `codebug` finds a failure (the backprop
   reflex): every failure writes a lesson.
 - **Recall** — before starting a feature/bug fix, when choosing between approaches, when you hit a
   familiar error, or when onboarding / returning to a project.
