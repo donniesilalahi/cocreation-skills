@@ -1,11 +1,15 @@
 ---
-name: coverify
-description: The "check" loop. Systematic visual QA against Open Design artboards or design specs. Compares marketing captures or live UI against reference designs, documents discrepancies, and produces actionable fix lists with pixel-perfect guidance. Use when validating screens after implementation or during design review.
+name: cotest
+description: The "test" loop — QA testing against the spec. Systematic QA of built output against Open Design artboards or design specs, and nothing beyond the spec: cross-checking is the whole scope (deeper adversarial evaluation is cochallenge; product-vs-job evaluation is cocritique). Compares marketing captures or live UI against reference designs, documents discrepancies, and produces actionable fix lists with pixel-perfect guidance. The doer is cotester. Use when validating screens after implementation or during design review. Runs on Haiku — checklist cross-checking is mechanical; the verification-trap guardrails still apply. Formerly named coverify.
 ---
 
-# Design QA Skill
+# cotest — test against the spec
 
-The doer is **coverifier**. This is the **check** leg of the core make → check → verify loop; it leans on native `/verify`, `/code-review`, and `/simplify` and routes failures onward to the right loop.
+The doer is **cotester**. This is the **test** leg of the core make → test loop; it leans on
+native `/verify`, `/code-review`, and `/simplify` and routes failures onward to the right loop.
+Its scope is deliberately narrow: **cross-check the built output against the spec** — nothing
+more. Whether the spec itself holds up is `cochallenge`'s question; whether the product does the
+user's job is `cocritique`'s.
 
 ## What I Do
 
@@ -21,7 +25,7 @@ Inspect the marketing captures (or live UI) and compare them against the same ch
 1. **Load the reference**: Read Open Design artboards (via MCP or ChromeDevTools preview) or local design files for the canonical layout, colors, typography, spacing, and component usage.
 2. **Load the implementation**: Read the source code and inspect marketing captures for the built screen.
 3. **Run both passes**: Code checklist first, visual checklist second.
-4. **Document in memory-bank**: Write a dated QA report with screenshots, discrepancies, severity, and fix instructions.
+4. **Document in memory-bank**: Write a dated test report with screenshots, discrepancies, severity, and fix instructions.
 5. **Produce fix list**: Summarize findings as numbered, actionable items for the developer.
 
 ## When to Use
@@ -87,19 +91,19 @@ For every screen, verify:
 
 ## Format & Location
 
-**Directory**: `.agents/skills/coverify/memory-bank/`  
+**Directory**: `.agents/skills/cotest/memory-bank/`  
 **File naming**: `YYYY-MM-DD-HHmm_{screen-slug}_qa.md` (e.g., `2026-06-11-0900_home-screen_qa.md`)  
-**Index**: `memory-bank/QA.md` (auto-generated)
+**Index**: `memory-bank/TEST.md` (auto-generated)
 
-Copy `_template.md` for each report and keep its frontmatter (`title`, `date`, `artboard`, `status`) filled in—those fields become the columns in `QA.md`. After writing or updating a report, refresh the index:
+Copy `_template.md` for each report and keep its frontmatter (`title`, `date`, `artboard`, `status`) filled in—those fields become the columns in `TEST.md`. After writing or updating a report, refresh the index:
 
 ```bash
-node .agents/skills/coverify/index.mjs
+node .agents/skills/cotest/index.mjs
 ```
 
-Do **not** write into `QA.md` directly—it is regenerated from the reports.
+Do **not** write into `TEST.md` directly—it is regenerated from the reports.
 
-## QA Report Template
+## Test Report Template
 
 ```markdown
 ---
@@ -109,7 +113,7 @@ artboard: Artboard reference
 status: needs-fix
 ---
 
-# QA Report — {Screen Name}
+# Test Report — {Screen Name}
 
 ## Summary
 
@@ -182,10 +186,10 @@ This lets you extract precise design values (e.g., exact padding, border radii, 
 
 ## Verification traps (always-on guardrails)
 
-Graduated from real failures — a verifier that ignores these passes broken work.
+Graduated from real failures — a tester that ignores these passes broken work.
 
 - **The false-PASS is invisible — hunt it deliberately.** Adversarial checks (refuters, code review)
-  only scrutinize *claimed discrepancies*, so a verifier's wrong **PASS** is never challenged and then
+  only scrutinize *claimed discrepancies*, so a tester's wrong **PASS** is never challenged and then
   becomes "evidence" in the record that the screen is fine. A verdict like *"4-stop gradient —
   passing"* once stood over a **flat** frame. For every PASS, re-derive the expected value from the
   spec and confirm the capture actually shows it — don't accept "looks right."
@@ -208,5 +212,6 @@ Graduated from real failures — a verifier that ignores these passes broken wor
 
 ## Relationship to Other Skills
 
-- **`design-brainstorming`**: QA validates what brainstorming decided
-- **`reverse-write-spec`**: QA findings feed into the spec for what was actually built
+- **`cochallenge`**: evaluates the *decision artifacts* (direction/spec/plan) before build; cotest evaluates the *built output* against the spec after build.
+- **`cocritique`**: evaluates the shipped product against the JOB; cotest never asks whether the spec was worth building.
+- **`codebug`** / **`coconsolidate`** / **`coharden`**: where cotest routes failures (logic bug / cross-screen drift / robustness gap).

@@ -5,7 +5,7 @@ artboard: Artboard reference
 status: needs-fix
 ---
 
-# QA Report — {Screen Name}
+# Test Report — {Screen Name}
 
 ## Summary
 
