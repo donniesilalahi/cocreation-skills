@@ -177,18 +177,108 @@ Once installed, invoke skills namespaced: `/cocreation:coplan`, `/cocreation:coc
 > Working from a local clone instead? Point the marketplace at your checkout's **real absolute
 > path** (not the literal example) — e.g. `/plugin marketplace add ~/Dev/Projects/cocreation-skills`.
 
-**Codex**:
+**Codex** — install the plugin once for the Codex environment/user, then initialize state per
+project. Codex separates shared plugin capabilities from project-owned state:
 
+| Install once in Codex | Initialize in each project |
+|---|---|
+| Skills, doer agents, manifests, and plugin instructions | `.agents/workspace/cocreation.yaml` |
+| The reusable `cocreation` plugin bundle | `STATE.md`, `inbox/`, `raw/`, and local indexes |
+| No product-specific documentation | Optional shared `workspaceRoot` and Linear references |
+
+### Install the plugin in the ChatGPT desktop app
+
+If `cocreation` is available through your personal, workspace, or public plugin source:
+
+1. Open the ChatGPT desktop app and open the **Plugins** tab.
+2. Find `cocreation`, review its details, and install it.
+3. Open Codex in the desktop app and start a new chat/session before invoking `/cocreator`.
+
+This repository is distributed through its own Git marketplace rather than the public plugin
+catalog. If it does not appear in the desktop app's available sources, use the Codex CLI setup
+below once to add the repository marketplace, or have a workspace administrator publish it to a
+source visible to the desktop app. Local/repository marketplace availability can vary by surface.
+
+### Install the plugin in Codex CLI
+
+1. Add this repository as a local/repository marketplace. From a shell, run:
+
+   ```bash
+   codex plugin marketplace add donniesilalahi/cocreation-skills
+   ```
+
+   If the marketplace is already configured, skip this step.
+
+2. Start Codex and enter `/plugins`.
+3. Find the `cocreation` plugin under the `cocreation-skills` marketplace, inspect its details,
+   and install it. The plugin includes 17 skills and 16 doer agents.
+4. Start a new Codex session before using `/cocreator` or another bundled skill. If the plugin is
+   installed but a skill is missing, check `/plugins` first and confirm the plugin is enabled.
+
+For a terminal-only install after the marketplace is configured, use:
+
+```bash
+codex plugin add cocreation@cocreation-skills
+codex plugin list --marketplace cocreation-skills
 ```
-codex plugin marketplace add donniesilalahi/cocreation-skills
+
+To refresh a Git marketplace after this repository publishes an update:
+
+```bash
+codex plugin marketplace upgrade cocreation-skills
 ```
 
-Then browse and install the plugin once from `/plugins` at the Codex environment/user level.
-Start a new session after installation so the shared skills and agents are available. Codex also
-reads `.claude-plugin/marketplace.json` directly, so either manifest works.
+Then open `/plugins` again if you need to reinstall or enable the updated plugin, and start a new
+session. Do not copy the plugin into every repository; the per-project `init` command below is the
+project-state step.
 
-**Cursor**: add this repo as a plugin, or skip the manifest entirely — Cursor also scans
-`.agents/skills/` (and `.cursor/skills/`) directly, so the skills load without any plugin install.
+The same plugin can be installed from the Codex desktop app's Plugins surface when it is available
+there. The IDE extension does not support plugins; use Codex CLI or the ChatGPT desktop app instead.
+Codex also reads `.claude-plugin/marketplace.json` directly, so either marketplace manifest works.
+
+### Initialize each project
+
+Installing the plugin does not create project documentation. From each repository, run:
+
+```bash
+npx @donniesilalahi/cocreation-skills init
+```
+
+For Linear-primary storage, make the choice explicit during initialization:
+
+```bash
+npx @donniesilalahi/cocreation-skills init \
+  --storage linear-primary \
+  --product-type initiative \
+  --product-id <linear-initiative-id> \
+  --product-url <linear-initiative-url> \
+  --linear-workspace-url <linear-workspace-url>
+```
+
+The project configuration records the storage mode, whether the product maps to a Linear
+`initiative` or `team`, the stable Linear IDs/URLs, and an optional shared workspace root. The
+plugin cache is never the place for project-specific records. If Linear tools or authentication are
+not available in the host, use `local` mode; the index-first workflow remains the same.
+
+See the [official Codex plugin documentation](https://learn.chatgpt.com/docs/plugins) for the
+current plugin browser behavior and session boundary.
+
+**Cursor desktop app** — Cursor is app-first for interactive use:
+
+1. Open the Cursor editor.
+2. In the Agent composer, run `/add-plugin`, or open the [Cursor Marketplace](https://cursor.com/marketplace).
+3. Find and install `cocreation` at the desired user, team, or workspace scope.
+
+The Cursor CLI is optional for terminal and automation workflows. If this repository is not yet
+listed in the Cursor Marketplace, install the skills directly into the project instead:
+
+```bash
+npx @donniesilalahi/cocreation-skills --project
+```
+
+Cursor also scans `.agents/skills/` (and `.cursor/skills/`) directly, so the app can use the skills
+without a marketplace plugin install. In either case, initialize project state separately with
+`npx @donniesilalahi/cocreation-skills init` (or ask the in-app agent to run it).
 
 **OpenCode**: OpenCode does not read root `agents/` or the other plugin manifests. From this
 checkout, the included `opencode.json` and `.opencode/agents/` make skills and doer agents available

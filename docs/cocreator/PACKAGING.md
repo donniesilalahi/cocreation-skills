@@ -42,10 +42,16 @@ Claude Code, from a local checkout:
 ```
 Verify: `claude plugin details cocreation@cocreation-skills` lists all 17 skills and 16 doer agents.
 
-Codex: add the marketplace from `codex marketplace add <path-or-owner/repo>`, then install the
-plugin once from `/plugins` at the Codex environment/user level and start a new session.
-Cursor: add the repo as a local plugin / `/add-plugin` (skills also load directly via the
-`.agents/skills/` and legacy `.claude/skills/` scan paths).
+Codex desktop: install from the ChatGPT desktop app's Plugins tab when the plugin is available in
+the active public, personal, or workspace source. This repository is currently distributed through
+its Git marketplace, so Codex CLI's `/plugins` flow is the fallback for registering that source.
+Start a new session before using the bundled skills. Project state is initialized separately with
+`npx @donniesilalahi/cocreation-skills init`; see the README and
+`skills/cocreator/references/artifact-backends.md`.
+
+Cursor desktop: install from `/add-plugin` or the [Cursor Marketplace](https://cursor.com/marketplace).
+The CLI is optional. For a repository not yet listed in Cursor's Marketplace, use the npx installer
+to place skills under `.agents/skills/`; Cursor also scans that path directly.
 
 OpenCode: run `npx @donniesilalahi/cocreation-skills --project --opencode` to install skills into
 `.agents/skills/` and doer agents into `.opencode/agents/`. Use `--global --opencode` for global
