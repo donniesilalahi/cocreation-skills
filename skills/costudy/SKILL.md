@@ -45,7 +45,7 @@ behind it.
 
 ## 0. Bootstrap — the study-manifest
 
-Project facts don't live in this skill. If `.agents/workspace/study-manifest.json` is missing,
+Project facts don't live in this skill. If `<workspaceRoot>/workspace/study-manifest.json` is missing,
 draft it and get owner confirmation before capturing anything — same pattern as codraw's
 `design-manifest.json`. It fixes the **target**, the **job** being studied for (one sentence, JTBD
 phrasing), a bounded **flowsInScope** (3–7, never "everything"), `authMode: live-session` (the only
@@ -150,7 +150,7 @@ See below.
    caption. Real figures become placeholder shapes (`$X,XXX`); the shape is the finding, the value
    never is.
 5. Captures are **gitignored by default** (binary bloat + IP hygiene) — on first run, add
-   `.agents/workspace/studies/` to the consumer project's `.gitignore` if it isn't there. Only the
+   `<workspaceRoot>/workspace/studies/` to the consumer project's `.gitignore` if it isn't there. Only the
    ledger and the memory-bank record are committed; canvases are a render of the ledger, not an
    artifact to commit.
 6. Honor ToS and `robots.txt`. Do not defeat bot protection, rate limits, or paywalls.
@@ -181,7 +181,7 @@ no computed styles and no network trace. State that; don't route around it.
 - **Backprop:** a capture/redaction gotcha that would bite the next study hands a lesson to
   `colearn`.
 
-On exit, append the run + verdict to the `.agents/workspace/STATE.md` ledger like any other loop.
+On exit, append the run + verdict to the resolved `<workspaceRoot>/workspace/STATE.md` ledger like any other loop.
 costudy never edits `STATE.md`'s SSOT pointer — a competitor's product is evidence, never our
 source of truth.
 
@@ -194,6 +194,13 @@ source of truth.
   as the bar (competitors are not the bar, per `PLAYBOOK.md`).
 
 ## Memory Bank
+
+> **Storage:** Resolve `workspaceRoot` from `.agents/workspace/cocreation.yaml` (default `.agents`).
+> In `local`, write the full record to `<workspaceRoot>/skills/<name>/memory-bank/` and refresh its
+> index. In `linear-primary`, write the human-facing artifact through the active backend and keep
+> provider metadata, links, and the local navigation/index cache; never write project records into
+> the plugin cache.
+
 
 **Directory:** `.agents/skills/costudy/memory-bank/` · **Records:**
 `YYYY-MM-DD-<target>-<flow>.md` (copy `_template.md`; frontmatter `title` / `date` / `target` /

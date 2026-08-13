@@ -16,15 +16,15 @@ does not re-implement either (see §9).
 
 This skill ships only **generic mechanism**. Every project-specific fact — token sources, the
 masters registry, scaffolding to strip, inverted-param traps, capture and parity commands — lives
-in a **`translate-manifest.json`** the consumer keeps in `.agents/workspace/` (see
-`references/translate-manifest.md`). Load it first.
+in a **`translate-manifest.json`** the consumer keeps in the resolved `<workspaceRoot>/workspace/`
+(default `.agents/workspace/`; see `references/translate-manifest.md`). Load it first.
 
 ## 0. Bootstrap — the translate-manifest (do this before anything)
 
 > **Migrating from `coport`:** a legacy `.agents/workspace/port-manifest.json` is still valid — read
 > it if `translate-manifest.json` is absent, and rename it on the next confirmed edit.
 
-If `.agents/workspace/translate-manifest.json` does not exist, **do not proceed on guessed project
+If `<workspaceRoot>/workspace/translate-manifest.json` does not exist, **do not proceed on guessed project
 facts.** Don't punt back to the owner empty-handed — draft the manifest, then get it confirmed:
 
 1. Inventory the design system — the token source and the shared primitives/components.
@@ -136,7 +136,7 @@ touches multiple files, so scope is per-span, not per-file (§8).
 **before translating any color** and in CI:
 
 ```bash
-python3 skills/cotranslate/scripts/token-parity-check.py --manifest .agents/workspace/translate-manifest.json
+COCREATION_WORKSPACE_ROOT=<workspaceRoot> python3 skills/cotranslate/scripts/token-parity-check.py
 # exit 0 = parity; exit 1 = drift
 ```
 
@@ -188,6 +188,13 @@ Next required gate: build | visual | interaction | independent cotest review
 ```
 
 ## Memory bank
+
+> **Storage:** Resolve `workspaceRoot` from `.agents/workspace/cocreation.yaml` (default `.agents`).
+> In `local`, write the full record to `<workspaceRoot>/skills/<name>/memory-bank/` and refresh its
+> index. In `linear-primary`, write the human-facing artifact through the active backend and keep
+> provider metadata, links, and the local navigation/index cache; never write project records into
+> the plugin cache.
+
 
 **Directory:** `.agents/skills/cotranslate/memory-bank/` · **Records:** `YYYY-MM-DD-{board-slug}.md`
 (copy `_template.md`, fill frontmatter `title`/`date`/`platform`/`status`). **Index:** `TRANSLATE.md` —

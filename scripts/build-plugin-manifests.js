@@ -132,7 +132,7 @@ for (const [skill, doer, model] of ROSTER) {
     `Read \`\${CLAUDE_PLUGIN_ROOT}/skills/${skill}/SKILL.md\` — that is your full operating guide.`,
     `Run the \`${skill}\` loop on the task you are given.`,
     ...(EXTRA_STEPS[skill] || []),
-    `Write your memory-bank record under the consumer project's \`.agents/skills/${skill}/memory-bank/\` (create it if missing) — never inside the plugin.`,
+    `Write your memory-bank record under the consumer project's resolved \`<workspaceRoot>/skills/${skill}/memory-bank/\` (default: .agents; create it if missing) — never inside the plugin.`,
     'Return ONLY your self-eval verdict + artifact pointers (record path, files touched) — not your full working transcript.',
   ]
   const content = `---
@@ -157,9 +157,9 @@ mode: subagent
 
 You are **${doer}**, the doer sub-agent for the \`${skill}\` loop.
 
-1. Read \`.agents/skills/${skill}/SKILL.md\` — that is your full operating guide. If it is not installed, read \`skills/${skill}/SKILL.md\` from this repository.
+1. Read the project's configured \`<workspaceRoot>/skills/${skill}/SKILL.md\` — that is your full operating guide. If it is not available, read \`skills/${skill}/SKILL.md\` from this repository.
 2. Run the \`${skill}\` loop on the task you are given.
-${extraSteps.map((step, i) => `${i + 3}. ${step}`).join('\n')}${extraSteps.length ? '\n' : ''}${extraSteps.length + 3}. Write your memory-bank record under the consumer project's \`.agents/skills/${skill}/memory-bank/\` (create it if missing) — never inside the plugin.
+${extraSteps.map((step, i) => `${i + 3}. ${step}`).join('\n')}${extraSteps.length ? '\n' : ''}${extraSteps.length + 3}. Write your memory-bank record under the consumer project's resolved \`<workspaceRoot>/skills/${skill}/memory-bank/\` (default: .agents; create it if missing) — never inside the plugin.
 ${extraSteps.length + 4}. Return ONLY your self-eval verdict + artifact pointers (record path, files touched) — not your full working transcript.
 `
   fs.writeFileSync(path.join(opencodeAgentsDir, `${doer}.md`), opencodeContent)

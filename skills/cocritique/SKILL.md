@@ -24,14 +24,14 @@ wrong outcome. That gap is this loop's whole reason to exist.
 
 ## 0. Bootstrap — the critique-manifest
 
-Project facts do not live in this skill. If `.agents/workspace/critique-manifest.json` is missing,
+Project facts do not live in this skill. If `<workspaceRoot>/workspace/critique-manifest.json` is missing,
 draft it and get it confirmed rather than guessing (schema + worked example:
 `references/critique-manifest.md`). It names: the **user segment**, the **job statement**, the
 **core tasks**, the **surfaces** in scope, the **evidence sources** available (analytics, session
 recordings, support tickets, past research, benchmarks), and any **constraints** (platform,
 regulatory, business-mandatory elements).
 
-Read `.agents/workspace/STATE.md` first, and `raw/` for human-owned briefs — those are source of
+Read the resolved `<workspaceRoot>/workspace/STATE.md` first, and `<workspaceRoot>/workspace/raw/` for human-owned briefs — those are source of
 truth and never rewritten. A human-authored/confirmed manifest is a `raw/` input; an AI-drafted one
 stays AI-owned until confirmed.
 
@@ -207,6 +207,13 @@ Open asks filed: <inbox record paths>
 ```
 
 ## Memory bank
+
+> **Storage:** Resolve `workspaceRoot` from `.agents/workspace/cocreation.yaml` (default `.agents`).
+> In `local`, write the full record to `<workspaceRoot>/skills/<name>/memory-bank/` and refresh its
+> index. In `linear-primary`, write the human-facing artifact through the active backend and keep
+> provider metadata, links, and the local navigation/index cache; never write project records into
+> the plugin cache.
+
 
 **Directory:** `.agents/skills/cocritique/memory-bank/` · **Records:**
 `YYYY-MM-DD-{surface-slug}.md` (copy `_template.md`, fill frontmatter `title` / `date` / `verdict` /

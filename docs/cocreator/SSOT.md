@@ -109,7 +109,7 @@ The resolution keeps the ladder intact rather than punching a hole in it:
 No surveyed system keeps a first-class "the SSOT right now is X" pointer — that is the gap this
 fills. One well-known file, read first by every loop:
 
-**Location:** `.agents/workspace/STATE.md` (AI-owned; lives beside the human-owned `raw/`).
+**Location:** `<workspaceRoot>/workspace/STATE.md` (AI-owned; default root: `.agents`; lives beside the human-owned `raw/`).
 
 **Two parts** (mirrors Cline's `activeContext` + `progress` split):
 
@@ -145,6 +145,27 @@ a chain that quietly stops advancing.
 
 The head is overwritten, so these stay current by construction; the ledger is append-only, so the
 trail survives. Auto-advance rules and the four stop conditions live in `cocreator` SKILL.md §8.
+
+## Storage backends and provider references
+
+The SSOT ladder is independent of where artifacts are stored. Each consuming project records its
+choice in `.agents/workspace/cocreation.yaml`:
+
+- `local` keeps the existing Markdown records and generated indexes as the canonical store.
+- `linear-primary` keeps human-facing artifacts in Linear while the project keeps `STATE.md`,
+  handoff metadata, stable provider links, and a navigation/index cache.
+- `mirror` writes both stores with revision/content-hash conflict detection and is intended for
+  migration, not as the default steady state.
+
+The configuration also records `workspaceRoot` (default `.agents`) and the product reference
+(`initiative` or `team`, plus its stable ID and URL). A shared root may be outside the current
+repository so multiple repositories can share one product history. The backend contract and Linear
+mapping live in `skills/cocreator/references/artifact-backends.md` and `linear.md`.
+
+The index-first rule does not change: resolve the workspace, read the state and inbox head, read
+the relevant local index or Linear catalog, then open only the needed record. In Linear-primary mode
+the local index is a cache of metadata and links; it is not a silently competing copy of the full
+document. Human edits in Linear are authoritative and must be detected before an agent writes.
 
 ## Status lives in a field — never in a folder or a filename
 
@@ -187,7 +208,7 @@ automated flows):
 | **review** | approve what was built | draft-and-confirm: **approve / edit / reject-with-reason** | `approved` / `changes-requested` |
 
 ### The artifact
-`.agents/workspace/inbox/` (AI-owned, beside the human-owned `raw/`): one dated record per ask + an
+`<workspaceRoot>/workspace/inbox/` (AI-owned, beside the human-owned `raw/`): one dated record per ask + an
 agent-maintained `INBOX.md` worklist. Each record — **the agent writes the ask; the human writes the
 answer** (the ownership boundary lives *inside* the record). Frontmatter: `kind`, `status`,
 `blocking`, `raised-by` (the loop), `owner`, `due`, `on-timeout`, `links` (raw input · parked output ·

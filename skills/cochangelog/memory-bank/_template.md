@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Short change-set name
 date: YYYY-MM-DD
 scope: feature

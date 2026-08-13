@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Pitch name
 date: YYYY-MM-DD
 appetite: small batch (2 days)

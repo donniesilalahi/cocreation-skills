@@ -18,11 +18,23 @@ const hookMarker = '# === cocreation-skills auto-index ==='
 const hookBody = `#!/bin/sh
 ${hookMarker}
 cd "$(git rev-parse --show-toplevel)" || exit 1
-for d in .agents/skills/*/; do
+workspace_root=.agents
+config=.agents/workspace/cocreation.yaml
+if [ -f "$config" ]; then
+  configured_root=$(sed -n 's/^workspaceRoot:[[:space:]]*//p' "$config" | head -n 1 | tr -d '"')
+  [ -n "$configured_root" ] && workspace_root="$configured_root"
+fi
+case "$workspace_root" in
+  /*) skills_root="$workspace_root/skills" ;;
+  *) skills_root="$PWD/$workspace_root/skills" ;;
+esac
+for d in "$skills_root"/*/; do
   [ -f "$d/index.mjs" ] && node "$d/index.mjs"
 done
-git diff --name-only | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
-git ls-files --others --exclude-standard | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
+if [ "$workspace_root" = ".agents" ]; then
+  git diff --name-only | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
+  git ls-files --others --exclude-standard | grep -E '^\\.agents/skills/[^/]+/memory-bank/' | while read -r f; do git add "$f"; done
+fi
 # === end cocreation-skills ===
 `
 

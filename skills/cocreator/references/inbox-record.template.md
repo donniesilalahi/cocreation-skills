@@ -10,9 +10,9 @@ owner: <human>            # who should answer/do it
 due: YYYY-MM-DD
 on-timeout: proceed-on-default   # proceed-on-default | escalate | re-nudge
 links:                    # provenance + where the agent parked
-  raw: .agents/workspace/raw/<brief>
+  raw: <workspaceRoot>/workspace/raw/<brief>
   output: <the parked/stubbed artifact>
-  state: .agents/workspace/STATE.md
+  state: <workspaceRoot>/workspace/STATE.md
 # for kind: decision — always ship options + a recommended default (draft-and-confirm)
 options:
   - A: <option + tradeoff>

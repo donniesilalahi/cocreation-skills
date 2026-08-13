@@ -1,0 +1,32 @@
+# Project-owned cocreation configuration.
+# Copy to .agents/workspace/cocreation.yaml, then edit the values below.
+# Paths are resolved relative to the repository root unless absolute.
+
+version: 1
+workspaceRoot: .agents
+
+storage:
+  # local | linear-primary | mirror
+  mode: local
+  # Keep a small local navigation/index cache when Linear is primary.
+  localCache: true
+
+product:
+  # initiative | team
+  type: initiative
+  name: ""
+  id: ""
+  url: ""
+
+linear:
+  workspaceUrl: ""
+  project:
+    name: ""
+    id: ""
+    url: ""
+  executionTeams: []
+
+index:
+  # local | linear-catalog | hybrid
+  mode: local
+  catalogDocument: ""

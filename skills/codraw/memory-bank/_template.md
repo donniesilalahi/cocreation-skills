@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Screen set / milestone name
 date: YYYY-MM-DD
 states: 0

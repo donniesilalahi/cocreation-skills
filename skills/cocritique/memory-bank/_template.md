@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Surface name
 date: YYYY-MM-DD
 segment: who this critique is about

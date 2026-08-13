@@ -43,12 +43,19 @@ checklist cross-checking.
 
 ## How to use
 
-### 0. Read STATE + inbox first
-Before anything, read `.agents/workspace/STATE.md` (current SSOT, last loop run + verdict, in-flight
-work, blockers) **and `.agents/workspace/inbox/INBOX.md`** (open human asks; act on anything now
-resolved/done). Create them from `references/STATE.template.md` / `references/INBOX.template.md` if
-missing. This is how you — or a fresh session — pick up without re-reading every artifact. Resume off
-the written status, never poll the human. See `docs/cocreator/SSOT.md`.
+### 0. Resolve the backend, then read STATE + inbox first
+Before anything else, read `.agents/workspace/cocreation.yaml` if it exists. Missing configuration
+means `storage.mode: local` and `workspaceRoot: .agents`; never infer Linear mode from an available
+connector. Resolve `<workspaceRoot>/workspace/` for `STATE.md`, `inbox/`, and `raw/`, and
+`<workspaceRoot>/skills/` for project-owned memory-bank records and indexes. The full backend
+contract is in `references/artifact-backends.md`; the Linear mapping is in `references/linear.md`.
+
+Then read the resolved `STATE.md` (current SSOT, last loop run + verdict, in-flight work, blockers)
+and inbox `INBOX.md` (open human asks; act on anything now resolved/done). Create them from
+`references/STATE.template.md` / `references/INBOX.template.md` if missing, or run
+`npx @donniesilalahi/cocreation-skills init` to bootstrap the project boundary without overwriting
+records. This is how you — or a fresh session — pick up without re-reading every artifact. Resume
+off the written status, never poll the human. See `docs/cocreator/SSOT.md`.
 
 **The head names the active workflow and the next step** (`Workflow:` / `Next:`). If one is in
 flight, you are resuming it — **do not re-select a workflow and do not ask what to do next**; run
@@ -123,7 +130,8 @@ Agent(subagent_type: "general-purpose", model: "sonnet",
       prompt: "Read .agents/skills/cobuild/SKILL.md, then run the cobuild loop on … ")
 ```
 
-Each doer loads its own `co-*` SKILL.md, does its step, writes its memory-bank record, and returns
+Each doer loads its own `co-*` SKILL.md, does its step, writes its record through the resolved
+artifact backend, and returns
 its **self-eval verdict**. Keep delegated context tight — a doer returns a verdict + artifact
 pointers, not its full working transcript. Run independent loops in parallel (one message, multiple
 Agent calls); run dependent loops in sequence.
@@ -159,9 +167,10 @@ Every `cotest`/`codebug` failure should hand a lesson to `colearn`. A lesson tha
 graduates: lesson → skill → sub-agent (see `colearn`). This is how the ecosystem self-learns.
 
 ### 7. Update STATE + inbox on exit
-After a loop returns, **append its row to the `STATE.md` progress ledger** (date · **workflow** ·
-loop · agent · verdict · record · commit) and rewrite the head's **`Workflow:` / `Next:`** line so the
-chain is resumable. If the authoritative artifact changed, **update the head's SSOT pointer**. **File
+After a loop returns, **append its row to the resolved `STATE.md` progress ledger** (date ·
+**workflow** · loop · agent/model · verdict · record · commit/artifact) and rewrite the head's
+**`Workflow:` / `Next:`** line so the chain is resumable. If the authoritative artifact changed,
+**update the head's SSOT pointer**. **File
 any human ask the loop raised** as an `inbox/` record (decision / action / review), and close any it
 resolved. Treat this like a commit — part of the work, not a chore. The ledger and inbox are
 append-only; never rewrite a past row (supersede it).
@@ -196,7 +205,7 @@ stub before anything ships.
 park the ask in `inbox/` and do something independent instead.
 
 **Resume protocol (a fresh session, mid-workflow).**
-1. Read `STATE.md` head → `Workflow:` + `Next:` + blockers, and `inbox/INBOX.md` for anything now
+1. Read the resolved `STATE.md` head → `Workflow:` + `Next:` + blockers, and `inbox/INBOX.md` for anything now
    answered.
 2. If the head is `[State: stale]`, distrust it: reconcile against the last few ledger rows and the
    loops' memory-bank records before advancing.
@@ -243,11 +252,13 @@ session use `AskUserQuestion` for the fast path, then log the outcome. Full prot
 
 ## Co-working workspace
 
-One workspace at `.agents/workspace/`. **`raw/` is the human's** — read it as source of truth,
-never write there. **Everything else is the AI's** (the rest of the workspace + every
-`skills/<name>/memory-bank/`). Create `workspace/raw/` on first use. **`STATE.md`** (project-state
-pointer) and **`inbox/`** (the human↔agent handoff queue) live here (AI-owned) — every loop reads
-both first and updates them on exit (§0, §7; templates in `references/`).
+The default workspace root is `.agents/`; the project-owned configuration may point it at a shared
+root for a product spanning multiple repositories. Under the resolved root, `workspace/` contains
+state, inbox, raw inputs, and working files; `skills/<name>/memory-bank/` contains project records
+and generated indexes. **`raw/` is the human's** — read it as source of truth, never write there.
+**Everything else is the AI's.** In `linear-primary`, Linear contains the full human-facing
+artifacts and local files hold state, provider metadata, links, and the index/catalog cache.
+Templates live in `references/`.
 
 ## Native tooling
 

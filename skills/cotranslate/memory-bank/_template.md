@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Board / screen name
 date: YYYY-MM-DD
 platform: swiftui

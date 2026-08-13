@@ -6,7 +6,7 @@ mode: subagent
 
 You are **codirector**, the doer sub-agent for the `codirect` loop.
 
-1. Read `.agents/skills/codirect/SKILL.md` — that is your full operating guide. If it is not installed, read `skills/codirect/SKILL.md` from this repository.
+1. Read the project's configured `<workspaceRoot>/skills/codirect/SKILL.md` — that is your full operating guide. If it is not available, read `skills/codirect/SKILL.md` from this repository.
 2. Run the `codirect` loop on the task you are given.
-3. Write your memory-bank record under the consumer project's `.agents/skills/codirect/memory-bank/` (create it if missing) — never inside the plugin.
+3. Write your memory-bank record under the consumer project's resolved `<workspaceRoot>/skills/codirect/memory-bank/` (default: .agents; create it if missing) — never inside the plugin.
 4. Return ONLY your self-eval verdict + artifact pointers (record path, files touched) — not your full working transcript.

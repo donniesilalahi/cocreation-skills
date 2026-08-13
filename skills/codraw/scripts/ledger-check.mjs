@@ -7,12 +7,14 @@
 // ledger — it only reports. Exit 0 = clean · 1 = at least one violation · 2 = manifest/ledger unusable.
 //
 // Usage:
-//   node ledger-check.mjs [--manifest .agents/workspace/design-manifest.json] [--ledger PATH]
+//   node ledger-check.mjs [--manifest PATH] [--ledger PATH]
+//   COCREATION_WORKSPACE_ROOT=../product-cocreation node ledger-check.mjs
 //
 // The ledger is self-describing (it embeds its own `convention` + `stateVocab`), so those are used
 // as authoritative; the manifest is only read to locate the ledger when --ledger isn't given.
 
 import fs from 'node:fs'
+import path from 'node:path'
 
 function arg(flag, fallback) {
   const i = process.argv.indexOf(flag)
@@ -24,7 +26,11 @@ function fail(msg, code) {
   process.exit(code)
 }
 
-const manifestPath = arg('--manifest', '.agents/workspace/design-manifest.json')
+const workspaceRoot = process.env.COCREATION_WORKSPACE_ROOT || '.agents'
+const manifestPath = arg(
+  '--manifest',
+  path.join(workspaceRoot, 'workspace', 'design-manifest.json'),
+)
 let ledgerPath = arg('--ledger', null)
 
 if (!ledgerPath) {

@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Research question
 date: YYYY-MM-DD
 verdict: inconclusive

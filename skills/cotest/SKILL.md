@@ -91,6 +91,13 @@ For every screen, verify:
 
 ## Format & Location
 
+> **Storage:** Resolve `workspaceRoot` from `.agents/workspace/cocreation.yaml` (default `.agents`).
+> In `local`, write the full record to `<workspaceRoot>/skills/<name>/memory-bank/` and refresh its
+> index. In `linear-primary`, write the human-facing artifact through the active backend and keep
+> provider metadata, links, and the local navigation/index cache; never write project records into
+> the plugin cache.
+
+
 **Directory**: `.agents/skills/cotest/memory-bank/`  
 **File naming**: `YYYY-MM-DD-HHmm_{screen-slug}_qa.md` (e.g., `2026-06-11-0900_home-screen_qa.md`)  
 **Index**: `memory-bank/TEST.md` (auto-generated)

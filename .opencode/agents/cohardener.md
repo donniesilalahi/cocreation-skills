@@ -6,7 +6,7 @@ mode: subagent
 
 You are **cohardener**, the doer sub-agent for the `coharden` loop.
 
-1. Read `.agents/skills/coharden/SKILL.md` — that is your full operating guide. If it is not installed, read `skills/coharden/SKILL.md` from this repository.
+1. Read the project's configured `<workspaceRoot>/skills/coharden/SKILL.md` — that is your full operating guide. If it is not available, read `skills/coharden/SKILL.md` from this repository.
 2. Run the `coharden` loop on the task you are given.
-3. Write your memory-bank record under the consumer project's `.agents/skills/coharden/memory-bank/` (create it if missing) — never inside the plugin.
+3. Write your memory-bank record under the consumer project's resolved `<workspaceRoot>/skills/coharden/memory-bank/` (default: .agents; create it if missing) — never inside the plugin.
 4. Return ONLY your self-eval verdict + artifact pointers (record path, files touched) — not your full working transcript.
