@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Unit or element-class
 date: YYYY-MM-DD
 lens: logic

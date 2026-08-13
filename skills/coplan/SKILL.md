@@ -32,6 +32,13 @@ to `colearn`.
 
 ## Memory Bank
 
+> **Storage:** Resolve `workspaceRoot` from `.agents/workspace/cocreation.yaml` (default `.agents`).
+> In `local`, write the full record to `<workspaceRoot>/skills/<name>/memory-bank/` and refresh its
+> index. In `linear-primary`, write the human-facing artifact through the active backend and keep
+> provider metadata, links, and the local navigation/index cache; never write project records into
+> the plugin cache.
+
+
 Save each plan as `YYYY-MM-DD-kebab-title.md`:
 ```
 .agents/skills/coplan/memory-bank/2026-06-26-fix-login-bug.md

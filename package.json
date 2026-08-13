@@ -1,6 +1,6 @@
 {
   "name": "@donniesilalahi/cocreation-skills",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "An ecosystem of co-* loop skills for human-AI product co-creation — direct, challenge, research, plan, specify, draw, build, test, debug, document, and learn — orchestrated by /cocreator.",
   "author": {
     "name": "Donnie Silalahi",
@@ -29,6 +29,7 @@
     "LICENSE.md"
   ],
   "scripts": {
+    "init": "node scripts/init-workspace.js",
     "validate": "node scripts/validate-skills.js",
     "update-indices": "node scripts/update-indices.js",
     "build-manifests": "node scripts/build-plugin-manifests.js",

@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Short, searchable title
 date: YYYY-MM-DD
 tags: tag-one, tag-two

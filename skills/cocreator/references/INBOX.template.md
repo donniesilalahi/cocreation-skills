@@ -1,8 +1,8 @@
 <!--
-  INBOX.md — the human↔agent handoff worklist. Copy into `.agents/workspace/inbox/INBOX.md`.
+  INBOX.md — the human↔agent handoff worklist. Copy into `<workspaceRoot>/workspace/inbox/INBOX.md`.
   AI-maintained summary of every open ask FOR the human (detail lives in the per-item records
   beside it). Design: docs/cocreator/SSOT.md § Human handoff. One record per ask:
-  `.agents/workspace/inbox/YYYY-MM-DD-<slug>.md` (copy inbox-record.template.md).
+  `<workspaceRoot>/workspace/inbox/YYYY-MM-DD-<slug>.md` (copy inbox-record.template.md).
 
   The agent writes/updates this table; the human answers in the RECORD (not here). Every loop reads
   this worklist at start and acts on whatever is now resolved/done.

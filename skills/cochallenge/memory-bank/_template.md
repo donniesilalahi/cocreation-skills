@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: What was challenged
 date: YYYY-MM-DD
 object: direction | spec | plan

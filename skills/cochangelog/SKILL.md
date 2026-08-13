@@ -39,6 +39,13 @@ sequence. Done by hand, just fill both `plan:` and `changelog:` fields so the tr
 
 ## Memory Bank
 
+> **Storage:** Resolve `workspaceRoot` from `.agents/workspace/cocreation.yaml` (default `.agents`).
+> In `local`, write the full record to `<workspaceRoot>/skills/<name>/memory-bank/` and refresh its
+> index. In `linear-primary`, write the human-facing artifact through the active backend and keep
+> provider metadata, links, and the local navigation/index cache; never write project records into
+> the plugin cache.
+
+
 Records live in `skills/cochangelog/memory-bank/` (installed: `.agents/skills/cochangelog/memory-bank/`),
 named `YYYY-MM-DD-kebab-title.md`. Copy `_template.md`; keep frontmatter filled. `IMPLEMENTATION.md`
 is the auto-generated index — never edit it by hand.

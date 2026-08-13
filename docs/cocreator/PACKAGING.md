@@ -20,7 +20,7 @@ copy. **One source of truth (`skills/*/SKILL.md`), generated tool-specific wrapp
 
 ## Scope decisions (locked)
 
-- **Granularity:** ONE umbrella plugin bundling all 14 co-* skills + the `/cocreator` master.
+- **Granularity:** ONE umbrella plugin bundling all 17 co-* skills + the `/cocreator` master.
   Not per-skill plugins. One install gets the whole loop ecosystem.
 - **Namespace:** `cocreation` — skills invoke as `/cocreation:coplan`, `/cocreation:cocreator`, …
 - **Maintenance:** a generator emits every manifest from `package.json` + a scan of `skills/`.
@@ -40,15 +40,30 @@ Claude Code, from a local checkout:
 /plugin marketplace add donniesilalahi/cocreation-skills
 /plugin install cocreation@cocreation-skills
 ```
-Verify: `claude plugin details cocreation@cocreation-skills` lists all 14 skills.
+Verify: `claude plugin details cocreation@cocreation-skills` lists all 17 skills and 16 doer agents.
 
-Codex: `codex marketplace add <path-or-owner/repo>` → `/plugins`.
+Codex: add the marketplace from `codex marketplace add <path-or-owner/repo>`, then install the
+plugin once from `/plugins` at the Codex environment/user level and start a new session.
 Cursor: add the repo as a local plugin / `/add-plugin` (skills also load directly via the
 `.agents/skills/` and legacy `.claude/skills/` scan paths).
 
 OpenCode: run `npx @donniesilalahi/cocreation-skills --project --opencode` to install skills into
 `.agents/skills/` and doer agents into `.opencode/agents/`. Use `--global --opencode` for global
 agents. Restart OpenCode after installation.
+
+### Project state is not plugin state
+
+Install the plugin once at the tool/user level. Each consuming project then initializes its own
+state boundary with:
+
+```bash
+npx @donniesilalahi/cocreation-skills init
+```
+
+The command creates `.agents/workspace/cocreation.yaml`, `STATE.md`, `inbox/`, `raw/`, project-owned
+memory-bank scaffolds, and index scripts without overwriting existing records. `workspaceRoot` may
+point at a shared directory so multiple repositories use one product history. See
+`skills/cocreator/references/artifact-backends.md` for the resolved directory contract.
 
 ## Files this adds / changes
 
@@ -118,12 +133,14 @@ not a load requirement). Both reference the same `skills/` tree; no skill conten
 ## Update semantics (the memory-bank ownership rule)
 
 The load-bearing distinction: a skill's **body** is code; its **memory-bank records** are per-project
-data. They have different owners and different update behavior.
+data. They have different owners and different update behavior. In `linear-primary`, the records'
+human-facing content lives in Linear, while the project keeps the state head, provider metadata,
+links, and a navigation/index cache.
 
 | Thing | Owner | Where it lives | On update |
 |-------|-------|----------------|-----------|
 | Skill body (`SKILL.md`, `index.mjs`, scripts) | the plugin | plugin cache (`~/.claude/plugins/…`) | replaced wholesale — **never hand-edit in place** |
-| memory-bank records (`YYYY-MM-DD-*.md`) | the consumer project | project `.agents/skills/<name>/memory-bank/`, git-committed | untouched — different location, survives |
+| memory-bank records (`YYYY-MM-DD-*.md`) | the consumer project | resolved `<workspaceRoot>/skills/<name>/memory-bank/`, git-committed when local | untouched — different location, survives |
 
 **Why it matters:** the plugin cache is refetched/overwritten on `/plugin marketplace update`, so any
 writable state *inside* it is lost. The self-learning loop must therefore write records to the
@@ -142,4 +159,4 @@ rule (bump `package.json`) drives it through the generator. `npx` users manually
 - No public catalog submission.
 - No per-skill plugins.
 - No forking of SKILL.md content per tool — one source, generated wrappers only.
-- No change to the existing `npx` installer flow (`cli.js`) — it stays as a parallel install path.
+- `cli.js init` scaffolds the project-owned state boundary; it never overwrites existing records.

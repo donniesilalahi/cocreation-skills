@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Build name
 date: YYYY-MM-DD
 status: in-progress

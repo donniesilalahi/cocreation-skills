@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Short problem description
 date: YYYY-MM-DD
 status: investigating

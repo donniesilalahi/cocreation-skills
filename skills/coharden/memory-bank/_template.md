@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Surface name
 date: YYYY-MM-DD
 status: in-progress

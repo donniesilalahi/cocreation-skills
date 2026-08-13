@@ -169,7 +169,9 @@ Step 2 — then, as a separate command, install the plugin:
 /plugin install cocreation@cocreation-skills
 ```
 
-Verify with `claude plugin details cocreation@cocreation-skills` — it should list all 14 skills.
+Verify with `claude plugin details cocreation@cocreation-skills` — it should list all 17 skills and
+16 doer agents. Plugin installation supplies shared capabilities; project state remains in the
+consuming project.
 Once installed, invoke skills namespaced: `/cocreation:coplan`, `/cocreation:cocreator`, etc.
 
 > Working from a local clone instead? Point the marketplace at your checkout's **real absolute
@@ -181,8 +183,9 @@ Once installed, invoke skills namespaced: `/cocreation:coplan`, `/cocreation:coc
 codex plugin marketplace add donniesilalahi/cocreation-skills
 ```
 
-Then browse and install from `/plugins`. Codex also reads `.claude-plugin/marketplace.json`
-directly, so either manifest works.
+Then browse and install the plugin once from `/plugins` at the Codex environment/user level.
+Start a new session after installation so the shared skills and agents are available. Codex also
+reads `.claude-plugin/marketplace.json` directly, so either manifest works.
 
 **Cursor**: add this repo as a plugin, or skip the manifest entirely — Cursor also scans
 `.agents/skills/` (and `.cursor/skills/`) directly, so the skills load without any plugin install.
@@ -201,9 +204,48 @@ For global agents, use `--global --opencode`. This writes agents to `.opencode/a
 No manifest here is published to a public catalog — install is always from a local path or this
 repo's own git URL.
 
+## Initialize a project workspace
+
+Install the plugin or skills once at the tool/user level, then initialize state in each consuming
+project:
+
+```bash
+npx @donniesilalahi/cocreation-skills init
+```
+
+This creates a project-owned `.agents/workspace/cocreation.yaml`, `STATE.md`, `inbox/`, `raw/`,
+project memory-bank scaffolds, and local indexes without overwriting existing records. The default
+mode is local. To use Linear as the human-facing store:
+
+```bash
+npx @donniesilalahi/cocreation-skills init \
+  --storage linear-primary \
+  --product-type initiative \
+  --product-id <linear-initiative-id> \
+  --product-url <linear-initiative-url> \
+  --linear-workspace-url <linear-workspace-url>
+```
+
+The configuration records whether the project uses `local`, `linear-primary`, or `mirror` storage,
+where its product lives in Linear (`initiative` or `team`), and which shared `workspaceRoot` owns
+the state. A product spanning multiple repositories can point several repositories at the same
+root:
+
+```bash
+npx @donniesilalahi/cocreation-skills init \
+  --workspace-root ../product-cocreation \
+  --storage linear-primary \
+  --product-type initiative \
+  --product-id <linear-initiative-id>
+```
+
+See [`skills/cocreator/references/artifact-backends.md`](skills/cocreator/references/artifact-backends.md)
+and [`skills/cocreator/references/linear.md`](skills/cocreator/references/linear.md) for the
+backend contract, index-first behavior, and artifact mapping.
+
 ## How to use the skills
 
-Each skill has a **notes folder** (called `memory-bank/`). You and your AI helper write notes there as simple text files.
+Each skill has a **notes folder** (called `memory-bank/`). You and your AI helper write notes there as simple text files. In a configured shared workspace, resolve the path as `<workspaceRoot>/skills/<name>/memory-bank/`; the default `<workspaceRoot>` is `.agents`.
 
 For example, with the `coplan` skill, you might create a file like this:
 

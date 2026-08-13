@@ -20,6 +20,7 @@ status-in-a-field rule), `RESEARCH.md` (sources). Read `ROADMAP.md` before addin
 
 - `npm run validate` — `scripts/validate-skills.js`, enforces SKILL.md rules (below). Run after editing any SKILL.md.
 - `npm run update-indices` — regenerates every skill's `memory-bank/` index table.
+- `npm run init` — scaffolds a consumer project's `.agents/workspace/` boundary and project-owned memory-bank/index files without overwriting records.
 - `prepack` runs both automatically before publish.
 
 ## SKILL.md rules (enforced by validate-skills.js)
@@ -34,7 +35,7 @@ New skills: copy `template/SKILL.md` into `skills/<name>/`, follow the same sect
 
 ## Memory bank pattern
 
-Skills with recall/tracking have `skills/<name>/memory-bank/`: one UPPERCASE index file (e.g. `PLAN.md`) whose frontmatter has a `columns:` spec, individual record `.md` files, a `_template.md`, and an `index.mjs` that regenerates the table from the records (skips `_*` files). Run the skill's `index.mjs`, or `npm run update-indices` for all.
+Skills with recall/tracking have `skills/<name>/memory-bank/`: one UPPERCASE index file (e.g. `PLAN.md`) whose frontmatter has a `columns:` spec, individual record `.md` files, a `_template.md`, and an `index.mjs` that regenerates the table from the records (skips `_*` files). Run the skill's `index.mjs`, or `npm run update-indices` for all. Consumer projects resolve this under `<workspaceRoot>/skills/`, where `<workspaceRoot>` defaults to `.agents` and is recorded in `.agents/workspace/cocreation.yaml`.
 
 **Status is a frontmatter `status:` field — never a folder or filename.** The per-status view is generated from the field; record path + filename are stable identifiers that cross-refs (`plan:`/`changelog:`/`handoffRef`) and git history depend on, so moving a file to encode status would break them. "Moved on" = a `superseded-by:` link (never delete/rename); the only sanctioned physical move is coarse terminal `archive/` in a rename-only commit. See `docs/cocreator/SSOT.md`.
 
@@ -42,7 +43,7 @@ Record files are named `YYYY-MM-DD-kebab-title.md` (date + what it worked on), w
 
 ## Co-working workspace (human ↔ AI ownership)
 
-One workspace at the consumer project's `.agents/workspace/`. Inside it, **`raw/` is human-owned** — the AI reads it as the source of truth and never writes there (briefs, references, source data). **Everything else is the AI's** — the rest of `workspace/` (AI working area / output) and every `skills/<name>/memory-bank/`. Loop records may point at a `raw/` input and the output they produced, keeping the co-working trail explicit. `.agents/workspace/STATE.md` (AI-owned) is the project-state pointer — the current SSOT artifact + last loop run + verdict — read first by every loop and updated on exit (template: `skills/cocreator/references/STATE.template.md`; design: `docs/cocreator/SSOT.md`). `.agents/workspace/inbox/` (AI-owned) is the human↔agent handoff queue — typed asks (decision/action/review) each with a recommended default; the agent parks/placeholders rather than stalling, and a completion gate resurfaces every stub before shipping (templates in `references/`; design in `SSOT.md` § Human handoff). The AI creates `.agents/workspace/raw/` on first use; the installer ships only `skills/`, so there's nothing to scaffold in this source repo.
+The consumer project's resolved workspace root contains `workspace/` and `skills/`. Inside `workspace/`, **`raw/` is human-owned** — the AI reads it as the source of truth and never writes there (briefs, references, source data). **Everything else is the AI's** — the rest of `workspace/` (AI working area / output) and every `skills/<name>/memory-bank/`. Loop records may point at a `raw/` input and the output they produced, keeping the co-working trail explicit. `.agents/workspace/cocreation.yaml` records the storage mode, product location, and optional shared root. `STATE.md` (AI-owned) is the project-state pointer — the current SSOT artifact + last loop run + verdict — read first by every loop and updated on exit (template: `skills/cocreator/references/STATE.template.md`; design: `docs/cocreator/SSOT.md`). `inbox/` (AI-owned) is the human↔agent handoff queue — typed asks (decision/action/review) each with a recommended default; the agent parks/placeholders rather than stalling, and a completion gate resurfaces every stub before shipping (templates in `references/`; design in `SSOT.md` § Human handoff). Run `npx @donniesilalahi/cocreation-skills init` to scaffold this boundary without overwriting records.
 
 ## Release flow
 

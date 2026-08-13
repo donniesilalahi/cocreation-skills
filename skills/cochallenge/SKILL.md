@@ -66,6 +66,13 @@ Every verdict carries its load-bearing findings and — for HOLDS — what was a
 
 ## Memory Bank
 
+> **Storage:** Resolve `workspaceRoot` from `.agents/workspace/cocreation.yaml` (default `.agents`).
+> In `local`, write the full record to `<workspaceRoot>/skills/<name>/memory-bank/` and refresh its
+> index. In `linear-primary`, write the human-facing artifact through the active backend and keep
+> provider metadata, links, and the local navigation/index cache; never write project records into
+> the plugin cache.
+
+
 Save each challenge as `YYYY-MM-DD-kebab-title.md`:
 ```
 .agents/skills/cochallenge/memory-bank/2026-08-11-onboarding-pitch.md

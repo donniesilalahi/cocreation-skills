@@ -18,12 +18,13 @@ it (`cobuild`/`cotest`).**
 
 This skill ships only the **invariant method**. Every project-specific fact — the design-system SSOT
 path, primitives doc, screen-inventory / hand-off source, state vocab, canvas sizes, OD project id,
-ledger path — lives in a **`design-manifest.json`** the consumer keeps in `.agents/workspace/` (see
-`references/design-manifest.md`). Load it first.
+ledger path — lives in a **`design-manifest.json`** the consumer keeps in the resolved
+`<workspaceRoot>/workspace/` (default `.agents/workspace/`; see `references/design-manifest.md`).
+Load it first.
 
 ## 0. Bootstrap — the design-manifest (before anything)
 
-If `.agents/workspace/design-manifest.json` does not exist, **do not improvise project facts.** Draft
+If `<workspaceRoot>/workspace/design-manifest.json` does not exist, **do not improvise project facts.** Draft
 it, then get owner confirmation (cotranslate's Step-0 pattern):
 
 1. Locate the design-system SSOT (tokens/materials/motion + the primitives doc) and the screen
@@ -102,6 +103,13 @@ tool-agnostic; only the render target changes (house style, matching appstore-pr
 - Do **not** edit the design-system SSOT / primitives library (read-only references) or app code.
 
 ## Memory bank
+
+> **Storage:** Resolve `workspaceRoot` from `.agents/workspace/cocreation.yaml` (default `.agents`).
+> In `local`, write the full record to `<workspaceRoot>/skills/<name>/memory-bank/` and refresh its
+> index. In `linear-primary`, write the human-facing artifact through the active backend and keep
+> provider metadata, links, and the local navigation/index cache; never write project records into
+> the plugin cache.
+
 
 **Directory:** `.agents/skills/codraw/memory-bank/` · **Records:** `YYYY-MM-DD-{screen-set-slug}.md`
 (copy `_template.md`; frontmatter `title`/`date`/`states`/`status`). **Index:** `DRAW.md` —

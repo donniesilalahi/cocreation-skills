@@ -142,7 +142,11 @@ def load(spec: dict, side: str) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--manifest", default=".agents/workspace/translate-manifest.json")
+    workspace_root = os.environ.get("COCREATION_WORKSPACE_ROOT", ".agents")
+    ap.add_argument(
+        "--manifest",
+        default=os.path.join(workspace_root, "workspace", "translate-manifest.json"),
+    )
     args = ap.parse_args()
 
     if not os.path.exists(args.manifest):

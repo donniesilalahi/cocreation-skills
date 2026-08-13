@@ -26,7 +26,7 @@ lessons graduate from advisory note → applied skill → enforcing sub-agent).
 ## How to Use
 
 ### Recall (do this first, before new work)
-1. Skim `memory-bank/LEARNING.md` (the index) for titles/tags related to the task.
+1. Skim the resolved `memory-bank/LEARNING.md` (the index) for titles/tags related to the task.
 2. Open the matching records; apply their Prevention/Solution to the current work.
 3. Cite what you applied: title, date, and the specific insight. If nothing matches, proceed on
    best judgment.
@@ -47,6 +47,13 @@ Promotion is triggered by **recurrence**, tracked in each record's `hits` field:
 Record the promotion by updating `tier` in the record and noting where it graduated to.
 
 ## Memory Bank
+
+> **Storage:** Resolve `workspaceRoot` from `.agents/workspace/cocreation.yaml` (default `.agents`).
+> In `local`, write the full record to `<workspaceRoot>/skills/<name>/memory-bank/` and refresh its
+> index. In `linear-primary`, write the human-facing artifact through the active backend and keep
+> provider metadata, links, and the local navigation/index cache; never write project records into
+> the plugin cache.
+
 
 Records live in `skills/colearn/memory-bank/` (installed: `.agents/skills/colearn/memory-bank/`).
 Copy `_template.md`, keep its frontmatter filled. `LEARNING.md` is the auto-generated index — never

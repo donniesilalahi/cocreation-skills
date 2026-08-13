@@ -1,6 +1,7 @@
 <!--
-  STATE.md — the co-creation project-state pointer. Copy this into `.agents/workspace/STATE.md`
-  in the consumer project. It is AI-owned (lives beside the human-owned `raw/`). Every loop reads
+  STATE.md — the co-creation project-state pointer. Copy this into the resolved
+  `<workspaceRoot>/workspace/STATE.md` in the consumer project. It is AI-owned (lives beside the
+  human-owned `raw/`). Every loop reads
   it FIRST and appends its ledger row on exit. Design: docs/cocreator/SSOT.md.
 
   Two parts: the HEAD is overwritten each session (the current picture); the LEDGER is
@@ -32,9 +33,9 @@
 
 | Date | Workflow | Loop | Agent/model | Verdict | Record | Commit/artifact |
 |------|----------|------|-------------|---------|--------|-----------------|
-| YYYY-MM-DD | feature | codirect | codirector/opus | done | `.agents/skills/codirect/memory-bank/…` | `<sha>` |
-| YYYY-MM-DD | feature | cospecify | cospecifier/sonnet | done | `.agents/skills/cospecify/memory-bank/…` | `<sha>` |
-| YYYY-MM-DD | design-first | codraw | codrawer/sonnet | blocked | `.agents/skills/codraw/memory-bank/…` | — |
+| YYYY-MM-DD | feature | codirect | codirector/opus | done | `<workspaceRoot>/skills/codirect/memory-bank/…` | `<sha>` |
+| YYYY-MM-DD | feature | cospecify | cospecifier/sonnet | done | `<workspaceRoot>/skills/cospecify/memory-bank/…` | `<sha>` |
+| YYYY-MM-DD | design-first | codraw | codrawer/sonnet | blocked | `<workspaceRoot>/skills/codraw/memory-bank/…` | — |
 
 <!--
   Workflow = the chain this loop ran as part of (cocreator §1 / references/workflows.md). It makes

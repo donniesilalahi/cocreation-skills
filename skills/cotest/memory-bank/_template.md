@@ -1,4 +1,8 @@
 ---
+provider:
+linearDocument:
+linearRevision:
+linearContentHash:
 title: Screen name
 date: YYYY-MM-DD
 artboard: Artboard reference
